@@ -222,6 +222,7 @@ class NearMeApp {
         this.initializeHoverAnimations();
         this.initializeNavbarAnimations();
         this.setupStoreRegistrationModal();
+        this.initializeMapDemo();
     }
 
     /**
@@ -695,6 +696,9 @@ class NearMeApp {
         
         // Check scroll indicator on load
         this.updateScrollIndicator();
+        
+        // Initialize map demo
+        this.initializeMapDemo();
     }
 
     /**
@@ -1008,6 +1012,198 @@ class NearMeApp {
         this.parallaxElements = [];
         this.counterElements = [];
         this.isInitialized = false;
+    }
+
+    // Initialize search demo animation
+    initializeMapDemo() {
+        // Setup Leaflet map and demo search if elements exist
+        const mapContainer = document.getElementById('demoLeafletMap');
+        const input = document.getElementById('nearmeSearchInput');
+        const btn = document.getElementById('nearmeSearchBtn');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsCount = document.querySelector('#searchResults .results-count');
+        const resultsHeader = document.querySelector('#searchResults .results-header h3');
+
+        if (!mapContainer || !resultsGrid || !resultsCount || !resultsHeader) return;
+
+        // Initialize map
+        const defaultCoords = { lat: 10.0, lng: -10.0 }; // Ubicación arbitraria fija para la demo
+        const map = L.map('demoLeafletMap', { zoomControl: true });
+        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        });
+        tileLayer.addTo(map);
+
+        // Track user and radius elements
+        let userCoords = { ...defaultCoords };
+        let radiusMeters = 600; // Wider radius to show nearby options
+        let userCircle = null;
+        let userMarker = null;
+
+        // Simulate geolocation
+        const setViewToUser = (coords) => {
+            userCoords = { ...coords };
+            map.setView([coords.lat, coords.lng], 14);
+            if (userCircle) map.removeLayer(userCircle);
+            if (userMarker) map.removeLayer(userMarker);
+            userCircle = L.circle([coords.lat, coords.lng], { radius: radiusMeters, color: '#0d6efd', fillColor: '#0d6efd', fillOpacity: 0.15 }).addTo(map);
+            userMarker = L.marker([coords.lat, coords.lng], { title: 'Tú' }).addTo(map).bindPopup('Tu ubicación');
+        };
+        // Force fixed arbitrary location (no real geolocation)
+        setViewToUser(defaultCoords);
+
+        // Helpers
+        const haversineMeters = (a, b) => {
+            const toRad = d => d * Math.PI / 180;
+            const R = 6371000;
+            const dLat = toRad(b.lat - a.lat);
+            const dLng = toRad(b.lng - a.lng);
+            const lat1 = toRad(a.lat);
+            const lat2 = toRad(b.lat);
+            const sinDLat = Math.sin(dLat / 2);
+            const sinDLng = Math.sin(dLng / 2);
+            const c = 2 * Math.asin(Math.sqrt(
+                sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLng * sinDLng
+            ));
+            return R * c;
+        };
+
+        const randomNearbyCoord = (center, maxMeters = radiusMeters * 1.1) => {
+            // random bearing and distance within maxMeters
+            const distance = Math.random() * maxMeters;
+            const bearing = Math.random() * 2 * Math.PI;
+            const R = 6371000;
+            const lat1 = center.lat * Math.PI / 180;
+            const lng1 = center.lng * Math.PI / 180;
+            const lat2 = Math.asin(Math.sin(lat1) * Math.cos(distance / R) + Math.cos(lat1) * Math.sin(distance / R) * Math.cos(bearing));
+            const lng2 = lng1 + Math.atan2(
+                Math.sin(bearing) * Math.sin(distance / R) * Math.cos(lat1),
+                Math.cos(distance / R) - Math.sin(lat1) * Math.sin(lat2)
+            );
+            return { lat: lat2 * 180 / Math.PI, lng: lng2 * 180 / Math.PI };
+        };
+
+        const generateStoresAroundUser = () => {
+            const names = ['Ferretería Centro', 'Ferretería Roma', 'Ferretería Condesa', 'Ferretería Polanco', 'Ferretería Del Valle', 'Ferretería Nápoles'];
+            const stores = names.map((name, idx) => {
+                const coords = randomNearbyCoord(userCoords);
+                const distanceM = haversineMeters(userCoords, coords);
+                const distanceKm = Math.round((distanceM / 1000) * 10) / 10;
+                const price = [15, 18, 12, 22, 16, 14][idx % 6];
+                return {
+                    id: name.toLowerCase().replace(/\s+/g, '-'),
+                    name,
+                    coords,
+                    address: 'Calle simulada s/n',
+                    price,
+                    distanceKm,
+                    distanceM
+                };
+            });
+            return stores;
+        };
+
+        let allStores = generateStoresAroundUser();
+
+        const markers = [];
+        const markerById = {};
+        const renderMarkers = (list) => {
+            // Clear previous
+            markers.forEach(m => map.removeLayer(m));
+            markers.length = 0;
+            Object.keys(markerById).forEach(k => delete markerById[k]);
+            // Add new
+            list.forEach(s => {
+                const m = L.marker([s.coords.lat, s.coords.lng]).addTo(map)
+                    .bindPopup(`<strong>${s.name}</strong><br>${s.address}<br>Precio: $${s.price.toFixed(2)}`);
+                markers.push(m);
+                markerById[s.id] = m;
+            });
+        };
+
+        const renderResults = (list, queryText) => {
+            resultsGrid.innerHTML = '';
+            resultsHeader.textContent = queryText ? `Resultados para "${queryText}"` : 'Resultados';
+            resultsCount.textContent = `${list.length} ${list.length === 1 ? 'tienda' : 'tiendas'}`;
+            list.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.setAttribute('data-store', s.id);
+                card.innerHTML = `
+                    <div class="store-info">
+                        <i class="fas fa-tools store-icon"></i>
+                        <div>
+                            <h4>${s.name}</h4>
+                            <p>${s.address}</p>
+                            <span class="distance">${s.distanceKm} km</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="price">$${s.price.toFixed(2)}</span>
+                        <span class="stock">En stock</span>
+                    </div>
+                `;
+                resultsGrid.appendChild(card);
+            });
+            // Click to focus marker
+            resultsGrid.addEventListener('click', (e) => {
+                const card = e.target.closest('.result-card');
+                if (!card) return;
+                const id = card.getAttribute('data-store');
+                const marker = markerById[id];
+                if (!marker) return;
+                const latlng = marker.getLatLng();
+                map.setView(latlng, Math.max(map.getZoom(), 16), { animate: true });
+                marker.openPopup();
+                // brief highlight pulse circle
+                const pulse = L.circle(latlng, { radius: 50, color: '#fbbf24', weight: 4, fillColor: '#fbbf24', fillOpacity: 0.25 }).addTo(map);
+                setTimeout(() => { map.removeLayer(pulse); }, 1200);
+                // visual selection in list
+                resultsGrid.querySelectorAll('.result-card').forEach(el => el.classList.remove('selected'));
+                card.classList.add('selected');
+            }, { once: false });
+        };
+
+        const runSearch = (queryText) => {
+            // Very simple mock filter: only show results if includes 'tornillo' and '3mm'
+            const q = (queryText || '').toLowerCase();
+            const ok = q.includes('tornillo') && (q.includes('3mm') || q.includes('3 mm'));
+            // Filter stores to only those within circle radius
+            const filtered = ok ? allStores.filter(s => s.distanceM <= radiusMeters) : [];
+            const list = filtered.sort((a, b) => a.distanceM - b.distanceM);
+            renderMarkers(list);
+            renderResults(list, queryText);
+        };
+
+        // Typing animation for suggested query
+        const suggested = 'tornillo de 3mm';
+        const typeSuggestion = () => {
+            if (!input) return;
+            input.value = '';
+            let i = 0;
+            const type = () => {
+                if (i <= suggested.length) {
+                    input.setAttribute('placeholder', suggested.substring(0, i) + (i % 2 === 0 ? '|' : ''));
+                    i++;
+                    setTimeout(type, 80);
+                } else {
+                    input.value = suggested;
+                    input.setAttribute('placeholder', 'Busca un producto (p. ej. tornillo de 3mm)');
+                    runSearch(suggested);
+                }
+            };
+            type();
+        };
+
+        // Wire events
+        if (btn) btn.addEventListener('click', () => runSearch(input?.value || ''));
+        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); runSearch(input.value); } });
+
+        // Regenerate stores after the fixed location is set
+        setTimeout(() => { allStores = generateStoresAroundUser(); }, 200);
+
+        // Kick off demo typing once visible
+        setTimeout(typeSuggestion, 800);
     }
 }
 
