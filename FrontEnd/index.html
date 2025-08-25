@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NearMe - Encuentra productos en tiendas cercanas</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <!-- Skip Link para Accesibilidad -->
+    <a href="#main-content" class="skip-link sr-only sr-only-focusable">Saltar al contenido principal</a>
+    
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>NearMe</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#caracteristicas">Características</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#beneficios">Beneficios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonios">Testimonios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tiendas">Para Tiendas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light btn-sm me-2" onclick="openLoginModal()">
+                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+                </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary btn-sm" onclick="openRegisterModal()">
+                            <i class="fas fa-user-plus me-1"></i>Registrarme
+                </button>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero" id="main-content">
+        <div class="hero-background">
+            <div class="geometric-shapes">
+                <div class="shape shape-1" data-parallax="0.5"></div>
+                <div class="shape shape-2" data-parallax="0.3"></div>
+                <div class="shape shape-3" data-parallax="0.7"></div>
+                <div class="shape shape-4" data-parallax="0.2"></div>
+        </div>
+            
+            <!-- Iconos animados de fondo -->
+            <div class="floating-icons">
+                <div class="floating-icon icon-1" data-float="slow">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="floating-icon icon-2" data-float="fast">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="floating-icon icon-3" data-float="medium">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="floating-icon icon-4" data-float="slow">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="floating-icon icon-5" data-float="fast">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="floating-icon icon-6" data-float="medium">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-content" data-animate="fadeInLeft">
+                        <div class="hero-badge">
+                            <i class="fas fa-star"></i>
+                            <span>#1 en búsqueda local</span>
+                        </div>
+                        <h1 class="hero-title">
+                            Encuentra productos en tiendas cercanas
+                        </h1>
+                        <p class="hero-description">
+                            NearMe revoluciona la forma de descubrir comercios locales. Conectamos consumidores 
+                            inteligentes con las mejores tiendas de su barrio mediante tecnología de geolocalización avanzada.
+                        </p>
+                        <div class="hero-stats">
+                            <div class="stat-item" data-counter="1000">
+                                <span class="stat-number">0</span>
+                                <span class="stat-label">Ciudades</span>
+                            </div>
+                            <div class="stat-item" data-counter="24">
+                                <span class="stat-number">0</span>
+                                <span class="stat-label">Horas</span>
+                            </div>
+                            <div class="stat-item" data-counter="100">
+                                <span class="stat-number">0</span>
+                                <span class="stat-label">% Gratis</span>
+                            </div>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-lg hero-btn" onclick="scrollToFeatures()" data-hover-animate="pulse">
+                                <i class="fas fa-rocket"></i>
+                                <span>Comenzar</span>
+                                <div class="btn-ripple"></div>
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg hero-btn" onclick="scrollToContact()" data-hover-animate="shake">
+                                <i class="fas fa-store"></i>
+                                <span>Registrar Tienda</span>
+                    </button>
+                </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-visual" data-animate="fadeInRight">
+                        <div class="hero-image-container">
+                            <div class="hero-visual-design">
+                                <!-- Icono principal de tienda -->
+                                <div class="main-store-icon">
+                                    <i class="fas fa-store"></i>
+            </div>
+                                
+                                <!-- Elementos de ubicación -->
+                                <div class="location-elements">
+                                    <div class="location-pin">
+                                        <i class="fas fa-map-marker-alt"></i>
+        </div>
+                                    <div class="location-dots">
+                                        <span class="dot dot-1"></span>
+                                        <span class="dot dot-2"></span>
+                                        <span class="dot dot-3"></span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Elementos de conexión -->
+                                <div class="connection-lines">
+                                    <div class="line line-1"></div>
+                                    <div class="line line-2"></div>
+                                    <div class="line line-3"></div>
+                                </div>
+                                
+                                <!-- Iconos de productos -->
+                                <div class="product-icons">
+                                    <div class="product-icon product-1">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
+                                    <div class="product-icon product-2">
+                                        <i class="fas fa-tags"></i>
+                                    </div>
+                                    <div class="product-icon product-3">
+                                        <i class="fas fa-gift"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="floating-elements">
+                                <div class="floating-card floating-card-1" data-float="slow">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Productos</span>
+        </div>
+                                <div class="floating-card floating-card-2" data-float="fast">
+                                    <i class="fas fa-store"></i>
+                                    <span>Tiendas</span>
+                                </div>
+                                <div class="floating-card floating-card-3" data-float="medium">
+                                    <i class="fas fa-map-pin"></i>
+                                    <span>Ubicación</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator show" role="button" tabindex="0" aria-label="Hacer scroll hacia abajo para ver más contenido">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        
+
+    </section>
+
+    <!-- Features Section -->
+    <section id="caracteristicas" class="features">
+        <div class="container">
+            <div class="section-header text-center" data-animate="fadeInUp">
+                <div class="section-badge">Características</div>
+                <h2 class="section-title">¿Por qué elegir NearMe?</h2>
+                <p class="section-description">
+                    Nuestra plataforma ofrece una experiencia única para conectar consumidores con comercios locales
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-animate="fadeInUp" data-delay="0.1" data-hover-animate="scale">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-search-location"></i>
+                        </div>
+                        <div class="icon-background"></div>
+                    </div>
+                    <h4>Búsqueda Inteligente</h4>
+                    <p>Encuentra productos específicos en tiendas cercanas con nuestra tecnología de geolocalización avanzada.</p>
+                    <div class="feature-link">
+                        <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+                <div class="feature-card" data-animate="fadeInUp" data-delay="0.2" data-hover-animate="scale">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="icon-background"></div>
+                    </div>
+                    <h4>Horarios en Tiempo Real</h4>
+                    <p>Conoce los horarios actualizados de las tiendas y evita visitas innecesarias.</p>
+                    <div class="feature-link">
+                        <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="feature-card" data-animate="fadeInUp" data-delay="0.3" data-hover-animate="scale">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="icon-background"></div>
+                    </div>
+                    <h4>Reseñas Verificadas</h4>
+                    <p>Lee opiniones auténticas de otros usuarios para tomar decisiones informadas.</p>
+                    <div class="feature-link">
+                        <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="feature-card" data-animate="fadeInUp" data-delay="0.4" data-hover-animate="scale">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="icon-background"></div>
+                    </div>
+                    <h4>App Móvil</h4>
+                    <p>Accede a NearMe desde cualquier dispositivo con nuestra aplicación optimizada.</p>
+                    <div class="feature-link">
+                        <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+                
+                <div class="feature-card" data-animate="fadeInUp" data-delay="0.5" data-hover-animate="scale">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+        </div>
+                        <div class="icon-background"></div>
+                    </div>
+                    <h4>Seguridad Garantizada</h4>
+                    <p>Tus datos están protegidos con los más altos estándares de seguridad.</p>
+                    <div class="feature-link">
+                        <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                <div class="feature-card" data-animate="fadeInUp" data-delay="0.6" data-hover-animate="scale">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+        </div>
+                        <div class="icon-background"></div>
+                        </div>
+                    <h4>Soporte 24/7</h4>
+                    <p>Nuestro equipo está disponible para ayudarte en cualquier momento del día.</p>
+                    <div class="feature-link">
+                        <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Benefits Section -->
+    <section id="beneficios" class="statistics">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-animate="fadeInUp">
+                <div class="section-badge">Beneficios Comprobados</div>
+                <h2 class="section-title">¿Por qué las tiendas eligen NearMe?</h2>
+                <p class="section-description">
+                    Datos reales que demuestran el valor de nuestra plataforma para tu negocio
+                </p>
+            </div>
+            <div class="stats-container">
+                <div class="stat-item-large" data-animate="fadeInUp" data-delay="0.1">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-counter="40">0%</div>
+                        <div class="stat-label">% Incremento en Ventas</div>
+                    </div>
+                </div>
+                
+                <div class="stat-item-large" data-animate="fadeInUp" data-delay="0.2">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                        </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-counter="2">0min</div>
+                        <div class="stat-label">Minutos para Registrarse</div>
+                        </div>
+                    </div>
+                    
+                <div class="stat-item-large" data-animate="fadeInUp" data-delay="0.3">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-counter="100">0%</div>
+                        <div class="stat-label">% Gratis para Tiendas</div>
+                    </div>
+                </div>
+                
+                <div class="stat-item-large" data-animate="fadeInUp" data-delay="0.4">
+                    <div class="stat-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-counter="24">0h</div>
+                        <div class="stat-label">Horas de Soporte</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tiendas Section -->
+    <section id="tiendas" class="tiendas-section">
+        <div class="container">
+            <div class="section-header text-center" data-animate="fadeInUp">
+                <div class="section-badge">Para Tiendas</div>
+                <h2 class="section-title">¿Eres una tienda? ¡Regístrate aquí!</h2>
+                <p class="section-description">
+                    Únete a nuestra plataforma y conecta con miles de clientes locales. Es completamente gratis y te ayudará a aumentar tus ventas.
+                </p>
+            </div>
+            
+            <div class="tiendas-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-6" data-animate="fadeInLeft">
+                        <div class="tiendas-benefits">
+                            <div class="benefit-item" data-animate="fadeInUp" data-delay="0.1">
+                        <div class="benefit-icon">
+                                    <i class="fas fa-users"></i>
+                        </div>
+                                <div class="benefit-content">
+                                    <h4>Más Clientes</h4>
+                                    <p>Conecta con miles de usuarios que buscan productos como los tuyos en tu zona.</p>
+                        </div>
+                    </div>
+                    
+                            <div class="benefit-item" data-animate="fadeInUp" data-delay="0.2">
+                        <div class="benefit-icon">
+                                    <i class="fas fa-chart-line"></i>
+                        </div>
+                                <div class="benefit-content">
+                                    <h4>Ventas Incrementadas</h4>
+                                    <p>Estadísticas muestran un aumento del 40% en ventas para tiendas registradas.</p>
+                        </div>
+                    </div>
+                    
+                            <div class="benefit-item" data-animate="fadeInUp" data-delay="0.3">
+                        <div class="benefit-icon">
+                                    <i class="fas fa-clock"></i>
+                        </div>
+                                <div class="benefit-content">
+                                    <h4>Gestión Sencilla</h4>
+                                    <p>Panel de control intuitivo para gestionar tu información y productos fácilmente.</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                
+                    <div class="col-lg-6" data-animate="fadeInRight">
+                        <div class="tiendas-cta">
+                            <div class="cta-card">
+                                <h3>¡Registra tu tienda ahora!</h3>
+                                <p>Es completamente gratis y solo toma 2 minutos</p>
+                                <div class="tiendas-actions">
+                                    <button class="btn btn-primary btn-lg" onclick="scrollToContact()" data-hover-animate="pulse">
+                                        <i class="fas fa-store"></i>
+                                        Registrar Tienda
+                                    </button>
+                                    <p class="tiendas-note">
+                                        <i class="fas fa-shield-alt"></i>
+                                        Sin costos ocultos • Sin compromisos • 100% Gratis
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="testimonials">
+        <div class="container">
+            <div class="section-header text-center" data-animate="fadeInUp">
+                <div class="section-badge">Testimonios</div>
+                <h2 class="section-title">Lo que dicen nuestros usuarios</h2>
+                <p class="section-description">
+                    Descubre por qué miles de personas confían en NearMe
+                </p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-animate="fadeInUp" data-delay="0.1" data-hover-animate="lift">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"NearMe me ha ayudado a descubrir tiendas increíbles en mi barrio que no conocía. La precisión de la búsqueda es asombrosa y la app es súper intuitiva."</p>
+                            </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://via.placeholder.com/60x60/3b82f6/ffffff?text=MC" alt="María C.">
+                        </div>
+                        <div class="author-info">
+                            <h6 class="author-name">María C.</h6>
+                            <span class="author-role">Cliente frecuente</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" data-animate="fadeInUp" data-delay="0.2" data-hover-animate="lift">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"Como dueño de tienda, NearMe me ha traído muchos clientes nuevos. La plataforma es fantástica y el soporte al comercio local es excepcional."</p>
+                            </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://via.placeholder.com/60x60/10b981/ffffff?text=JL" alt="Juan L.">
+                        </div>
+                        <div class="author-info">
+                            <h6 class="author-name">Juan L.</h6>
+                            <span class="author-role">Dueño de tienda</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" data-animate="fadeInUp" data-delay="0.3" data-hover-animate="lift">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"La búsqueda por ubicación es súper precisa. Encontré exactamente lo que buscaba a 2 cuadras de casa. NearMe ha cambiado mi forma de comprar local."</p>
+                            </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://via.placeholder.com/60x60/f59e0b/ffffff?text=AS" alt="Ana S.">
+                        </div>
+                        <div class="author-info">
+                            <h6 class="author-name">Ana S.</h6>
+                            <span class="author-role">Usuaria activa</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content text-center" data-animate="fadeInUp">
+                <h2 class="cta-title">¿Listo para transformar tu experiencia local?</h2>
+                <p class="cta-description">
+                    Únete a miles de usuarios que ya están descubriendo las mejores tiendas locales
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-light btn-lg" onclick="scrollToFeatures()" data-hover-animate="pulse">
+                        <i class="fas fa-rocket"></i>
+                        Comenzar Ahora
+                    </button>
+                    <button class="btn btn-outline-light btn-lg" onclick="scrollToContact()" data-hover-animate="shake">
+                        <i class="fas fa-store"></i>
+                        Registrar Tienda
+                        </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="section-header text-center" data-animate="fadeInUp">
+                <div class="section-badge">Contacto</div>
+                <h2 class="section-title">Contáctanos</h2>
+                <p class="section-description">
+                    ¿Tienes preguntas? Nos encantaría escucharte
+                </p>
+                    </div>
+            
+            <div class="contact-content">
+                <div class="row g-5">
+                    <div class="col-lg-6">
+                        <div class="contact-info" data-animate="fadeInLeft">
+                            <h5 class="contact-info-title">Información de Contacto</h5>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                </div>
+                                <div class="contact-details">
+                                    <h6>Email</h6>
+                                    <p>info@nearme.com</p>
+                    </div>
+                </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                    </div>
+                                <div class="contact-details">
+                                    <h6>Teléfono</h6>
+                                    <p>+1 (555) 123-4567</p>
+                </div>
+                    </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                                <div class="contact-details">
+                                    <h6>Ubicación</h6>
+                                    <p>Ciudad de México, México</p>
+                    </div>
+                </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-clock"></i>
+            </div>
+                                <div class="contact-details">
+                                    <h6>Horarios</h6>
+                                    <p>Lun - Vie: 9:00 AM - 6:00 PM</p>
+        </div>
+                        </div>
+                        </div>
+                        </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="store-benefits" data-animate="fadeInRight">
+                            <div class="store-benefits-card">
+                                <div class="store-icon-large">
+                                    <i class="fas fa-store"></i>
+        </div>
+                                <h3>Beneficios de Registrar tu Tienda</h3>
+                                <div class="benefits-list">
+                                    <div class="benefit-item-store">
+                                        <div class="benefit-icon-store">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <div class="benefit-content-store">
+                                            <h5>Más Clientes</h5>
+                                            <p>Conecta con miles de usuarios que buscan productos como los tuyos</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="benefit-item-store">
+                                        <div class="benefit-icon-store">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="benefit-content-store">
+                                            <h5>Ventas Incrementadas</h5>
+                                            <p>Estadísticas muestran un aumento del 40% en ventas</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="benefit-item-store">
+                                        <div class="benefit-icon-store">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div class="benefit-content-store">
+                                            <h5>Gestión Sencilla</h5>
+                                            <p>Panel de control intuitivo para gestionar tu información</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="store-cta-actions">
+                                    <button class="btn btn-primary btn-lg" onclick="openStoreRegistrationModal()" data-hover-animate="pulse">
+                                        <i class="fas fa-store"></i>
+                                        Registrar Tienda Ahora
+                        </button>
+                                    <p class="store-cta-note">
+                                        <i class="fas fa-star"></i>
+                                        Es completamente gratis y solo toma 2 minutos
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Iniciar Sesión
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Selector de tipo de usuario -->
+                    <div class="auth-type-selector mb-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn active" data-type="user">
+                                    <i class="fas fa-user me-2"></i>
+                                    <span class="d-block">Usuario</span>
+                                    <small class="text-muted">Consumidor</small>
+                                </button>
+                        </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn" data-type="store">
+                                    <i class="fas fa-store me-2"></i>
+                                    <span class="d-block">Tienda</span>
+                                    <small class="text-muted">Comercio</small>
+                                </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de Login -->
+                    <form id="loginForm" class="auth-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="loginEmail" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="loginEmail" name="loginEmail" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="loginPassword" class="form-label">Contraseña *</label>
+                                    <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Recordarme
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Iniciar Sesión
+                        </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Modal de Registro -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Registrarme
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Selector de tipo de usuario -->
+                    <div class="auth-type-selector mb-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn active" data-type="user">
+                                    <i class="fas fa-user me-2"></i>
+                                    <span class="d-block">Usuario</span>
+                                    <small class="text-muted">Consumidor</small>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn" data-type="store">
+                                    <i class="fas fa-store me-2"></i>
+                                    <span class="d-block">Tienda</span>
+                                    <small class="text-muted">Comercio</small>
+                                </button>
+                            </div>
+                        </div>
+                        </div>
+
+                    <!-- Formulario de Registro Usuario -->
+                    <form id="registerUserForm" class="auth-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userFirstName" class="form-label">Nombre *</label>
+                                    <input type="text" class="form-control" id="userFirstName" name="userFirstName" required>
+                        </div>
+                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userLastName" class="form-label">Apellido *</label>
+                                    <input type="text" class="form-control" id="userLastName" name="userLastName" required>
+                        </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="userEmail" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="userEmail" name="userEmail" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userPassword" class="form-label">Contraseña *</label>
+                                    <input type="password" class="form-control" id="userPassword" name="userPassword" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userConfirmPassword" class="form-label">Confirmar Contraseña *</label>
+                                    <input type="password" class="form-control" id="userConfirmPassword" name="userConfirmPassword" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="userPhone" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="userPhone" name="userPhone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="userTerms" name="userTerms" required>
+                            <label class="form-check-label" for="userTerms">
+                                Acepto los <a href="#" class="text-primary">términos y condiciones</a> *
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-user-plus me-2"></i>
+                                Registrarme como Usuario
+                        </button>
+                        </div>
+                    </form>
+
+                    <!-- Formulario de Registro Tienda -->
+                    <form id="registerStoreForm" class="auth-form" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="storeName" class="form-label">Nombre de la Tienda *</label>
+                                    <input type="text" class="form-control" id="storeName" name="storeName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeOwnerName" class="form-label">Nombre del Propietario *</label>
+                                    <input type="text" class="form-control" id="storeOwnerName" name="storeOwnerName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeOwnerEmail" class="form-label">Email del Propietario *</label>
+                                    <input type="email" class="form-control" id="storeOwnerEmail" name="storeOwnerEmail" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storePassword" class="form-label">Contraseña *</label>
+                                    <input type="password" class="form-control" id="storePassword" name="storePassword" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeConfirmPassword" class="form-label">Confirmar Contraseña *</label>
+                                    <input type="password" class="form-control" id="storeConfirmPassword" name="storeConfirmPassword" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeCategory" class="form-label">Categoría *</label>
+                                    <select class="form-control" id="storeCategory" name="storeCategory" required>
+                                        <option value="">Selecciona una categoría</option>
+                                        <option value="ropa">Ropa y Accesorios</option>
+                                        <option value="electronica">Electrónica</option>
+                                        <option value="hogar">Hogar y Jardín</option>
+                                        <option value="deportes">Deportes</option>
+                                        <option value="belleza">Belleza y Salud</option>
+                                        <option value="alimentos">Alimentos y Bebidas</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storePhone" class="form-label">Teléfono de la Tienda *</label>
+                                    <input type="tel" class="form-control" id="storePhone" name="storePhone" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="storeAddress" class="form-label">Dirección de la Tienda *</label>
+                                    <input type="text" class="form-control" id="storeAddress" name="storeAddress" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeCity" class="form-label">Ciudad *</label>
+                                    <input type="text" class="form-control" id="storeCity" name="storeCity" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeDescription" class="form-label">Descripción de la Tienda</label>
+                                    <textarea class="form-control" id="storeDescription" name="storeDescription" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="storeTerms" name="storeTerms" required>
+                            <label class="form-check-label" for="storeTerms">
+                                Acepto los <a href="#" class="text-primary">términos y condiciones</a> *
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-store me-2"></i>
+                                Registrarme como Tienda
+                        </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro de Tienda -->
+    <div class="modal fade" id="storeRegistrationModal" tabindex="-1" aria-labelledby="storeRegistrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="storeRegistrationModalLabel">
+                        <i class="fas fa-store"></i>
+                        Registra tu Tienda en NearMe
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                <div class="modal-body">
+                    <form id="storeRegistrationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeName" class="form-label">Nombre de la Tienda *</label>
+                                    <input type="text" class="form-control" id="storeName" name="storeName" required>
+                        </div>
+                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="storeCategory" class="form-label">Categoría *</label>
+                                    <select class="form-control" id="storeCategory" name="storeCategory" required>
+                                        <option value="">Selecciona una categoría</option>
+                                        <option value="ropa">Ropa y Accesorios</option>
+                                        <option value="electronica">Electrónica</option>
+                                        <option value="hogar">Hogar y Jardín</option>
+                                        <option value="deportes">Deportes</option>
+                                        <option value="belleza">Belleza y Salud</option>
+                                        <option value="alimentos">Alimentos y Bebidas</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                        </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ownerName" class="form-label">Nombre del Propietario *</label>
+                                    <input type="text" class="form-control" id="ownerName" name="ownerName" required>
+                    </div>
+                </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Teléfono *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+        </div>
+    </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="website" class="form-label">Sitio Web (opcional)</label>
+                                    <input type="url" class="form-control" id="website" name="website">
+                        </div>
+                        </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address" class="form-label">Dirección *</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Calle, número, colonia, ciudad" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description" class="form-label">Descripción de la Tienda</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe qué productos o servicios ofreces..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    Acepto los <a href="#" class="text-primary">términos y condiciones</a> y la <a href="#" class="text-primary">política de privacidad</a>
+                            </label>
+                        </div>
+                        </div>
+                    </form>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="storeRegistrationForm" class="btn btn-primary">
+                        <i class="fas fa-store"></i>
+                        Registrar Tienda
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="footer-brand">
+                            <div class="footer-logo">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>NearMe</span>
+                            </div>
+                            <p class="footer-description">
+                                Conectamos consumidores inteligentes con las mejores tiendas locales mediante tecnología avanzada de geolocalización.
+                            </p>
+                        <div class="social-links">
+                                <a href="#" class="social-link" data-hover-animate="bounce">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="social-link" data-hover-animate="bounce">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="social-link" data-hover-animate="bounce">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="social-link" data-hover-animate="bounce">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+                
+                    <div class="col-lg-2">
+                        <div class="footer-links">
+                            <h6>Producto</h6>
+                                                        <ul>
+                                <li><a href="#caracteristicas">Características</a></li>
+                                <li><a href="#tiendas">Para Tiendas</a></li>
+                                <li><a href="#api">API</a></li>
+                            </ul>
+                    </div>
+                </div>
+                
+                    <div class="col-lg-2">
+                        <div class="footer-links">
+                            <h6>Empresa</h6>
+                            <ul>
+                                <li><a href="#about">Acerca de</a></li>
+                                <li><a href="#careers">Carreras</a></li>
+                                <li><a href="#press">Prensa</a></li>
+                                <li><a href="#partners">Socios</a></li>
+                            </ul>
+                    </div>
+                </div>
+                
+                    <div class="col-lg-2">
+                        <div class="footer-links">
+                            <h6>Soporte</h6>
+                            <ul>
+                                <li><a href="#help">Centro de Ayuda</a></li>
+                                <li><a href="#contact">Contacto</a></li>
+                                <li><a href="#status">Estado del Sistema</a></li>
+                                <li><a href="#docs">Documentación</a></li>
+                            </ul>
+                    </div>
+                </div>
+                
+                    <div class="col-lg-2">
+                        <div class="footer-links">
+                            <h6>Legal</h6>
+                            <ul>
+                                <li><a href="#privacy">Privacidad</a></li>
+                                <li><a href="#terms">Términos</a></li>
+                                <li><a href="#cookies">Cookies</a></li>
+                                <li><a href="#security">Seguridad</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                        <p class="copyright">&copy; 2024 NearMe. Todos los derechos reservados.</p>
+                </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="footer-bottom-links">
+                            <a href="#privacy">Privacidad</a>
+                            <a href="#terms">Términos</a>
+                            <a href="#sitemap">Mapa del Sitio</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Demo Modal -->
+    <div class="modal fade" id="demoModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Demo de NearMe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="demo-content">
+                        <div class="demo-video mb-4">
+                            <img src="https://via.placeholder.com/800x450/2563eb/ffffff?text=Demo+Video" 
+                                 alt="Demo Video" class="img-fluid rounded">
+                        </div>
+                        <h6>Características destacadas:</h6>
+                        <ul class="demo-features">
+                            <li><i class="fas fa-check"></i> Búsqueda por ubicación</li>
+                            <li><i class="fas fa-check"></i> Filtros avanzados</li>
+                            <li><i class="fas fa-check"></i> Mapas interactivos</li>
+                            <li><i class="fas fa-check"></i> Reseñas en tiempo real</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Descargar App</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" data-hover-animate="pulse">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/modals.js"></script>
+</body>
+</html>
