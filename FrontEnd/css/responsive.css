@@ -1152,3 +1152,15 @@
         width: 100%;
     }
 } 
+
+/* Registrar Tienda responsive */
+@media (max-width: 991.98px) {
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    .mini-benefits {
+        flex-direction: column;
+        gap: 0.5rem !important;
+        align-items: center;
+    }
+} 

@@ -2106,12 +2106,11 @@ body {
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        padding: var(--spacing-md) 0;
     }
     
     .navbar-nav .nav-link {
         border-bottom: 1px solid var(--border-color);
-        padding: var(--spacing-md);
+        padding: 1rem;
         text-align: center;
     }
     
@@ -2120,46 +2119,22 @@ body {
     }
     
     .btn-nav {
-        margin: var(--spacing-sm) 0;
+        margin: 0.5rem 0;
         width: 100%;
     }
     
-    .hero-stats {
-        justify-content: center;
-    }
-    
-    .hero-actions {
-        justify-content: center;
-    }
-    
-    .features-grid,
-    .testimonials-grid,
-    .pricing-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .stats-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .cta-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .contact-item {
-        flex-direction: column;
+    .hero {
         text-align: center;
+        padding-top: 100px;
     }
     
-    .footer-bottom-links {
-        flex-direction: column;
-        gap: var(--spacing-sm);
+    .floating-icon {
+        font-size: 2rem;
     }
     
-    .back-to-top {
-        bottom: var(--spacing-md);
-        right: var(--spacing-md);
+    .feature-card,
+    .testimonial-card {
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -2373,4 +2348,149 @@ body {
         box-shadow: none !important;
         break-inside: avoid;
     }
+} 
+
+/* Registrar Tienda CTA - enhanced */
+.store-register-cta {
+    padding: 6rem 0 5rem;
+    background: var(--bg-secondary);
+}
+
+.register-visual-card {
+    background: var(--white);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+}
+
+.badge-container .badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.benefit-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    padding: 0.6rem 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.benefit-pill i {
+    color: var(--primary-color);
+}
+
+.store-register-cta-card .store-benefits-card {
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    background: var(--white);
+}
+
+.store-register-cta .store-icon-large {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background: var(--primary-color);
+    color: var(--white);
+    margin: 0 auto var(--spacing-md);
+}
+
+.store-register-cta .btn.btn-primary {
+    font-size: 1.05rem;
+    padding: 0.9rem 1.2rem;
+} 
+
+/* Registrar Tienda CTA - contrast improvements */
+.store-register-cta {
+    background: #1F2937;
+    color: var(--white);
+}
+.store-register-cta .section-badge {
+    background: var(--accent-color);
+    color: var(--white);
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+}
+.store-register-cta .btn.btn-light {
+    color: var(--primary-dark) !important;
+    font-weight: 800;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+.store-register-cta .btn.btn-light:hover {
+    filter: brightness(0.95);
+} 
+
+/* Registrar Tienda two-column content */
+.benefits-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.benefits-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.1rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-left: 4px solid var(--accent-color);
+}
+.benefits-checklist li i {
+    font-size: 1.1rem;
+}
+
+/* Larger CTA column */
+.cta-panel {
+    padding: 2.5rem;
+}
+.cta-panel .btn {
+    font-size: 1.1rem;
+    padding: 1rem 1.25rem;
+}
+
+.cta-panel {
+    background: rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius-2xl);
+    padding: 2rem;
+    color: var(--white);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.cta-panel i { color: var(--white); }
+
+@media (max-width: 991.98px) {
+    .benefits-checklist { grid-template-columns: 1fr; }
+} 
+
+/* CTA panel sizing */
+.cta-panel {
+    min-height: 360px;
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cta-panel .cta-extra span { color: var(--white); opacity: 0.9; }
+@media (max-width: 991.98px) {
+    .cta-panel { max-width: 100%; min-height: 320px; }
 } 

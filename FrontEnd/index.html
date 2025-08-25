@@ -57,7 +57,7 @@
                         <a class="nav-link" href="#tiendas">Para Tiendas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto">Contacto</a>
+                        <a class="nav-link" href="#registrar-tienda">Registrar Tienda</a>
                     </li>
                     <li class="nav-item">
                         <button class="btn btn-outline-light btn-sm me-2" onclick="openLoginModal()">
@@ -143,7 +143,7 @@
                                 <span>Comenzar</span>
                                 <div class="btn-ripple"></div>
                             </button>
-                            <button class="btn btn-outline-primary btn-lg hero-btn" onclick="scrollToContact()" data-hover-animate="shake">
+                            <button class="btn btn-outline-primary btn-lg hero-btn" onclick="openStoreRegistrationModal()" data-hover-animate="shake">
                                 <i class="fas fa-store"></i>
                                 <span>Registrar Tienda</span>
                     </button>
@@ -371,75 +371,6 @@
         </div>
     </section>
 
-    <!-- Tiendas Section -->
-    <section id="tiendas" class="tiendas-section">
-        <div class="container">
-            <div class="section-header text-center" data-animate="fadeInUp">
-                <div class="section-badge">Para Tiendas</div>
-                <h2 class="section-title">¿Eres una tienda? ¡Regístrate aquí!</h2>
-                <p class="section-description">
-                    Únete a nuestra plataforma y conecta con miles de clientes locales. Es completamente gratis y te ayudará a aumentar tus ventas.
-                </p>
-            </div>
-            
-            <div class="tiendas-content">
-                <div class="row align-items-center">
-                    <div class="col-lg-6" data-animate="fadeInLeft">
-                        <div class="tiendas-benefits">
-                            <div class="benefit-item" data-animate="fadeInUp" data-delay="0.1">
-                        <div class="benefit-icon">
-                                    <i class="fas fa-users"></i>
-                        </div>
-                                <div class="benefit-content">
-                                    <h4>Más Clientes</h4>
-                                    <p>Conecta con miles de usuarios que buscan productos como los tuyos en tu zona.</p>
-                        </div>
-                    </div>
-                    
-                            <div class="benefit-item" data-animate="fadeInUp" data-delay="0.2">
-                        <div class="benefit-icon">
-                                    <i class="fas fa-chart-line"></i>
-                        </div>
-                                <div class="benefit-content">
-                                    <h4>Ventas Incrementadas</h4>
-                                    <p>Estadísticas muestran un aumento del 40% en ventas para tiendas registradas.</p>
-                        </div>
-                    </div>
-                    
-                            <div class="benefit-item" data-animate="fadeInUp" data-delay="0.3">
-                        <div class="benefit-icon">
-                                    <i class="fas fa-clock"></i>
-                        </div>
-                                <div class="benefit-content">
-                                    <h4>Gestión Sencilla</h4>
-                                    <p>Panel de control intuitivo para gestionar tu información y productos fácilmente.</p>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                
-                    <div class="col-lg-6" data-animate="fadeInRight">
-                        <div class="tiendas-cta">
-                            <div class="cta-card">
-                                <h3>¡Registra tu tienda ahora!</h3>
-                                <p>Es completamente gratis y solo toma 2 minutos</p>
-                                <div class="tiendas-actions">
-                                    <button class="btn btn-primary btn-lg" onclick="scrollToContact()" data-hover-animate="pulse">
-                                        <i class="fas fa-store"></i>
-                                        Registrar Tienda
-                                    </button>
-                                    <p class="tiendas-note">
-                                        <i class="fas fa-shield-alt"></i>
-                                        Sin costos ocultos • Sin compromisos • 100% Gratis
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Testimonials Section -->
     <section id="testimonios" class="testimonials">
@@ -546,7 +477,7 @@
                         <i class="fas fa-rocket"></i>
                         Comenzar Ahora
                     </button>
-                    <button class="btn btn-outline-light btn-lg" onclick="scrollToContact()" data-hover-animate="shake">
+                    <button class="btn btn-outline-light btn-lg" onclick="openStoreRegistrationModal()" data-hover-animate="shake">
                         <i class="fas fa-store"></i>
                         Registrar Tienda
                         </button>
@@ -555,113 +486,37 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contacto" class="contact">
+    <!-- Store Registration CTA Section -->
+    <section id="registrar-tienda" class="store-register-cta">
         <div class="container">
             <div class="section-header text-center" data-animate="fadeInUp">
-                <div class="section-badge">Contacto</div>
-                <h2 class="section-title">Contáctanos</h2>
-                <p class="section-description">
-                    ¿Tienes preguntas? Nos encantaría escucharte
+                <div class="section-badge">Registro</div>
+                <h2 class="section-title text-white">Registra tu Tienda</h2>
+                <p class="section-description text-white-50 mb-4">
+                    Conecta con miles de clientes locales. 100% Gratis y en 2 minutos.
                 </p>
-                    </div>
-            
-            <div class="contact-content">
-                <div class="row g-5">
-                    <div class="col-lg-6">
-                        <div class="contact-info" data-animate="fadeInLeft">
-                            <h5 class="contact-info-title">Información de Contacto</h5>
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
-                </div>
-                                <div class="contact-details">
-                                    <h6>Email</h6>
-                                    <p>info@nearme.com</p>
-                    </div>
-                </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-phone"></i>
-                    </div>
-                                <div class="contact-details">
-                                    <h6>Teléfono</h6>
-                                    <p>+1 (555) 123-4567</p>
-                </div>
-                    </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                                <div class="contact-details">
-                                    <h6>Ubicación</h6>
-                                    <p>Ciudad de México, México</p>
-                    </div>
-                </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-clock"></i>
             </div>
-                                <div class="contact-details">
-                                    <h6>Horarios</h6>
-                                    <p>Lun - Vie: 9:00 AM - 6:00 PM</p>
-        </div>
-                        </div>
-                        </div>
-                        </div>
-                    
-                    <div class="col-lg-6">
-                        <div class="store-benefits" data-animate="fadeInRight">
-                            <div class="store-benefits-card">
-                                <div class="store-icon-large">
-                                    <i class="fas fa-store"></i>
-        </div>
-                                <h3>Beneficios de Registrar tu Tienda</h3>
-                                <div class="benefits-list">
-                                    <div class="benefit-item-store">
-                                        <div class="benefit-icon-store">
-                                            <i class="fas fa-users"></i>
-                                        </div>
-                                        <div class="benefit-content-store">
-                                            <h5>Más Clientes</h5>
-                                            <p>Conecta con miles de usuarios que buscan productos como los tuyos</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="benefit-item-store">
-                                        <div class="benefit-icon-store">
-                                            <i class="fas fa-chart-line"></i>
-                                        </div>
-                                        <div class="benefit-content-store">
-                                            <h5>Ventas Incrementadas</h5>
-                                            <p>Estadísticas muestran un aumento del 40% en ventas</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="benefit-item-store">
-                                        <div class="benefit-icon-store">
-                                            <i class="fas fa-clock"></i>
-                                        </div>
-                                        <div class="benefit-content-store">
-                                            <h5>Gestión Sencilla</h5>
-                                            <p>Panel de control intuitivo para gestionar tu información</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="store-cta-actions">
-                                    <button class="btn btn-primary btn-lg" onclick="openStoreRegistrationModal()" data-hover-animate="pulse">
-                                        <i class="fas fa-store"></i>
-                                        Registrar Tienda Ahora
+            <div class="row align-items-center g-4">
+                <div class="col-lg-5">
+                    <ul class="benefits-checklist">
+                        <li><i class="fas fa-users"></i><span>Alcance inmediato a clientes cercanos</span></li>
+                        <li><i class="fas fa-chart-line"></i><span>Incremento comprobado en ventas</span></li>
+                        <li><i class="fas fa-clock"></i><span>Registro y gestión en minutos</span></li>
+                        <li><i class="fas fa-shield-alt"></i><span>100% gratis, sin costos ocultos</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-7 text-center">
+                    <div class="cta-panel">
+                        <i class="fas fa-store fa-3x mb-3"></i>
+                        <button class="btn btn-light btn-lg w-100 py-3" onclick="openRegisterAsStore()">
+                            <i class="fas fa-store me-2"></i> Registrar Tienda Ahora
                         </button>
-                                    <p class="store-cta-note">
-                                        <i class="fas fa-star"></i>
-                                        Es completamente gratis y solo toma 2 minutos
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="cta-extra mt-3 text-start">
+                            <div class="d-flex align-items-center mb-2"><i class="fas fa-box-open text-success me-2"></i><span>Publica tus productos fácilmente</span></div>
+                            <div class="d-flex align-items-center mb-2"><i class="fas fa-map-marker-alt text-info me-2"></i><span>Aparece en búsquedas locales</span></div>
+                            <div class="d-flex align-items-center"><i class="fas fa-headset text-warning me-2"></i><span>Soporte para comercios 24/7</span></div>
                         </div>
-                    </div>
+                        <small class="text-white-50 d-block mt-3">Sin compromisos • Activa en 2 minutos</small>
                     </div>
                 </div>
             </div>

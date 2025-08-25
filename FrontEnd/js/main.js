@@ -1046,6 +1046,23 @@ if (typeof module !== 'undefined' && module.exports) {
         modal.show();
     };
 
+    // Open register modal directly on store tab
+    window.openRegisterAsStore = function() {
+        const modalEl = document.getElementById('registerModal');
+        if (!modalEl) return;
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+        // ensure store tab is active and form visible
+        const typeButtons = modalEl.querySelectorAll('.auth-type-btn');
+        typeButtons.forEach(b => b.classList.remove('active'));
+        const storeBtn = modalEl.querySelector('.auth-type-btn[data-type="store"]');
+        if (storeBtn) storeBtn.classList.add('active');
+        const userForm = document.getElementById('registerUserForm');
+        const storeForm = document.getElementById('registerStoreForm');
+        if (userForm) userForm.style.display = 'none';
+        if (storeForm) storeForm.style.display = 'block';
+    };
+
     // Configurar los modales cuando se carga la página
     document.addEventListener('DOMContentLoaded', function() {
         setupLoginModal();
