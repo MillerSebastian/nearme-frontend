@@ -20,9 +20,14 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/accessibility.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    <link rel="stylesheet" href="css/feature-cards-fix.css">
+    <link rel="stylesheet" href="css/final-fixes.css">
+    <link rel="stylesheet" href="css/emergency-fix.css">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
 
 
 </head>
@@ -59,21 +64,9 @@
                         <a class="nav-link" href="#testimonios">Testimonios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tiendas">Para Tiendas</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#registrar-tienda">Registrar Tienda</a>
                     </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-light btn-sm me-2" onclick="openLoginModal()">
-                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
-                </button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-primary btn-sm" onclick="openRegisterModal()">
-                            <i class="fas fa-user-plus me-1"></i>Registrarme
-                </button>
-                    </li>
+
 
                 </ul>
             </div>
@@ -128,29 +121,11 @@
                             NearMe revoluciona la forma de descubrir comercios locales. Conectamos consumidores 
                             inteligentes con las mejores tiendas de su barrio mediante tecnología de geolocalización avanzada.
                         </p>
-                        <div class="hero-stats">
-                            <div class="stat-item" data-counter="1000">
-                                <span class="stat-number">0</span>
-                                <span class="stat-label">Ciudades</span>
-                            </div>
-                            <div class="stat-item" data-counter="24">
-                                <span class="stat-number">0</span>
-                                <span class="stat-label">Horas</span>
-                            </div>
-                            <div class="stat-item" data-counter="100">
-                                <span class="stat-number">0</span>
-                                <span class="stat-label">% Gratis</span>
-                            </div>
-                        </div>
                         <div class="hero-actions">
                             <button class="btn btn-primary btn-lg hero-btn" onclick="scrollToFeatures()" data-hover-animate="pulse">
                                 <i class="fas fa-rocket"></i>
                                 <span>Comenzar</span>
                                 <div class="btn-ripple"></div>
-                            </button>
-                            <button class="btn btn-outline-primary btn-lg hero-btn" onclick="openStoreRegistrationModal()" data-hover-animate="shake">
-                                <i class="fas fa-store"></i>
-                                <span>Registrar Tienda</span>
                     </button>
                 </div>
                     </div>
@@ -398,7 +373,7 @@
                             </div>
                     <div class="testimonial-author">
                         <div class="author-avatar">
-                            <img src="https://via.placeholder.com/60x60/3b82f6/ffffff?text=MC" alt="María C.">
+                            <img src="https://img.freepik.com/foto-gratis/estilo-vida-emociones-gente-concepto-casual-confiado-agradable-sonriente-mujer-asiatica-brazos-cruzados-pecho-seguro-listo-ayudar-escuchando-companeros-trabajo-participando-conversacion_1258-59335.jpg?t=st=1756325889~exp=1756329489~hmac=b05f1c94f5d922a2871b25bfb70dd7211a5f1a59e60f3b1e71a2906cfb925b6a&w=1480" alt="María C.">
                         </div>
                         <div class="author-info">
                             <h6 class="author-name">María C.</h6>
@@ -421,9 +396,9 @@
                         </div>
                         <p>"Como dueño de tienda, NearMe me ha traído muchos clientes nuevos. La plataforma es fantástica y el soporte al comercio local es excepcional."</p>
                             </div>
-                    <div class="testimonial-author">
+                    <div class="testimonial-author" id="testimonial-author-2">
                         <div class="author-avatar">
-                            <img src="https://via.placeholder.com/60x60/10b981/ffffff?text=JL" alt="Juan L.">
+                            <img src="https://img.freepik.com/foto-gratis/apuesto-joven-brazos-cruzados-sobre-fondo-blanco_23-2148222620.jpg?t=st=1756326044~exp=1756329644~hmac=4ae9a52623a7f8f9d4f83220f7082681d164cceda3f9b4595a8ff418cc314728&w=1060" alt="Juan L.">
                         </div>
                         <div class="author-info">
                             <h6 class="author-name">Juan L.</h6>
@@ -448,7 +423,7 @@
                             </div>
                     <div class="testimonial-author">
                         <div class="author-avatar">
-                            <img src="https://via.placeholder.com/60x60/f59e0b/ffffff?text=AS" alt="Ana S.">
+                            <img src="https://img.freepik.com/foto-gratis/disparo-vertical-feliz-mujer-piel-oscura-pelo-rizado_273609-15519.jpg?t=st=1756325960~exp=1756329560~hmac=797629bd6167cae53cdf2595dd8c762d15de7f92f038425b29a81fb30f8be91f&w=1060" alt="Ana S.">
                         </div>
                         <div class="author-info">
                             <h6 class="author-name">Ana S.</h6>
@@ -469,49 +444,16 @@
 
 
 
-    <!-- Search Demo Section -->
-    <section class="search-demo-section">
-        <div class="container">
-            <div class="section-header text-center" data-animate="fadeInUp">
-                <div class="section-badge">Demostración</div>
-                <h2 class="section-title">Así funciona NearMe</h2>
-                <p class="section-description">Busca productos y encuentra tiendas cercanas en tiempo real.</p>
-            </div>
-            <div class="search-demo-container">
-                <div class="demo-search-bar mb-4">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-magnifying-glass"></i></span>
-                        <input id="nearmeSearchInput" type="text" class="form-control" placeholder="Busca un producto (p. ej. tornillo de 3mm)" aria-label="Buscar producto cerca de mí">
-                        <button id="nearmeSearchBtn" class="btn btn-primary" type="button"><i class="fas fa-search"></i> Buscar</button>
-                    </div>
-                    <small class="text-muted d-block mt-1">Se simulará la búsqueda y tu ubicación para mostrar resultados cercanos.</small>
-                </div>
-                <div class="demo-content-row">
-                    <div class="demo-map-column">
-                        <div id="demoLeafletMap" class="demo-map" role="region" aria-label="Mapa de tiendas cercanas"></div>
-                    </div>
-                    <div class="demo-results-column">
-                        <div id="searchResults" class="search-results">
-                            <div class="results-header">
-                                <h3>Resultados</h3>
-                                <span class="results-count">0 tiendas</span>
-                            </div>
-                            <div class="results-grid" id="resultsGrid"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Store Registration CTA Section -->
     <section id="registrar-tienda" class="store-register-cta">
         <div class="container">
             <div class="section-header text-center" data-animate="fadeInUp">
-                <div class="section-badge">Registro</div>
-                <h2 class="section-title text-white">Registra tu Tienda</h2>
+                <div class="section-badge">¡Comienza Ahora!</div>
+                <h2 class="section-title text-white">¿Listo para descubrir NearMe?</h2>
                 <p class="section-description text-white-50 mb-4">
-                    Conecta con miles de clientes locales. 100% Gratis y en 2 minutos.
+                    Únete a miles de usuarios que ya están encontrando productos increíbles cerca de casa
                 </p>
             </div>
             <div class="row align-items-center g-4">
@@ -525,11 +467,16 @@
                 </div>
                 <div class="col-lg-7 text-center">
                     <div class="cta-panel">
-                        <i class="fas fa-store fa-3x mb-3"></i>
-                        <button class="btn btn-light btn-lg w-100 py-3" onclick="openRegisterAsStore()">
-                            <i class="fas fa-store me-2"></i> Registrar Tienda Ahora
-                        </button>
-                        <div class="cta-extra mt-3 text-start">
+                        <div class="cta-main-action mb-4">
+                            <h3 class="text-white mb-3">¡Comienza tu experiencia NearMe ahora!</h3>
+                            <p class="text-white-50 mb-4">Descubre tiendas increíbles cerca de ti y encuentra exactamente lo que buscas</p>
+                            <a href="https://app.nearme.com" class="btn btn-warning btn-lg py-4 px-5" style="font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4); border: none; border-radius: 50px;">
+                                <i class="fas fa-rocket me-3"></i>
+                                ¡EMPEZAR AHORA!
+                                <i class="fas fa-arrow-right ms-3"></i>
+                            </a>
+                        </div>
+                        <div class="cta-extra mt-4 text-start">
                             <div class="d-flex align-items-center mb-2"><i class="fas fa-box-open text-success me-2"></i><span>Publica tus productos fácilmente</span></div>
                             <div class="d-flex align-items-center mb-2"><i class="fas fa-map-marker-alt text-info me-2"></i><span>Aparece en búsquedas locales</span></div>
                             <div class="d-flex align-items-center"><i class="fas fa-headset text-warning me-2"></i><span>Soporte para comercios 24/7</span></div>
@@ -541,350 +488,15 @@
         </div>
     </section>
 
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">
-                        <i class="fas fa-sign-in-alt me-2"></i>
-                        Iniciar Sesión
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Selector de tipo de usuario -->
-                    <div class="auth-type-selector mb-4">
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn active" data-type="user">
-                                    <i class="fas fa-user me-2"></i>
-                                    <span class="d-block">Usuario</span>
-                                    <small class="text-muted">Consumidor</small>
-                                </button>
-                        </div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn" data-type="store">
-                                    <i class="fas fa-store me-2"></i>
-                                    <span class="d-block">Tienda</span>
-                                    <small class="text-muted">Comercio</small>
-                                </button>
-                        </div>
-                        </div>
-                    </div>
-
-                    <!-- Formulario de Login -->
-                    <form id="loginForm" class="auth-form">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="loginEmail" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="loginEmail" name="loginEmail" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="loginPassword" class="form-label">Contraseña *</label>
-                                    <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
-                            <label class="form-check-label" for="rememberMe">
-                                Recordarme
-                            </label>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-sign-in-alt me-2"></i>
-                                Iniciar Sesión
-                        </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
 
 
-    <!-- Modal de Registro -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">
-                        <i class="fas fa-user-plus me-2"></i>
-                        Registrarme
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Selector de tipo de usuario -->
-                    <div class="auth-type-selector mb-4">
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn active" data-type="user">
-                                    <i class="fas fa-user me-2"></i>
-                                    <span class="d-block">Usuario</span>
-                                    <small class="text-muted">Consumidor</small>
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-outline-primary w-100 auth-type-btn" data-type="store">
-                                    <i class="fas fa-store me-2"></i>
-                                    <span class="d-block">Tienda</span>
-                                    <small class="text-muted">Comercio</small>
-                                </button>
-                            </div>
-                        </div>
-                        </div>
 
-                    <!-- Formulario de Registro Usuario -->
-                    <form id="registerUserForm" class="auth-form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userFirstName" class="form-label">Nombre *</label>
-                                    <input type="text" class="form-control" id="userFirstName" name="userFirstName" required>
-                        </div>
-                        </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userLastName" class="form-label">Apellido *</label>
-                                    <input type="text" class="form-control" id="userLastName" name="userLastName" required>
-                        </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="userEmail" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="userEmail" name="userEmail" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userPassword" class="form-label">Contraseña *</label>
-                                    <input type="password" class="form-control" id="userPassword" name="userPassword" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userConfirmPassword" class="form-label">Confirmar Contraseña *</label>
-                                    <input type="password" class="form-control" id="userConfirmPassword" name="userConfirmPassword" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="userPhone" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="userPhone" name="userPhone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="userTerms" name="userTerms" required>
-                            <label class="form-check-label" for="userTerms">
-                                Acepto los <a href="#" class="text-primary">términos y condiciones</a> *
-                            </label>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-user-plus me-2"></i>
-                                Registrarme como Usuario
-                        </button>
-                        </div>
-                    </form>
 
-                    <!-- Formulario de Registro Tienda -->
-                    <form id="registerStoreForm" class="auth-form" style="display: none;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="storeName" class="form-label">Nombre de la Tienda *</label>
-                                    <input type="text" class="form-control" id="storeName" name="storeName" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeOwnerName" class="form-label">Nombre del Propietario *</label>
-                                    <input type="text" class="form-control" id="storeOwnerName" name="storeOwnerName" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeOwnerEmail" class="form-label">Email del Propietario *</label>
-                                    <input type="email" class="form-control" id="storeOwnerEmail" name="storeOwnerEmail" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storePassword" class="form-label">Contraseña *</label>
-                                    <input type="password" class="form-control" id="storePassword" name="storePassword" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeConfirmPassword" class="form-label">Confirmar Contraseña *</label>
-                                    <input type="password" class="form-control" id="storeConfirmPassword" name="storeConfirmPassword" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeCategory" class="form-label">Categoría *</label>
-                                    <select class="form-control" id="storeCategory" name="storeCategory" required>
-                                        <option value="">Selecciona una categoría</option>
-                                        <option value="ropa">Ropa y Accesorios</option>
-                                        <option value="electronica">Electrónica</option>
-                                        <option value="hogar">Hogar y Jardín</option>
-                                        <option value="deportes">Deportes</option>
-                                        <option value="belleza">Belleza y Salud</option>
-                                        <option value="alimentos">Alimentos y Bebidas</option>
-                                        <option value="otros">Otros</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storePhone" class="form-label">Teléfono de la Tienda *</label>
-                                    <input type="tel" class="form-control" id="storePhone" name="storePhone" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="storeAddress" class="form-label">Dirección de la Tienda *</label>
-                                    <input type="text" class="form-control" id="storeAddress" name="storeAddress" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeCity" class="form-label">Ciudad *</label>
-                                    <input type="text" class="form-control" id="storeCity" name="storeCity" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeDescription" class="form-label">Descripción de la Tienda</label>
-                                    <textarea class="form-control" id="storeDescription" name="storeDescription" rows="3"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="storeTerms" name="storeTerms" required>
-                            <label class="form-check-label" for="storeTerms">
-                                Acepto los <a href="#" class="text-primary">términos y condiciones</a> *
-                            </label>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-store me-2"></i>
-                                Registrarme como Tienda
-                        </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal de Registro de Tienda -->
-    <div class="modal fade" id="storeRegistrationModal" tabindex="-1" aria-labelledby="storeRegistrationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="storeRegistrationModalLabel">
-                        <i class="fas fa-store"></i>
-                        Registra tu Tienda en NearMe
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                <div class="modal-body">
-                    <form id="storeRegistrationForm">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeName" class="form-label">Nombre de la Tienda *</label>
-                                    <input type="text" class="form-control" id="storeName" name="storeName" required>
-                        </div>
-                        </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="storeCategory" class="form-label">Categoría *</label>
-                                    <select class="form-control" id="storeCategory" name="storeCategory" required>
-                                        <option value="">Selecciona una categoría</option>
-                                        <option value="ropa">Ropa y Accesorios</option>
-                                        <option value="electronica">Electrónica</option>
-                                        <option value="hogar">Hogar y Jardín</option>
-                                        <option value="deportes">Deportes</option>
-                                        <option value="belleza">Belleza y Salud</option>
-                                        <option value="alimentos">Alimentos y Bebidas</option>
-                                        <option value="otros">Otros</option>
-                                    </select>
-                        </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="ownerName" class="form-label">Nombre del Propietario *</label>
-                                    <input type="text" class="form-control" id="ownerName" name="ownerName" required>
-                    </div>
-                </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone" class="form-label">Teléfono *</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" required>
-            </div>
-        </div>
-    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="website" class="form-label">Sitio Web (opcional)</label>
-                                    <input type="url" class="form-control" id="website" name="website">
-                        </div>
-                        </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="address" class="form-label">Dirección *</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Calle, número, colonia, ciudad" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="description" class="form-label">Descripción de la Tienda</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe qué productos o servicios ofreces..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
-                                <label class="form-check-label" for="terms">
-                                    Acepto los <a href="#" class="text-primary">términos y condiciones</a> y la <a href="#" class="text-primary">política de privacidad</a>
-                            </label>
-                        </div>
-                        </div>
-                    </form>
-                    </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" form="storeRegistrationForm" class="btn btn-primary">
-                        <i class="fas fa-store"></i>
-                        Registrar Tienda
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -983,36 +595,7 @@
         </div>
     </footer>
 
-    <!-- Demo Modal -->
-    <div class="modal fade" id="demoModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Demo de NearMe</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="demo-content">
-                        <div class="demo-video mb-4">
-                            <img src="https://via.placeholder.com/800x450/2563eb/ffffff?text=Demo+Video" 
-                                 alt="Demo Video" class="img-fluid rounded">
-                        </div>
-                        <h6>Características destacadas:</h6>
-                        <ul class="demo-features">
-                            <li><i class="fas fa-check"></i> Búsqueda por ubicación</li>
-                            <li><i class="fas fa-check"></i> Filtros avanzados</li>
-                            <li><i class="fas fa-check"></i> Mapas interactivos</li>
-                            <li><i class="fas fa-check"></i> Reseñas en tiempo real</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Descargar App</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" data-hover-animate="pulse">
@@ -1030,7 +613,6 @@
     
     <!-- Custom JS -->
     <script src="js/animations.js"></script>
-    <script src="js/modals.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

@@ -50,6 +50,7 @@
     --bg-secondary: #f9fafb;         /* Fondo secundario */
     --bg-tertiary: #f3f4f6;          /* Fondo terciario */
     --bg-dark: #111827;              /* Fondo oscuro */
+    --bg-card: #ffffff;              /* Fondo de tarjetas */
     
     /* Colores de Bordes */
     --border-color: #e5e7eb;         /* Borde principal */
@@ -63,6 +64,7 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     
     /* Espaciado */
     --spacing-xs: 0.25rem;           /* 4px */
@@ -766,3 +768,147 @@ img {
     .xl\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
     .xl\:grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
 } 
+
+/* ===================================
+   BOTÓN LLAMATIVO CTA
+   =================================== */
+
+/* Estilos para el botón principal llamativo */
+.cta-main-action .btn-warning {
+    background: #2563eb;
+    border: 3px solid #1d4ed8;
+    color: #ffffff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 1.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 
+        0 10px 25px rgba(37, 99, 235, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: pulse-glow 3s infinite;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cta-main-action .btn-warning::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.6s ease-out;
+    filter: blur(1px);
+}
+
+.cta-main-action .btn-warning:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 15px 35px rgba(37, 99, 235, 0.4),
+        0 6px 12px rgba(0, 0, 0, 0.15);
+    background: #1d4ed8;
+    border-color: #1e40af;
+    color: #ffffff;
+}
+
+.cta-main-action .btn-warning:hover::before {
+    left: 100%;
+}
+
+.cta-main-action .btn-warning:active {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 8px 20px rgba(37, 99, 235, 0.3),
+        0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #1e40af;
+    border-color: #1e3a8a;
+}
+
+/* Animación de pulso para el botón */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 
+            0 10px 25px rgba(37, 99, 235, 0.3),
+            0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 12px 30px rgba(37, 99, 235, 0.4),
+            0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+    100% {
+        box-shadow: 
+            0 10px 25px rgba(37, 99, 235, 0.3),
+            0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Estilos para el contenedor de acciones secundarias */
+.cta-secondary-actions {
+    margin-top: 2rem;
+}
+
+.cta-secondary-actions .btn {
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cta-secondary-actions .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+
+.cta-secondary-actions .btn-outline-warning:hover {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+    transform: translateY(-2px);
+}
+
+/* Responsive para el botón llamativo */
+@media (max-width: 768px) {
+    .cta-main-action .btn-warning {
+        padding: 1.2rem 2rem;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    .cta-main-action h3 {
+        font-size: 1.5rem;
+    }
+    
+    .cta-secondary-actions .row {
+        flex-direction: column;
+    }
+    
+    .cta-secondary-actions .col-md-6 {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Efecto de los iconos */
+.cta-main-action .btn-warning i {
+    transition: transform 0.3s ease;
+}
+
+.cta-main-action .btn-warning:hover i:first-child {
+    transform: translateX(-5px);
+}
+
+.cta-main-action .btn-warning:hover i:last-child {
+    transform: translateX(5px);
+} 
+
+
+
+/* Aplicar animación de pulso al botón */
+.cta-main-action .btn-warning {
+    animation: pulse-glow 3s infinite;
+}
+
+ 
