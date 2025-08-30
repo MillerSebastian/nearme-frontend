@@ -7,7 +7,7 @@ export class Map {
     this.map = null;
     this.markers = [];
     this.userLocation = null;
-    this.controlRuta = null; // Inicializamos el control de rutas
+    this.routeControl = null; // Initialize routing control
   }
 
   init(lat = 10.9634, lng = -74.7967) {
@@ -18,12 +18,12 @@ export class Map {
     }).addTo(this.map);
 
     this.getUserLocation();
-    this.fetchStores(); // Cargar tiendas desde la API
+    this.fetchStores(); // Load stores from API
 
-    this.controlRuta = L.Routing.control({
+    this.routeControl = L.Routing.control({
       waypoints: [],
       routeWhileDragging: false,
-      createMarker: () => null, // No mostrar marcadores
+      createMarker: () => null, // Do not show markers
       lineOptions: {
         styles: [
           {
@@ -50,7 +50,7 @@ export class Map {
       const options = {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 300000, // 5 minutos
+        maximumAge: 300000, // 5 minutes
       };
 
       navigator.geolocation.getCurrentPosition(
@@ -72,7 +72,7 @@ export class Map {
 
           L.marker([lat, lng], { icon: userIcon })
             .addTo(this.map)
-            .bindPopup("Tu ubicación")
+            .bindPopup("Your location")
             .openPopup();
 
           this.map.setView([lat, lng], 13);
@@ -82,12 +82,12 @@ export class Map {
         (error) => {
           console.error("Error getting location:", error);
           const errorMessages = {
-            1: "Permiso denegado para acceder a la ubicación. Verifica los permisos del navegador.",
-            2: "Ubicación no disponible en este momento. Intenta recargar la página o verifica tu conexión a internet.",
-            3: "Tiempo de espera agotado al obtener la ubicación. Intenta de nuevo.",
+            1: "Permission denied to access location. Check your browser permissions.",
+            2: "Location not available at this time. Try reloading the page or check your internet connection.",
+            3: "Timeout while obtaining location. Please try again.",
           };
           const errorMessage =
-            errorMessages[error.code] || "Error al obtener la ubicación";
+            errorMessages[error.code] || "Error obtaining location";
           this.showLocationError(errorMessage);
 
           this.map.setView([4.6097, -74.0817], 10);
@@ -95,7 +95,7 @@ export class Map {
         options
       );
     } else {
-      console.warn("Geolocalización no soportada por este navegador");
+      console.warn("Geolocation not supported by this browser");
       this.map.setView([4.6097, -74.0817], 10);
     }
   }
@@ -131,9 +131,9 @@ export class Map {
         this.showNoStoresMessage();
       }
     } catch (error) {
-      console.error("Error al obtener las tiendas:", error);
+      console.error("Error fetching stores:", error);
       this.showErrorMessage(
-        "Error al cargar las tiendas. Verifica que el servidor esté funcionando."
+        "Error loading stores. Make sure the server is running."
       );
     }
   }
@@ -144,8 +144,8 @@ export class Map {
       const div = L.DomUtil.create("div", "info legend");
       div.innerHTML = `
         <div style="background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-size: 12px;">
-          <strong>No hay tiendas registradas</strong><br>
-          Registra tu tienda para aparecer en el mapa
+          <strong>No registered stores</strong><br>
+          Register your store to appear on the map
         </div>
       `;
       return div;
@@ -270,7 +270,7 @@ export class Map {
       }
       return null;
     } catch (error) {
-      console.error("Error geocodificando dirección:", error);
+      console.error("Error geocoding address:", error);
       return null;
     }
   }
@@ -298,9 +298,9 @@ export class Map {
         `
         <div class="p-3 min-w-[200px]">
           <h3 class="font-semibold text-white mb-2">${store.store_name}</h3>
-          <p class="text-slate-300 text-sm mb-2">${store.address || "Dirección no disponible"}</p>
+          <p class="text-slate-300 text-sm mb-2">${store.address || "Address not available"}</p>
           <div class="flex justify-between items-center">
-            <span class="text-green-400 font-semibold">Tienda registrada</span>
+            <span class="text-green-400 font-semibold">Registered store</span>
             <span class="text-xs text-slate-400">${store.distance || "0 km"}</span>
           </div>
         </div>
@@ -344,28 +344,28 @@ export class Map {
     this.markers = [];
   }
 
-  // Crear ruta y mostrar distancia en popup + tablero
+  // Create route and show distance in popup + external board
   createRouteToStore(destLat, destLng, storeId = null) {
     if (!this.userLocation) {
-      alert("No se pudo obtener tu ubicación actual.");
+      alert("Could not obtain your current location.");
       return;
     }
 
-    if (this.controlRuta) {
-      this.controlRuta.setWaypoints([
+    if (this.routeControl) {
+      this.routeControl.setWaypoints([
         L.latLng(this.userLocation[0], this.userLocation[1]),
         L.latLng(destLat, destLng),
       ]);
 
-      this.controlRuta.on("routesfound", (event) => {
+      this.routeControl.on("routesfound", (event) => {
         const totalDistance = event.routes[0].summary.totalDistance;
         const totalDistanceInKm = (totalDistance / 1000).toFixed(2);
 
-        // Mostrar en tablero externo
+        // Show on external board
         const distElem = document.getElementById("distanciaTotal");
-        if (distElem) distElem.innerHTML = `Distancia total: ${totalDistanceInKm} km`;
+        if (distElem) distElem.innerHTML = `Total distance: ${totalDistanceInKm} km`;
 
-        // Mostrar en popup del marcador
+        // Show on marker popup
         if (storeId) {
           const marker = this.markers.find((m) => m.storeId === storeId);
           if (marker) {
@@ -381,7 +381,7 @@ export class Map {
         }
       });
     } else {
-      console.error("Control de ruta no está disponible.");
+      console.error("Route control is not available.");
     }
   }
 
