@@ -1,16 +1,16 @@
+import { getApiUrl, getAuthHeaders } from "../config/api.js";
+
 class StoresService {
-  constructor(apiUrl) {
-    this.apiUrl = apiUrl;
+  constructor() {
+    // API URL will be loaded from config
   }
 
   // Update store information
   async updateStore(nitStore, storeData) {
     try {
-      const response = await fetch(`${this.apiUrl}/stores/${nitStore}`, {
+      const response = await fetch(getApiUrl(`/stores/${nitStore}`), {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(storeData),
       });
 
@@ -29,15 +29,10 @@ class StoresService {
   // Get store products
   async getStoreProducts(nitStore) {
     try {
-      const response = await fetch(
-        `${this.apiUrl}/stores/${nitStore}/products`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(getApiUrl(`/stores/${nitStore}/products`), {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
 
       if (response.ok) {
         return await response.json();
@@ -53,11 +48,9 @@ class StoresService {
   // Get store views
   async getStoreViews(nitStore) {
     try {
-      const response = await fetch(`${this.apiUrl}/stores/${nitStore}/views`, {
+      const response = await fetch(getApiUrl(`/stores/${nitStore}/views`), {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
@@ -74,11 +67,9 @@ class StoresService {
   // Delete store
   async deleteStore(nitStore) {
     try {
-      const response = await fetch(`${this.apiUrl}/stores/${nitStore}`, {
+      const response = await fetch(getApiUrl(`/stores/${nitStore}`), {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {

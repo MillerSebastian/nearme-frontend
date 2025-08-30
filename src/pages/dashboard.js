@@ -8,8 +8,8 @@ export default class DashboardPage {
     this.currentView = "overview";
 
     // Initialize services
-    this.productsService = new ProductsService(window.app.authManager.apiUrl);
-    this.storesService = new StoresService(window.app.authManager.apiUrl);
+    this.productsService = new ProductsService();
+    this.storesService = new StoresService();
   }
 
   render(container) {

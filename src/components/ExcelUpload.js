@@ -8,7 +8,7 @@ export class ExcelUpload {
     this.optionalFields = ["product_description"];
 
     // Initialize products service
-    this.productsService = new ProductsService(window.app.authManager.apiUrl);
+    this.productsService = new ProductsService();
   }
 
   render() {
