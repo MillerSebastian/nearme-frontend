@@ -1,16 +1,16 @@
+import { getApiUrl, getAuthHeaders } from "../config/api.js";
+
 class ProductsService {
-  constructor(apiUrl) {
-    this.apiUrl = apiUrl;
+  constructor() {
+    // API URL will be loaded from config
   }
 
   // Get all products
   async getAllProducts() {
     try {
-      const response = await fetch(`${this.apiUrl}/products`, {
+      const response = await fetch(getApiUrl("/products"), {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
@@ -27,11 +27,9 @@ class ProductsService {
   // Add new product
   async addProduct(productData) {
     try {
-      const response = await fetch(`${this.apiUrl}/products`, {
+      const response = await fetch(getApiUrl("/products"), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(productData),
       });
 
@@ -50,11 +48,9 @@ class ProductsService {
   // Get product by ID
   async getProductById(productId) {
     try {
-      const response = await fetch(`${this.apiUrl}/products/${productId}`, {
+      const response = await fetch(getApiUrl(`/products/${productId}`), {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
@@ -71,11 +67,9 @@ class ProductsService {
   // Update product
   async updateProduct(productId, productData) {
     try {
-      const response = await fetch(`${this.apiUrl}/products/${productId}`, {
+      const response = await fetch(getApiUrl(`/products/${productId}`), {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(productData),
       });
 
@@ -94,11 +88,9 @@ class ProductsService {
   // Delete product
   async deleteProduct(productId) {
     try {
-      const response = await fetch(`${this.apiUrl}/products/${productId}`, {
+      const response = await fetch(getApiUrl(`/products/${productId}`), {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
