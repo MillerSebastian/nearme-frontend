@@ -1,9 +1,19 @@
 import { Header } from "../components/Header.js";
+import ProductsService from "../services/products.services.js";
+import StoresService from "../services/stores.services.js";
 
 export default class DashboardPage {
   constructor() {
     this.products = [];
     this.currentView = "overview";
+
+    // Initialize services
+    this.productsService = new ProductsService();
+    this.storesService = new StoresService();
+
+    // Get API URL from AuthManager if available
+    this.apiUrl =
+      window.app?.authManager?.apiUrl || "http://localhost:3000/api";
   }
 
   render(container) {
@@ -17,7 +27,7 @@ export default class DashboardPage {
           <!-- Page Header -->
           <div class="mb-8">
             <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-            <p class="text-slate-400 mt-2">Gestiona tu tienda y productos</p>
+            <p class="text-slate-400 mt-2">Manage your store and products</p>
           </div>
 
           <!-- Navigation Tabs -->
@@ -27,19 +37,19 @@ export default class DashboardPage {
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
-                Resumen
+                Overview
               </button>
               <button class="nav-tab" data-view="products">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
-                Productos
+                Products
               </button>
               <button class="nav-tab" data-view="store">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m4 0V9a1 1 0 011-1h4a1 1 0 011 1v12m-6 0h6" />
                 </svg>
-                Mi Tienda
+                My Store
               </button>
             </nav>
           </div>
@@ -54,23 +64,23 @@ export default class DashboardPage {
 
     this.bindEvents();
 
-    // Cargar productos después de renderizar
+    // Load products after rendering
     this.loadProducts();
   }
 
   renderOverview() {
     const user = window.app.authManager.currentUser;
 
-    // Por ahora usamos datos del usuario actual
-    // En el futuro podrías tener endpoints específicos para estadísticas
+    // For now we use current user data
+    // In the future you could have specific endpoints for statistics
     let stats = {
       products: this.products ? this.products.length : 0,
       views: 0,
       queries: 0,
-      rating: 4.5, // Valor por defecto
+      rating: 4.5, // Default value
     };
 
-    // Cargar visualizaciones de la tienda
+    // Load store views
     this.loadStoreViews().then((views) => {
       stats.views = views;
       const viewsElement = document.querySelector('[data-stat="views"]');
@@ -93,7 +103,7 @@ export default class DashboardPage {
               <h3 class="text-2xl font-bold text-white" data-stat="products">${
                 stats.products
               }</h3>
-              <p class="text-slate-400 text-sm">Productos</p>
+              <p class="text-slate-400 text-sm">Products</p>
             </div>
           </div>
         </div>
@@ -108,7 +118,7 @@ export default class DashboardPage {
             </div>
             <div class="ml-4">
               <h3 class="text-2xl font-bold text-white" data-stat="views">${stats.views.toLocaleString()}</h3>
-              <p class="text-slate-400 text-sm">Visualizaciones</p>
+              <p class="text-slate-400 text-sm">Views</p>
             </div>
           </div>
         </div>
@@ -122,7 +132,7 @@ export default class DashboardPage {
             </div>
             <div class="ml-4">
               <h3 class="text-2xl font-bold text-white">${stats.queries}</h3>
-              <p class="text-slate-400 text-sm">Consultas</p>
+              <p class="text-slate-400 text-sm">Queries</p>
             </div>
           </div>
         </div>
@@ -136,7 +146,7 @@ export default class DashboardPage {
             </div>
             <div class="ml-4">
               <h3 class="text-2xl font-bold text-white">${stats.rating}</h3>
-              <p class="text-slate-400 text-sm">Calificación</p>
+              <p class="text-slate-400 text-sm">Rating</p>
             </div>
           </div>
         </div>
@@ -147,13 +157,13 @@ export default class DashboardPage {
         <div class="lg:col-span-2">
           <div class="card">
             <div class="flex items-center justify-between mb-6">
-              <h3 class="text-lg font-medium text-white">Actividad Reciente</h3>
-              <button class="text-blue-400 hover:text-blue-300 text-sm">Ver todo</button>
+              <h3 class="text-lg font-medium text-white">Recent Activity</h3>
+              <button class="text-blue-400 hover:text-blue-300 text-sm">View all</button>
             </div>
             
             <div id="recent-activity" class="space-y-4">
               <div class="text-center py-8">
-                <p class="text-slate-400">No hay actividad reciente</p>
+                <p class="text-slate-400">No recent activity</p>
               </div>
             </div>
           </div>
@@ -162,28 +172,28 @@ export default class DashboardPage {
         <!-- Quick Actions -->
         <div class="space-y-6">
           <div class="card">
-            <h3 class="text-lg font-medium text-white mb-4">Acciones Rápidas</h3>
+            <h3 class="text-lg font-medium text-white mb-4">Quick Actions</h3>
             
             <div class="space-y-3">
               <a href="#/products/upload" data-route="/products/upload" class="w-full btn-primary text-center block">
                 <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
-                Subir Productos
+                Upload Products
               </a>
               
               <button class="w-full btn-secondary" onclick="document.querySelector('[data-view=\\'products\\']').click()">
                 <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-                Agregar Producto
+                Add Product
               </button>
               
               <button class="w-full btn-outline">
                 <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
-                Ver Estadísticas
+                View Statistics
               </button>
             </div>
           </div>
@@ -196,9 +206,9 @@ export default class DashboardPage {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <div>
-                  <p class="text-blue-300 text-sm font-medium">Optimiza tu inventario</p>
+                  <p class="text-blue-300 text-sm font-medium">Optimize your inventory</p>
                   <p class="text-blue-200 text-xs mt-1">
-                    Actualiza regularmente el stock de tus productos para aparecer en más búsquedas.
+                    Regularly update your product stock to appear in more searches.
                   </p>
                 </div>
               </div>
@@ -210,13 +220,13 @@ export default class DashboardPage {
   }
 
   async loadRecentActivity() {
-    // Por ahora mostramos un mensaje simple
-    // En el futuro podrías tener un endpoint específico para actividad
+    // For now we show a simple message
+    // In the future you could have a specific endpoint for activity
     const activityContainer = document.getElementById("recent-activity");
     if (activityContainer) {
       activityContainer.innerHTML = `
         <div class="text-center py-8">
-          <p class="text-slate-400">No hay actividad reciente</p>
+          <p class="text-slate-400">No recent activity</p>
         </div>
       `;
     }
@@ -228,8 +238,8 @@ export default class DashboardPage {
         <!-- Products Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 class="text-2xl font-bold text-white">Productos</h2>
-            <p class="text-slate-400">Gestiona tu inventario de productos</p>
+            <h2 class="text-2xl font-bold text-white">Products</h2>
+            <p class="text-slate-400">Manage your product inventory</p>
           </div>
           
           <div class="flex space-x-3">
@@ -237,13 +247,13 @@ export default class DashboardPage {
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              Subir Excel
+              Upload Excel
             </a>
             <button class="btn-primary" id="add-product-btn">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
-              Agregar Producto
+              Add Product
             </button>
           </div>
         </div>
@@ -254,22 +264,22 @@ export default class DashboardPage {
             <div class="flex-1">
               <input
                 type="text"
-                placeholder="Buscar productos..."
+                placeholder="Search products..."
                 class="input-field w-full"
                 id="product-search"
               />
             </div>
             <div class="flex gap-2">
               <select class="input-field" id="category-filter">
-                <option value="">Todas las categorías</option>
-                <option value="Ferretería">Ferretería</option>
-                <option value="Pintura">Pintura</option>
-                <option value="Electricidad">Electricidad</option>
-                <option value="Plomería">Plomería</option>
-                <option value="Construcción">Construcción</option>
-                <option value="Jardinería">Jardinería</option>
-                <option value="verduras">Verduras</option>
-                <option value="Electrónica">Electrónica</option>
+                <option value="">All categories</option>
+                <option value="Ferretería">Hardware</option>
+                <option value="Pintura">Paint</option>
+                <option value="Electricidad">Electrical</option>
+                <option value="Plomería">Plumbing</option>
+                <option value="Construcción">Construction</option>
+                <option value="Jardinería">Gardening</option>
+                <option value="verduras">Vegetables</option>
+                <option value="Electrónica">Electronics</option>
               </select>
               <button class="btn-outline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,19 +297,19 @@ export default class DashboardPage {
               <thead class="bg-slate-700">
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Producto
+                    Product
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Categoría
+                    Category
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Precio
+                    Price
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Estado
+                    Status
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Acciones
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -307,7 +317,7 @@ export default class DashboardPage {
                 <tr>
                   <td colspan="5" class="px-6 py-8 text-center text-slate-400">
                     <div class="spinner mx-auto mb-4"></div>
-                    Cargando productos...
+                    Loading products...
                   </td>
                 </tr>
               </tbody>
@@ -319,7 +329,7 @@ export default class DashboardPage {
         <div id="add-product-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div class="card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between mb-6">
-              <h3 class="text-xl font-bold text-white">Agregar Producto</h3>
+              <h3 class="text-xl font-bold text-white">Add Product</h3>
               <button id="close-modal" class="text-slate-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -331,20 +341,20 @@ export default class DashboardPage {
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-white mb-2">
-                    Nombre del Producto <span class="text-red-400">*</span>
+                    Product Name <span class="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     name="product_name"
                     required
                     class="input-field w-full"
-                    placeholder="Nombre del producto"
+                    placeholder="Product name"
                   />
                 </div>
 
                 <div>
                   <label class="block text-sm font-medium text-white mb-2">
-                    Precio <span class="text-red-400">*</span>
+                    Price <span class="text-red-400">*</span>
                   </label>
                   <input
                     type="number"
@@ -360,50 +370,50 @@ export default class DashboardPage {
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-white mb-2">
-                    Categoría <span class="text-red-400">*</span>
+                    Category <span class="text-red-400">*</span>
                   </label>
                   <select name="category" required class="input-field w-full">
-                    <option value="">Seleccionar categoría</option>
-                    <option value="Ferretería">Ferretería</option>
-                    <option value="Pintura">Pintura</option>
-                    <option value="Electricidad">Electricidad</option>
-                    <option value="Plomería">Plomería</option>
-                    <option value="Construcción">Construcción</option>
-                    <option value="Jardinería">Jardinería</option>
-                    <option value="verduras">Verduras</option>
-                    <option value="Electrónica">Electrónica</option>
+                    <option value="">Select category</option>
+                    <option value="Ferretería">Hardware</option>
+                    <option value="Pintura">Paint</option>
+                    <option value="Electricidad">Electrical</option>
+                    <option value="Plomería">Plumbing</option>
+                    <option value="Construcción">Construction</option>
+                    <option value="Jardinería">Gardening</option>
+                    <option value="verduras">Vegetables</option>
+                    <option value="Electrónica">Electronics</option>
                   </select>
                 </div>
 
                 <div>
                   <label class="block text-sm font-medium text-white mb-2">
-                    Estado
+                    Status
                   </label>
                   <select name="sold_out" class="input-field w-full">
-                    <option value="false">En Stock</option>
-                    <option value="true">Agotado</option>
+                    <option value="false">In Stock</option>
+                    <option value="true">Out of Stock</option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-white mb-2">
-                  Descripción
+                  Description
                 </label>
                 <textarea
                   name="product_description"
                   rows="3"
                   class="input-field w-full"
-                  placeholder="Descripción del producto..."
+                  placeholder="Product description..."
                 ></textarea>
               </div>
 
               <div class="flex justify-end space-x-3 pt-4">
                 <button type="button" id="cancel-add-product" class="btn-secondary">
-                  Cancelar
+                  Cancel
                 </button>
                 <button type="submit" class="btn-primary">
-                  Agregar Producto
+                  Add Product
                 </button>
               </div>
             </form>
@@ -418,7 +428,7 @@ export default class DashboardPage {
       return `
         <tr>
           <td colspan="6" class="px-6 py-8 text-center text-slate-400">
-            No hay productos registrados
+            No products registered
           </td>
         </tr>
       `;
@@ -450,7 +460,7 @@ export default class DashboardPage {
               ? "bg-green-900 text-green-300"
               : "bg-red-900 text-red-300"
           }">
-            ${product.stock > 0 ? "En Stock" : "Agotado"}
+            ${product.stock > 0 ? "In Stock" : "Out of Stock"}
           </span>
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -458,12 +468,12 @@ export default class DashboardPage {
             <button class="text-blue-400 hover:text-blue-300 transition-colors" onclick="editProduct(${
               product.id_product
             })">
-              Editar
+              Edit
             </button>
             <button class="text-red-400 hover:text-red-300 transition-colors" onclick="deleteProduct(${
               product.id_product
             })">
-              Eliminar
+              Delete
             </button>
           </div>
         </td>
@@ -479,15 +489,15 @@ export default class DashboardPage {
     return `
       <div class="space-y-6">
         <div>
-          <h2 class="text-2xl font-bold text-white">Información de la Tienda</h2>
-          <p class="text-slate-400">Gestiona los datos de tu tienda</p>
+          <h2 class="text-2xl font-bold text-white">Store Information</h2>
+          <p class="text-slate-400">Manage your store data</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Store Info Form -->
           <div class="lg:col-span-2">
             <div class="card">
-              <h3 class="text-lg font-medium text-white mb-6">Datos de la Tienda</h3>
+              <h3 class="text-lg font-medium text-white mb-6">Store Data</h3>
               
               <form id="store-form" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -502,7 +512,7 @@ export default class DashboardPage {
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-white mb-2">Nombre de la Tienda</label>
+                    <label class="block text-sm font-medium text-white mb-2">Store Name</label>
                     <input
                       type="text"
                       name="store_name"
@@ -513,7 +523,7 @@ export default class DashboardPage {
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-white mb-2">Dirección</label>
+                  <label class="block text-sm font-medium text-white mb-2">Address</label>
                   <textarea
                     name="address"
                     rows="2"
@@ -523,7 +533,7 @@ export default class DashboardPage {
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-sm font-medium text-white mb-2">Teléfono</label>
+                    <label class="block text-sm font-medium text-white mb-2">Phone</label>
                     <input
                       type="tel"
                       name="phone_number"
@@ -545,7 +555,7 @@ export default class DashboardPage {
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-sm font-medium text-white mb-2">Horario de Apertura</label>
+                    <label class="block text-sm font-medium text-white mb-2">Opening Hours</label>
                     <input
                       type="time"
                       name="opening_hours"
@@ -555,7 +565,7 @@ export default class DashboardPage {
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-white mb-2">Horario de Cierre</label>
+                    <label class="block text-sm font-medium text-white mb-2">Closing Hours</label>
                     <input
                       type="time"
                       name="closing_hours"
@@ -566,18 +576,18 @@ export default class DashboardPage {
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-white mb-2">Notas</label>
+                  <label class="block text-sm font-medium text-white mb-2">Notes</label>
                   <textarea
                     name="note"
                     rows="3"
                     class="input-field w-full"
-                    placeholder="Información adicional sobre tu tienda..."
+                    placeholder="Additional information about your store..."
                   ></textarea>
                 </div>
 
                 <div class="flex justify-end pt-4">
                   <button type="submit" class="btn-primary">
-                    Guardar Cambios
+                    Save Changes
                   </button>
                 </div>
               </form>
@@ -587,41 +597,41 @@ export default class DashboardPage {
           <!-- Store Stats -->
           <div class="space-y-6">
             <div class="card">
-              <h3 class="text-lg font-medium text-white mb-4">Estadísticas</h3>
+              <h3 class="text-lg font-medium text-white mb-4">Statistics</h3>
               
-              <div class="space-y-4">
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-400">Productos</span>
-                  <span class="text-white font-medium" data-store-stat="products">${
-                    user?.total_products || 0
-                  }</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-400">Visualizaciones</span>
-                  <span class="text-white font-medium" data-store-stat="views">${(
-                    user?.total_views || 0
-                  ).toLocaleString()}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-400">Consultas</span>
-                  <span class="text-white font-medium" data-store-stat="queries">${
-                    user?.total_queries || 0
-                  }</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-400">Calificación</span>
-                  <div class="flex items-center">
-                    <span class="text-yellow-400 mr-1">★</span>
-                    <span class="text-white font-medium" data-store-stat="rating">${
-                      user?.rating || 0
+                              <div class="space-y-4">
+                  <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Products</span>
+                    <span class="text-white font-medium" data-store-stat="products">${
+                      user?.total_products || 0
                     }</span>
                   </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Views</span>
+                    <span class="text-white font-medium" data-store-stat="views">${(
+                      user?.total_views || 0
+                    ).toLocaleString()}</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Queries</span>
+                    <span class="text-white font-medium" data-store-stat="queries">${
+                      user?.total_queries || 0
+                    }</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Rating</span>
+                    <div class="flex items-center">
+                      <span class="text-yellow-400 mr-1">★</span>
+                      <span class="text-white font-medium" data-store-stat="rating">${
+                        user?.rating || 0
+                      }</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
             </div>
 
             <div class="card">
-              <h3 class="text-lg font-medium text-white mb-4">Acciones</h3>
+              <h3 class="text-lg font-medium text-white mb-4">Actions</h3>
               
               <div class="space-y-3">
                 <button class="w-full btn-outline text-left" id="preview-store-btn">
@@ -629,21 +639,21 @@ export default class DashboardPage {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  Vista Previa Pública
+                  Public Preview
                 </button>
                 
                 <button class="w-full btn-outline text-left" id="export-store-btn">
                   <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6-4h6m-6 8h6m-9-8v8a2 2 0 002 2h6a2 2 0 00-2-2H6a2 2 0 00-2 2z" />
                   </svg>
-                  Exportar Datos
+                  Export Data
                 </button>
                 
                 <button class="w-full btn-outline text-left text-red-400 hover:text-red-300" id="delete-store-btn">
                   <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
-                  Eliminar Tienda
+                  Delete Store
                 </button>
               </div>
             </div>
@@ -711,45 +721,24 @@ export default class DashboardPage {
           const productData = Object.fromEntries(formData.entries());
 
           try {
-            // Preparar los datos para el endpoint de products
+            // Prepare data for products endpoint
             const productPayload = {
               product_name: productData.product_name,
               price: parseFloat(productData.price),
               category: productData.category,
-              id_store: window.app.authManager.currentUser.nit_store, // Usar nit_store como referencia
-              sold_out: productData.sold_out === "true", // Convertir string a boolean
+              id_store: window.app.authManager.currentUser.nit_store, // Use nit_store as reference
+              sold_out: productData.sold_out === "true", // Convert string to boolean
             };
 
-            const response = await fetch(
-              `${window.app.authManager.apiUrl}/products`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(productPayload),
-              }
-            );
+            await this.productsService.addProduct(productPayload);
+            this.showNotification("Product added successfully", "success");
+            addProductModal.classList.add("hidden");
+            addProductForm.reset();
 
-            if (response.ok) {
-              this.showNotification(
-                "Producto agregado exitosamente",
-                "success"
-              );
-              addProductModal.classList.add("hidden");
-              addProductForm.reset();
-
-              // Recargar la lista de productos
-              await this.loadProducts();
-            } else {
-              const error = await response.json();
-              this.showNotification(
-                error.message || "Error al agregar producto",
-                "error"
-              );
-            }
+            // Reload products list
+            await this.loadProducts();
           } catch (error) {
-            this.showNotification("Error de conexión", "error");
+            this.showNotification(error.message || "Connection error", "error");
           }
         });
       }
@@ -765,152 +754,67 @@ export default class DashboardPage {
       if (newPrice !== null && newPrice !== "") {
         const price = parseFloat(newPrice);
         if (isNaN(price) || price < 0) {
-          this.showNotification("Precio inválido", "error");
+          this.showNotification("Invalid price", "error");
           return;
         }
 
         try {
-          // Obtener datos actuales del producto
-          const getResponse = await fetch(
-            `${window.app.authManager.apiUrl}/products/${productId}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          // Get current product data
+          const product = await this.productsService.getProductById(productId);
 
-          if (getResponse.ok) {
-            const product = await getResponse.json();
+          // Update only the price
+          await this.productsService.updateProduct(productId, {
+            product_name: product.product_name,
+            price: price,
+            category: product.category,
+            id_store: product.id_store,
+            sold_out: product.sold_out,
+          });
 
-            // Actualizar solo el precio
-            const updateResponse = await fetch(
-              `${window.app.authManager.apiUrl}/products/${productId}`,
-              {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  product_name: product.product_name,
-                  price: price,
-                  category: product.category,
-                  id_store: product.id_store,
-                  sold_out: product.sold_out,
-                }),
-              }
-            );
-
-            if (updateResponse.ok) {
-              this.showNotification(
-                "Precio actualizado exitosamente",
-                "success"
-              );
-              await this.loadProducts();
-            } else {
-              const error = await updateResponse.json();
-              this.showNotification(
-                error.message || "Error al actualizar precio",
-                "error"
-              );
-            }
-          } else {
-            this.showNotification("Error al cargar el producto", "error");
-          }
+          this.showNotification("Price updated successfully", "success");
+          await this.loadProducts();
         } catch (error) {
-          this.showNotification("Error de conexión", "error");
+          this.showNotification(error.message || "Connection error", "error");
         }
       }
     };
 
     window.toggleProductStatus = async (productId, soldOut) => {
       try {
-        // Obtener datos actuales del producto
-        const getResponse = await fetch(
-          `${window.app.authManager.apiUrl}/products/${productId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        // Get current product data
+        const product = await this.productsService.getProductById(productId);
+
+        // Update sold_out status
+        await this.productsService.updateProduct(productId, {
+          product_name: product.product_name,
+          price: product.price,
+          category: product.category,
+          id_store: product.id_store,
+          sold_out: soldOut,
+        });
+
+        this.showNotification(
+          `Product ${
+            soldOut ? "marked as out of stock" : "marked as in stock"
+          }`,
+          "success"
         );
-
-        if (getResponse.ok) {
-          const product = await getResponse.json();
-
-          // Actualizar el estado sold_out
-          const updateResponse = await fetch(
-            `${window.app.authManager.apiUrl}/products/${productId}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                product_name: product.product_name,
-                price: product.price,
-                category: product.category,
-                id_store: product.id_store,
-                sold_out: soldOut,
-              }),
-            }
-          );
-
-          if (updateResponse.ok) {
-            this.showNotification(
-              `Producto ${
-                soldOut ? "marcado como agotado" : "marcado como en stock"
-              }`,
-              "success"
-            );
-            await this.loadProducts();
-          } else {
-            const error = await updateResponse.json();
-            this.showNotification(
-              error.message || "Error al actualizar estado",
-              "error"
-            );
-            // Revertir el toggle si hay error
-            await this.loadProducts();
-          }
-        } else {
-          this.showNotification("Error al cargar el producto", "error");
-          await this.loadProducts();
-        }
+        await this.loadProducts();
       } catch (error) {
-        this.showNotification("Error de conexión", "error");
+        this.showNotification(error.message || "Connection error", "error");
         await this.loadProducts();
       }
     };
 
     window.deleteProduct = async (productId) => {
-      if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+      if (confirm("Are you sure you want to delete this product?")) {
         try {
-          const response = await fetch(
-            `${window.app.authManager.apiUrl}/products/${productId}`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          if (response.ok) {
-            this.showNotification("Producto eliminado exitosamente", "success");
-            // Recargar la lista de productos
-            await this.loadProducts();
-          } else {
-            const error = await response.json();
-            this.showNotification(
-              error.message || "Error al eliminar producto",
-              "error"
-            );
-          }
+          await this.productsService.deleteProduct(productId);
+          this.showNotification("Product deleted successfully", "success");
+          // Reload products list
+          await this.loadProducts();
         } catch (error) {
-          this.showNotification("Error de conexión", "error");
+          this.showNotification(error.message || "Connection error", "error");
         }
       }
     };
@@ -933,64 +837,49 @@ export default class DashboardPage {
     switch (view) {
       case "overview":
         content.innerHTML = this.renderOverview();
-        // Cargar productos para actualizar estadísticas
+        // Load products to update statistics
         this.loadProducts();
         break;
       case "products":
         content.innerHTML = this.renderProducts();
-        this.loadProducts(); // Cargar productos de forma asíncrona
+        this.loadProducts(); // Load products asynchronously
         this.bindProductEvents();
         break;
       case "store":
         content.innerHTML = this.renderStore();
         this.bindStoreEvents();
-        this.loadStoreStats(); // Cargar estadísticas de la tienda
+        this.loadStoreStats(); // Load store statistics
         break;
     }
   }
 
   async loadProducts() {
     try {
-      console.log("Cargando productos...");
-      const response = await fetch(
-        `${window.app.authManager.apiUrl}/products`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      console.log("Loading products...");
+      const data = await this.productsService.getAllProducts();
+      console.log("Products received:", data);
+
+      // Filter products from current store using nit_store
+      this.products =
+        data.filter(
+          (product) =>
+            product.id_store === window.app.authManager.currentUser.nit_store
+        ) || [];
+
+      console.log("Products filtered for store:", this.products);
+      console.log(
+        "Current store NIT:",
+        window.app.authManager.currentUser.nit_store
       );
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Productos recibidos:", data);
-
-        // Filtrar productos de la tienda actual usando nit_store
-        this.products =
-          data.filter(
-            (product) =>
-              product.id_store === window.app.authManager.currentUser.nit_store
-          ) || [];
-
-        console.log("Productos filtrados para la tienda:", this.products);
-        console.log(
-          "NIT de la tienda actual:",
-          window.app.authManager.currentUser.nit_store
-        );
-
-        // Actualizar estadísticas del dashboard
-        this.updateDashboardStats();
-      } else {
-        this.products = [];
-        console.error("Error en la respuesta:", response.status);
-      }
+      // Update dashboard statistics
+      this.updateDashboardStats();
     } catch (error) {
       console.error("Error loading products:", error);
       this.products = [];
     }
 
-    // Actualizar la tabla con los productos cargados
+    // Update table with loaded products
     const tableBody = document.getElementById("products-table-body");
     if (tableBody) {
       tableBody.innerHTML = this.renderProductRows();
@@ -998,7 +887,7 @@ export default class DashboardPage {
   }
 
   updateDashboardStats() {
-    // Actualizar el contador de productos en el dashboard
+    // Update products counter in dashboard
     const productsCountElement = document.querySelector(
       '[data-stat="products"]'
     );
@@ -1042,7 +931,7 @@ export default class DashboardPage {
                 ? "bg-red-900 text-red-300"
                 : "bg-green-900 text-green-300"
             }">
-              ${product.sold_out ? "Agotado" : "En Stock"}
+              ${product.sold_out ? "Out of Stock" : "In Stock"}
             </span>
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" 
@@ -1107,40 +996,26 @@ export default class DashboardPage {
             note: storeData.note || "",
           };
 
-          const response = await fetch(
-            `${window.app.authManager.apiUrl}/stores/${window.app.authManager.currentUser.nit_store}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(storePayload),
-            }
+          await this.storesService.updateStore(
+            window.app.authManager.currentUser.nit_store,
+            storePayload
           );
 
-          if (response.ok) {
-            // Actualizar datos del usuario en memoria
-            if (window.app.authManager.currentUser) {
-              Object.assign(window.app.authManager.currentUser, storePayload);
-            }
-            this.showNotification(
-              "Información de la tienda actualizada exitosamente",
-              "success"
-            );
-          } else {
-            const error = await response.json();
-            this.showNotification(
-              error.message || "Error al actualizar información",
-              "error"
-            );
+          // Update user data in memory
+          if (window.app.authManager.currentUser) {
+            Object.assign(window.app.authManager.currentUser, storePayload);
           }
+          this.showNotification(
+            "Store information updated successfully",
+            "success"
+          );
         } catch (error) {
-          this.showNotification("Error de conexión", "error");
+          this.showNotification(error.message || "Connection error", "error");
         }
       });
     }
 
-    // Botones de acciones
+    // Action buttons
     const previewBtn = document.getElementById("preview-store-btn");
     const exportBtn = document.getElementById("export-store-btn");
     const deleteBtn = document.getElementById("delete-store-btn");
@@ -1172,7 +1047,7 @@ export default class DashboardPage {
     modal.innerHTML = `
       <div class="card max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-xl font-bold text-white">Vista Previa Pública</h3>
+          <h3 class="text-xl font-bold text-white">Public Preview</h3>
           <button onclick="this.closest('.fixed').remove()" class="text-slate-400 hover:text-white">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -1187,21 +1062,21 @@ export default class DashboardPage {
             }</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <p><span class="text-slate-400">Dirección:</span> <span class="text-white">${
-                  user.address || "No disponible"
+                <p><span class="text-slate-400">Address:</span> <span class="text-white">${
+                  user.address || "Not available"
                 }</span></p>
-                <p><span class="text-slate-400">Teléfono:</span> <span class="text-white">${
-                  user.phone_number || "No disponible"
+                <p><span class="text-slate-400">Phone:</span> <span class="text-white">${
+                  user.phone_number || "Not available"
                 }</span></p>
                 <p><span class="text-slate-400">Email:</span> <span class="text-white">${
-                  user.email || "No disponible"
+                  user.email || "Not available"
                 }</span></p>
               </div>
               <div>
-                <p><span class="text-slate-400">Horario:</span> <span class="text-white">${
+                <p><span class="text-slate-400">Hours:</span> <span class="text-white">${
                   user.opening_hours && user.closing_hours
                     ? `${user.opening_hours} - ${user.closing_hours}`
-                    : "No disponible"
+                    : "Not available"
                 }</span></p>
                 <p><span class="text-slate-400">NIT:</span> <span class="text-white">${
                   user.nit_store
@@ -1211,7 +1086,7 @@ export default class DashboardPage {
           </div>
           
           <div class="text-center">
-            <p class="text-slate-400">Esta es cómo verán tu tienda los usuarios en la búsqueda</p>
+            <p class="text-slate-400">This is how users will see your store in search</p>
           </div>
         </div>
       </div>
@@ -1231,22 +1106,11 @@ export default class DashboardPage {
     try {
       const user = window.app.authManager.currentUser;
 
-      // Obtener productos de la tienda
-      const productsResponse = await fetch(
-        `${window.app.authManager.apiUrl}/stores/${user.nit_store}/products`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      // Get store products
+      const productsData = await this.storesService.getStoreProducts(
+        user.nit_store
       );
-
-      let products = [];
-      if (productsResponse.ok) {
-        const productsData = await productsResponse.json();
-        products = productsData.products || [];
-      }
+      const products = productsData.products || [];
 
       // Crear objeto con datos de la tienda
       const storeData = {
@@ -1270,7 +1134,7 @@ export default class DashboardPage {
 
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${user.store_name}_datos_${
+      link.download = `${user.store_name}_data_${
         new Date().toISOString().split("T")[0]
       }.json`;
       document.body.appendChild(link);
@@ -1278,10 +1142,10 @@ export default class DashboardPage {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      this.showNotification("Datos exportados exitosamente", "success");
+      this.showNotification("Data exported successfully", "success");
     } catch (error) {
       console.error("Error exporting data:", error);
-      this.showNotification("Error al exportar datos", "error");
+      this.showNotification("Error exporting data", "error");
     }
   }
 
@@ -1292,7 +1156,7 @@ export default class DashboardPage {
     modal.innerHTML = `
       <div class="card max-w-md w-full">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-xl font-bold text-white">Eliminar Tienda</h3>
+          <h3 class="text-xl font-bold text-white">Delete Store</h3>
           <button onclick="this.closest('.fixed').remove()" class="text-slate-400 hover:text-white">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -1307,33 +1171,33 @@ export default class DashboardPage {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
               <div>
-                <p class="text-red-300 text-sm font-medium">Acción irreversible</p>
+                <p class="text-red-300 text-sm font-medium">Irreversible action</p>
                 <p class="text-red-200 text-xs mt-1">
-                  Esta acción eliminará permanentemente tu tienda y todos sus productos. 
-                  Esta acción no se puede deshacer.
+                  This action will permanently delete your store and all its products. 
+                  This action cannot be undone.
                 </p>
               </div>
             </div>
           </div>
           
           <p class="text-slate-300 text-sm">
-            ¿Estás seguro de que quieres eliminar tu tienda? 
-            Escribe <strong>ELIMINAR</strong> para confirmar.
+            Are you sure you want to delete your store? 
+            Type <strong>DELETE</strong> to confirm.
           </p>
           
           <input 
             type="text" 
             id="delete-confirmation" 
             class="input-field w-full" 
-            placeholder="Escribe ELIMINAR para confirmar"
+            placeholder="Type DELETE to confirm"
           />
           
           <div class="flex space-x-3">
             <button onclick="this.closest('.fixed').remove()" class="flex-1 btn-outline">
-              Cancelar
+              Cancel
             </button>
             <button id="confirm-delete-btn" class="flex-1 btn-primary bg-red-600 hover:bg-red-700" disabled>
-              Eliminar Tienda
+              Delete Store
             </button>
           </div>
         </div>
@@ -1342,15 +1206,15 @@ export default class DashboardPage {
 
     document.body.appendChild(modal);
 
-    // Validar confirmación
+    // Validate confirmation
     const confirmationInput = modal.querySelector("#delete-confirmation");
     const confirmBtn = modal.querySelector("#confirm-delete-btn");
 
     confirmationInput.addEventListener("input", (e) => {
-      confirmBtn.disabled = e.target.value !== "ELIMINAR";
+      confirmBtn.disabled = e.target.value !== "DELETE";
     });
 
-    // Ejecutar eliminación
+    // Execute deletion
     confirmBtn.addEventListener("click", () => {
       this.deleteStore();
       modal.remove();
@@ -1368,34 +1232,17 @@ export default class DashboardPage {
     try {
       const user = window.app.authManager.currentUser;
 
-      const response = await fetch(
-        `${window.app.authManager.apiUrl}/stores/${user.nit_store}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await this.storesService.deleteStore(user.nit_store);
+      this.showNotification("Store deleted successfully", "success");
 
-      if (response.ok) {
-        this.showNotification("Tienda eliminada exitosamente", "success");
-
-        // Cerrar sesión y redirigir al login
-        setTimeout(() => {
-          window.app.authManager.logout();
-          window.location.hash = "#/login";
-        }, 2000);
-      } else {
-        const error = await response.json();
-        this.showNotification(
-          error.message || "Error al eliminar tienda",
-          "error"
-        );
-      }
+      // Logout and redirect to login
+      setTimeout(() => {
+        window.app.authManager.logout();
+        window.location.hash = "#/login";
+      }, 2000);
     } catch (error) {
       console.error("Error deleting store:", error);
-      this.showNotification("Error de conexión", "error");
+      this.showNotification(error.message || "Connection error", "error");
     }
   }
 
@@ -1423,25 +1270,10 @@ export default class DashboardPage {
         return 0;
       }
 
-      const response = await fetch(
-        `${window.app.authManager.apiUrl}/stores/${user.nit_store}/views`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        return data.total_views || 0;
-      } else {
-        console.error("Error al cargar visualizaciones:", response.status);
-        return 0;
-      }
+      const data = await this.storesService.getStoreViews(user.nit_store);
+      return data.total_views || 0;
     } catch (error) {
-      console.error("Error al cargar visualizaciones:", error);
+      console.error("Error loading views:", error);
       return 0;
     }
   }
@@ -1453,43 +1285,19 @@ export default class DashboardPage {
         return;
       }
 
-      // Cargar productos de la tienda
-      const productsResponse = await fetch(
-        `${window.app.authManager.apiUrl}/stores/${user.nit_store}/products`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      // Load store products
+      const productsData = await this.storesService.getStoreProducts(
+        user.nit_store
       );
+      const totalProducts = productsData.products
+        ? productsData.products.length
+        : 0;
 
-      let totalProducts = 0;
-      if (productsResponse.ok) {
-        const productsData = await productsResponse.json();
-        totalProducts = productsData.products
-          ? productsData.products.length
-          : 0;
-      }
+      // Load views
+      const viewsData = await this.storesService.getStoreViews(user.nit_store);
+      const totalViews = viewsData.total_views || 0;
 
-      // Cargar visualizaciones
-      const viewsResponse = await fetch(
-        `${window.app.authManager.apiUrl}/stores/${user.nit_store}/views`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      let totalViews = 0;
-      if (viewsResponse.ok) {
-        const viewsData = await viewsResponse.json();
-        totalViews = viewsData.total_views || 0;
-      }
-
-      // Actualizar estadísticas en la UI
+      // Update statistics in UI
       this.updateStoreStats({
         products: totalProducts,
         views: totalViews,
@@ -1502,14 +1310,14 @@ export default class DashboardPage {
   }
 
   updateStoreStats(stats) {
-    // Actualizar en el overview
+    // Update in overview
     const productsElement = document.querySelector('[data-stat="products"]');
     const viewsElement = document.querySelector('[data-stat="views"]');
 
     if (productsElement) productsElement.textContent = stats.products;
     if (viewsElement) viewsElement.textContent = stats.views.toLocaleString();
 
-    // Actualizar en la sección de tienda
+    // Update in store section
     const storeStatsElements = document.querySelectorAll("[data-store-stat]");
     storeStatsElements.forEach((element) => {
       const statType = element.getAttribute("data-store-stat");

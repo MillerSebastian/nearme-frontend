@@ -22,13 +22,13 @@ export class Header {
               </div>
               
               <div class="hidden md:flex items-center space-x-6">
-                <a href="#/" data-route="/" class="text-slate-300 hover:text-white transition-colors">Inicio</a>
+                <a href="#/" data-route="/" class="text-slate-300 hover:text-white transition-colors">Home</a>
                 ${!isDashboard ? `
-                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Características</a>
-                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Beneficios</a>
-                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Testimonios</a>
-                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Para Tiendas</a>
-                  <a href="#/register" data-route="/register" class="text-slate-300 hover:text-white transition-colors">Registrar Tienda</a>
+                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Features</a>
+                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Benefits</a>
+                  <a href="#" class="text-slate-300 hover:text-white transition-colors">Testimonials</a>
+                  <a href="#" class="text-slate-300 hover:text-white transition-colors">For Stores</a>
+                  <a href="#/register" data-route="/register" class="text-slate-300 hover:text-white transition-colors">Register Store</a>
                 ` : ''}
               </div>
             </div>
@@ -39,15 +39,15 @@ export class Header {
                   Dashboard
                 </a>
                 <button id="logout-btn" class="text-slate-300 hover:text-white transition-colors">
-                  Cerrar Sesión
+                  Log Out
                 </button>
               ` : `
                 <a href="#/login" data-route="/login" class="text-blue-400 hover:text-blue-300 transition-colors" id="login-link">
-                  Iniciar Sesión
+                  Log In
                 </a>
                 ${!isDashboard ? `
                   <a href="#/register" data-route="/register" class="btn-primary text-sm" id="register-link">
-                    Registrarse
+                    Sign Up
                   </a>
                 ` : ''}
               `}
@@ -63,13 +63,13 @@ export class Header {
           <!-- Mobile menu -->
           <div class="md:hidden hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 border-t border-slate-700">
-              <a href="#/" data-route="/" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Inicio</a>
+              <a href="#/" data-route="/" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Home</a>
               ${!isDashboard ? `
-                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Características</a>
-                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Beneficios</a>
-                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Testimonios</a>
-                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Para Tiendas</a>
-                <a href="#/register" data-route="/register" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Registrar Tienda</a>
+                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Features</a>
+                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Benefits</a>
+                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Testimonials</a>
+                <a href="#" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">For Stores</a>
+                <a href="#/register" data-route="/register" class="block text-slate-300 hover:text-white px-3 py-2 transition-colors">Register Store</a>
               ` : ''}
             </div>
           </div>
@@ -96,7 +96,6 @@ export class Header {
       });
     }
 
-    
     this.updateAuthState(this.authManager.isAuthenticated());
   }
 
