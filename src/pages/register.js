@@ -251,17 +251,24 @@ export default class RegisterPage {
       errorMessage.classList.add("hidden");
 
       try {
-        const result = await this.authService.registerStore(storeData);
+        let result;
 
-        if (result.success) {
-          // Store user data and token if provided
-          if (result.user) {
+        // Use AuthManager if available, otherwise use AuthService
+        if (window.app && window.app.authManager) {
+          result = await window.app.authManager.register(storeData);
+        } else {
+          result = await this.authService.registerStore(storeData);
+
+          // Store user data and token for AuthService
+          if (result.success && result.user) {
             localStorage.setItem("currentUser", JSON.stringify(result.user));
           }
-          if (result.token) {
+          if (result.success && result.token) {
             localStorage.setItem("authToken", result.token);
           }
+        }
 
+        if (result.success) {
           // Redirect to dashboard
           if (window.app && window.app.router) {
             window.app.router.navigate("/dashboard");

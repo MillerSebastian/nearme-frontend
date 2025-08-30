@@ -9,6 +9,10 @@ export class ExcelUpload {
 
     // Initialize products service
     this.productsService = new ProductsService();
+
+    // Get API URL from AuthManager if available
+    this.apiUrl =
+      window.app?.authManager?.apiUrl || "http://localhost:3000/api";
   }
 
   render() {
