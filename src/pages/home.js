@@ -48,24 +48,24 @@ export default class HomePage {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
-          <h3 class="text-xl font-medium text-white mb-3">¿Qué estás buscando?</h3>
-          <p class="text-slate-400 mb-6">Busca un producto y te mostraremos tiendas cercanas que lo tienen disponible.</p>
+          <h3 class="text-xl font-medium text-white mb-3">What are you looking for?</h3>
+          <p class="text-slate-400 mb-6">Search for a product and we will show you nearby stores that have it available.</p>
           <div class="grid grid-cols-2 gap-3 text-sm">
             <button class="search-suggestion bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-left transition-colors">
-              <span class="text-white font-medium">Tornillos</span>
-              <span class="block text-slate-400 text-xs mt-1">Ferretería</span>
+              <span class="text-white font-medium">Screws</span>
+              <span class="block text-slate-400 text-xs mt-1">Hardware</span>
             </button>
             <button class="search-suggestion bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-left transition-colors">
-              <span class="text-white font-medium">Pintura</span>
-              <span class="block text-slate-400 text-xs mt-1">Construcción</span>
+              <span class="text-white font-medium">Paint</span>
+              <span class="block text-slate-400 text-xs mt-1">Construction</span>
             </button>
             <button class="search-suggestion bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-left transition-colors">
-              <span class="text-white font-medium">Herramientas</span>
-              <span class="block text-slate-400 text-xs mt-1">Ferretería</span>
+              <span class="text-white font-medium">Tools</span>
+              <span class="block text-slate-400 text-xs mt-1">Hardware</span>
             </button>
             <button class="search-suggestion bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-left transition-colors">
               <span class="text-white font-medium">Cables</span>
-              <span class="block text-slate-400 text-xs mt-1">Eléctricos</span>
+              <span class="block text-slate-400 text-xs mt-1">Electrical</span>
             </button>
           </div>
           <div class="mt-4">
@@ -74,7 +74,7 @@ export default class HomePage {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              Obtener mi ubicación
+              Get my location
             </button>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default class HomePage {
       }
     });
 
-    // Botón para solicitar ubicación
+    // Button to request user location
     document.addEventListener("click", (e) => {
       if (e.target.closest("#request-location-btn")) {
         if (this.map) {
@@ -119,7 +119,7 @@ export default class HomePage {
     document.getElementById("store-results").innerHTML = `
       <div class="text-center py-16">
         <div class="spinner mx-auto mb-4"></div>
-        <p class="text-slate-400">Buscando "${query}"...</p>
+        <p class="text-slate-400">Searching "${query}"...</p>
       </div>
     `;
 
@@ -142,7 +142,7 @@ export default class HomePage {
 
   async searchStores(query) {
     try {
-      // Obtener todas las tiendas
+      // Get all stores
       const storesResponse = await fetch(
         `${window.app.authManager.apiUrl}/stores`,
         {
@@ -154,13 +154,13 @@ export default class HomePage {
       );
 
       if (!storesResponse.ok) {
-        console.error("Error al obtener tiendas:", storesResponse.status);
-        throw new Error("Error al obtener tiendas");
+        console.error("Error fetching stores:", storesResponse.status);
+        throw new Error("Error fetching stores");
       }
 
       const stores = await storesResponse.json();
 
-      // Obtener todos los productos para buscar por nombre de producto
+      // Get all products to search by product name
       const productsResponse = await fetch(
         `${window.app.authManager.apiUrl}/products`,
         {
@@ -174,16 +174,16 @@ export default class HomePage {
       let products = [];
       if (productsResponse.ok) {
         products = await productsResponse.json();
-        console.log("Productos obtenidos:", products.length);
+        console.log("Products retrieved:", products.length);
       } else {
-        console.error("Error al obtener productos:", productsResponse.status);
+        console.error("Error fetching products:", productsResponse.status);
       }
 
-      // Filtrar tiendas que contengan el query en el nombre o que tengan productos que coincidan
+      // Filter stores that contain the query in their name or have products that match
       const queryLower = query.toLowerCase();
       const matchingStoreNits = new Set();
 
-      // Buscar tiendas por nombre
+      // Search stores by name
       stores.forEach((store) => {
         const storeName = store.store_name
           ? store.store_name.toLowerCase()
@@ -193,7 +193,7 @@ export default class HomePage {
         }
       });
 
-      // Buscar productos que coincidan y agregar sus tiendas
+      // Search products that match and add their stores
       products.forEach((product) => {
         const productName = product.product_name
           ? product.product_name.toLowerCase()
@@ -208,24 +208,24 @@ export default class HomePage {
         ) {
           matchingStoreNits.add(product.id_store);
           console.log(
-            `Producto encontrado: ${product.product_name} en tienda ${product.id_store}`
+            `Product found: ${product.product_name} in store ${product.id_store}`
           );
         }
       });
 
-      console.log("Tiendas encontradas:", Array.from(matchingStoreNits));
+      console.log("Stores found:", Array.from(matchingStoreNits));
 
-      // Filtrar tiendas que coincidan
+      // Filter stores that match
       const filteredStores = stores.filter((store) =>
         matchingStoreNits.has(store.nit_store)
       );
 
-      // Convertir a formato esperado por el frontend
+      // Convert to frontend expected format
       return filteredStores.map((store) => {
-        // Calcular distancia si tenemos mapa y ubicación del usuario
+        // Calculate distance if we have map and user location
         let distance = "0 km";
         if (this.map && this.map.userLocation) {
-          // Usar coordenadas por defecto para las tiendas (ya que no tienen coordenadas reales)
+          // Use default coordinates for stores (since they don't have real coordinates)
           const storeLat = 4.6097 + (Math.random() - 0.5) * 0.01;
           const storeLng = -74.0817 + (Math.random() - 0.5) * 0.01;
           distance = this.map.calculateDistance(
@@ -244,11 +244,11 @@ export default class HomePage {
           email: store.email,
           opening_hours: store.opening_hours,
           closing_hours: store.closing_hours,
-          product_description: `Tienda registrada`,
+          product_description: `Registered store`,
           distance: distance,
           rating: 4.5,
           featured: false,
-          latitude: 4.6097 + (Math.random() - 0.5) * 0.01, // Coordenadas por defecto con variación
+          latitude: 4.6097 + (Math.random() - 0.5) * 0.01, // Default coordinates with variation
           longitude: -74.0817 + (Math.random() - 0.5) * 0.01,
         };
       });
@@ -266,13 +266,13 @@ export default class HomePage {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <h3 class="text-lg font-medium text-white mb-2">
-          Error en la búsqueda
+          Search error
         </h3>
         <p class="text-slate-400 mb-6">
-          No pudimos realizar la búsqueda. Por favor intenta de nuevo.
+          We couldn't perform the search. Please try again.
         </p>
         <button class="btn-primary" onclick="location.reload()">
-          Reintentar
+          Retry
         </button>
       </div>
     `;
