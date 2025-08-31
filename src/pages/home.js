@@ -124,11 +124,11 @@ export default class HomePage {
     `;
 
     try {
-      const stores = await this.searchStores(query);
+      const { stores, matchingProducts } = await this.searchStores(query);
 
       // Render results
       document.getElementById("store-results").innerHTML =
-        this.storeList.render(stores, query);
+        this.storeList.render(stores, query, matchingProducts);
       this.storeList.bindEvents();
 
       if (this.map) {
@@ -188,6 +188,7 @@ export default class HomePage {
       // Filter stores that contain the query in their name or have products that match
       const queryLower = query.toLowerCase();
       const matchingStoreNits = new Set();
+      const matchingProducts = {};
 
       // Search stores by name
       stores.forEach((store) => {
@@ -213,6 +214,13 @@ export default class HomePage {
           productCategory.includes(queryLower)
         ) {
           matchingStoreNits.add(product.id_store);
+
+          // Group products by store
+          if (!matchingProducts[product.id_store]) {
+            matchingProducts[product.id_store] = [];
+          }
+          matchingProducts[product.id_store].push(product);
+
           console.log(
             `Product found: ${product.product_name} in store ${product.id_store}`
           );
@@ -220,6 +228,7 @@ export default class HomePage {
       });
 
       console.log("Stores found:", Array.from(matchingStoreNits));
+      console.log("Matching products by store:", matchingProducts);
 
       // Filter stores that match
       const filteredStores = stores.filter((store) =>
@@ -227,7 +236,7 @@ export default class HomePage {
       );
 
       // Convert to frontend expected format
-      return filteredStores.map((store) => {
+      const formattedStores = filteredStores.map((store) => {
         // Calculate distance if we have map and user location
         let distance = "0 km";
         if (this.map && this.map.userLocation) {
@@ -258,6 +267,8 @@ export default class HomePage {
           longitude: -74.0817 + (Math.random() - 0.5) * 0.01,
         };
       });
+
+      return { stores: formattedStores, matchingProducts };
     } catch (error) {
       console.error("Search API error:", error);
       throw error;
@@ -330,9 +341,44 @@ export default class HomePage {
       },
     ];
 
+    // Sample products for demonstration
+    const sampleProducts = {
+      "123456789-0": [
+        {
+          id_product: 1,
+          product_name: "Professional Hammer",
+          price: 25000,
+          category: "Hardware",
+          product_description: "Steel hammer with ergonomic handle",
+          sold_out: false,
+          id_store: "123456789-0",
+        },
+        {
+          id_product: 2,
+          product_name: "Screwdriver Set",
+          price: 15000,
+          category: "Tools",
+          product_description: "Complete set of screwdrivers",
+          sold_out: false,
+          id_store: "123456789-0",
+        },
+      ],
+      "987654321-0": [
+        {
+          id_product: 3,
+          product_name: "Paint Brush Set",
+          price: 8000,
+          category: "Paint",
+          product_description: "Professional paint brushes",
+          sold_out: false,
+          id_store: "987654321-0",
+        },
+      ],
+    };
+
     // Filter stores based on query
     const queryLower = query.toLowerCase();
-    return sampleStores
+    const filteredStores = sampleStores
       .filter(
         (store) =>
           store.store_name.toLowerCase().includes(queryLower) ||
@@ -345,5 +391,20 @@ export default class HomePage {
         rating: 4.5,
         featured: false,
       }));
+
+    // Filter products based on query
+    const matchingProducts = {};
+    Object.keys(sampleProducts).forEach((storeNit) => {
+      const storeProducts = sampleProducts[storeNit].filter(
+        (product) =>
+          product.product_name.toLowerCase().includes(queryLower) ||
+          product.category.toLowerCase().includes(queryLower)
+      );
+      if (storeProducts.length > 0) {
+        matchingProducts[storeNit] = storeProducts;
+      }
+    });
+
+    return { stores: filteredStores, matchingProducts };
   }
 }

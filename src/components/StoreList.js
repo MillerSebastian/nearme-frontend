@@ -1,10 +1,12 @@
 export class StoreList {
   constructor() {
     this.stores = [];
+    this.searchQuery = "";
   }
 
-  render(stores, searchQuery = "") {
+  render(stores, searchQuery = "", matchingProducts = {}) {
     this.stores = stores;
+    this.searchQuery = searchQuery;
 
     if (stores.length === 0) {
       return `
@@ -12,12 +14,12 @@ export class StoreList {
           <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.034 0-3.9.785-5.291 2.09A8.001 8.001 0 0112 4.001c1.025 0 2.025.195 2.937.558M12 4a8 8 0 018 8 8 8 0 01-8 8 8 8 0 01-8-8 8 8 0 018-8z" />
           </svg>
-          <h3 class="mt-2 text-sm font-medium text-slate-300">No stores found</h3>
+          <h3 class="mt-2 text-sm font-medium text-slate-300">No products found</h3>
           <p class="mt-1 text-sm text-slate-400">
             ${
               searchQuery
-                ? `No stores selling "${searchQuery}" in your area.`
-                : "Try making a search."
+                ? `No products matching "${searchQuery}" found in nearby stores.`
+                : "Try searching for a specific product."
             }
           </p>
         </div>
@@ -28,20 +30,27 @@ export class StoreList {
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <h2 class="text-2xl font-bold text-white">
-            Results for "${searchQuery}"
+            Products matching "${searchQuery}"
           </h2>
           <span class="text-sm text-slate-400">
-            ${stores.length} store(s)
+            ${stores.length} store(s) found
           </span>
         </div>
         <div class="space-y-3">
-          ${stores.map((store) => this.renderStoreCard(store)).join("")}
+          ${stores
+            .map((store) =>
+              this.renderStoreCard(
+                store,
+                matchingProducts[store.nit_store] || []
+              )
+            )
+            .join("")}
         </div>
       </div>
     `;
   }
 
-  renderStoreCard(store) {
+  renderStoreCard(store, matchingProducts = []) {
     const distance = store.distance || "0 km";
     const hours =
       store.opening_hours && store.closing_hours
@@ -69,13 +78,22 @@ export class StoreList {
                 }</p>
               </div>
             </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-4">
-                <span class="text-lg font-bold text-green-400">Registered store</span>
+            
+            <!-- Products Section -->
+            <div class="mt-3 mb-3">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-green-400">${
+                  matchingProducts.length
+                } product(s) found</span>
                 <span class="text-xs px-2 py-1 rounded-full bg-blue-900 text-blue-300">
-                  View products
+                  ${matchingProducts.length > 0 ? "Available" : "No products"}
                 </span>
               </div>
+              
+              ${this.renderProductsList(matchingProducts)}
+            </div>
+            
+            <div class="flex items-center justify-between">
               <div class="text-right">
                 <p class="text-sm text-slate-400">${distance}</p>
                 <div class="flex items-center mt-1">
@@ -88,15 +106,7 @@ export class StoreList {
                 </div>
               </div>
             </div>
-            ${
-              store.product_description
-                ? `
-              <p class="text-sm text-slate-400 mt-2 line-clamp-2">
-                ${store.product_description}
-              </p>
-            `
-                : ""
-            }
+            
             <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700">
               <div class="flex items-center space-x-2 text-xs text-slate-400">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,6 +129,83 @@ export class StoreList {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  renderProductsList(products) {
+    if (products.length === 0) {
+      return `
+        <div class="text-center py-4">
+          <p class="text-sm text-slate-500">No matching products in this store</p>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="space-y-2">
+        ${products.map((product) => this.renderProductItem(product)).join("")}
+      </div>
+    `;
+  }
+
+  renderProductItem(product) {
+    const price = product.price
+      ? `$${product.price.toLocaleString()}`
+      : "Price not available";
+    const isSoldOut = product.sold_out ? "sold-out" : "";
+
+    return `
+      <div class="product-item ${isSoldOut} bg-slate-800 rounded-lg p-3 border border-slate-700 hover:border-slate-600 transition-colors">
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <h4 class="text-sm font-medium text-white ${
+              isSoldOut ? "line-through opacity-60" : ""
+            }">
+              ${product.product_name}
+            </h4>
+            ${
+              product.product_description
+                ? `
+              <p class="text-xs text-slate-400 mt-1 line-clamp-1">
+                ${product.product_description}
+              </p>
+            `
+                : ""
+            }
+            <div class="flex items-center mt-1 space-x-2">
+              <span class="text-xs px-2 py-1 rounded-full bg-slate-700 text-slate-300">
+                ${product.category || "Uncategorized"}
+              </span>
+              ${
+                isSoldOut
+                  ? `
+                <span class="text-xs px-2 py-1 rounded-full bg-red-900 text-red-300">
+                  Sold Out
+                </span>
+              `
+                  : ""
+              }
+            </div>
+          </div>
+          <div class="text-right ml-3">
+            <div class="text-sm font-bold text-green-400 ${
+              isSoldOut ? "line-through opacity-60" : ""
+            }">
+              ${price}
+            </div>
+            ${
+              !isSoldOut
+                ? `
+              <button class="text-xs text-blue-400 hover:text-blue-300 transition-colors mt-1" 
+                      onclick="contactStoreForProduct('${product.id_store}', '${product.product_name}', ${product.price})">
+                Contact for this product
+              </button>
+            `
+                : ""
+            }
           </div>
         </div>
       </div>
@@ -255,6 +342,39 @@ window.contactStore = async (storeNit) => {
   }
 };
 
+window.contactStoreForProduct = async (storeNit, productName, productPrice) => {
+  try {
+    // Register view
+    await fetch(`${window.app.authManager.apiUrl}/stores/${storeNit}/views`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Get store info
+    const response = await fetch(
+      `${window.app.authManager.apiUrl}/stores/${storeNit}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const store = await response.json();
+      showContactModal(store, productName, productPrice);
+    } else {
+      alert("Error loading contact information");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error loading contact information");
+  }
+};
+
 function showStoreDetailsModal(data) {
   console.log("Modal data received:", data);
   const modal = document.createElement("div");
@@ -366,7 +486,7 @@ function showStoreDetailsModal(data) {
   });
 }
 
-function showContactModal(store) {
+function showContactModal(store, productName = null, productPrice = null) {
   const modal = document.createElement("div");
   modal.className =
     "fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4";
@@ -382,6 +502,22 @@ function showContactModal(store) {
           </svg>
         </button>
       </div>
+      
+      ${
+        productName
+          ? `
+        <div class="mb-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+          <h4 class="text-sm font-medium text-blue-300 mb-1">Product of Interest</h4>
+          <p class="text-white font-medium">${productName}</p>
+          ${
+            productPrice
+              ? `<p class="text-green-400 font-bold">$${productPrice.toLocaleString()}</p>`
+              : ""
+          }
+        </div>
+      `
+          : ""
+      }
       
       <div class="space-y-4">
         <div>
