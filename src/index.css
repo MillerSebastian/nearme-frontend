@@ -100,6 +100,38 @@
   @apply border-2 border-dashed border-slate-600 hover:border-slate-500 rounded-lg p-8 text-center transition-colors duration-200;
 }
 
+/* Product item styles */
+.product-item {
+  @apply transition-all duration-200;
+}
+
+.product-item:hover {
+  @apply transform scale-[1.02];
+}
+
+.product-item.sold-out {
+  @apply opacity-75;
+}
+
+.product-item.sold-out .product-name {
+  @apply line-through;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 /* Animation for map markers */
 @keyframes pulse {
   0% {
