@@ -1,7 +1,8 @@
 export class Router {
   constructor() {
     this.routes = {
-      "/": "home",
+      "/": "landing",
+      "/home": "home",
       "/login": "login",
       "/register": "register",
       "/dashboard": "dashboard",
@@ -15,6 +16,10 @@ export class Router {
 
     this.routeGuards = {
       "/": {
+        requiresAuth: false,
+        onFailRedirect: "/login",
+      },
+      "/home": {
         requiresAuth: false,
         onFailRedirect: "/login",
       },
@@ -175,6 +180,14 @@ export class Router {
       this.loadRoute(route);
     });
 
+    // Agregar listener para hashchange
+    window.addEventListener("hashchange", (e) => {
+      const hash = window.location.hash.replace("#", "");
+      const route = hash || "/";
+      console.log(`Hash changed to: ${route}`);
+      this.loadRoute(route);
+    });
+
     document.addEventListener("click", (e) => {
       const link = e.target.closest("[data-route]");
       if (link) {
@@ -194,6 +207,8 @@ export class Router {
   }
 
   navigate(route) {
+    console.log(`Router.navigate() llamado con ruta: ${route}`);
+
     if (!this.canActivate(route)) {
       const guardConfig = this.routeGuards[route] || {};
       const redirectTo = guardConfig.onFailRedirect || "/login";
@@ -229,16 +244,35 @@ export class Router {
   }
 
   async loadRoute(route) {
-    const routeName = this.routes[route] || "home";
+    console.log(`Router.loadRoute() llamado con ruta: ${route}`);
+    const routeName = this.routes[route] || "landing";
+    console.log(`Nombre de la ruta: ${routeName}`);
 
     try {
+      console.log(`Importando módulo: ../pages/${routeName}.js`);
       const module = await import(`../pages/${routeName}.js`);
-      const PageClass = module.default;
+      const PageClass = module.default || module[Object.keys(module)[0]];
+      console.log(`Clase de página cargada:`, PageClass);
+
       const page = new PageClass();
+      console.log(`Instancia de página creada:`, page);
 
       const app = document.getElementById("root");
-      app.innerHTML = "";
-      page.render(app);
+      if (app) {
+        console.log(`Contenedor root encontrado, limpiando contenido`);
+        app.innerHTML = "";
+        if (routeName === "landing") {
+          // La página de landing se renderiza directamente en el DOM
+          console.log(`Renderizando landing page`);
+          page.render();
+        } else {
+          // Otras páginas usan el método render con el contenedor
+          console.log(`Renderizando página ${routeName} en contenedor`);
+          page.render(app);
+        }
+      } else {
+        console.error(`Contenedor root no encontrado`);
+      }
     } catch (error) {
       console.error(`Error loading route ${route}:`, error);
       this.navigate("/");

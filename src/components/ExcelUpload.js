@@ -6,6 +6,7 @@ export class ExcelUpload {
     this.mappedData = [];
     this.requiredFields = ["product_name", "price", "category"];
     this.optionalFields = ["product_description"];
+    this.updateExisting = true; // Default to update existing products
 
     // Initialize products service
     this.productsService = new ProductsService();
@@ -96,6 +97,24 @@ export class ExcelUpload {
               </div>
             </div>
   
+            <!-- Duplicate Handling Options -->
+            <div class="mt-6 p-4 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+              <h4 class="text-md font-medium text-yellow-300 mb-3">⚙️ Duplicate Handling</h4>
+              <div class="flex items-center space-x-4">
+                <label class="flex items-center">
+                  <input type="radio" name="duplicate-handling" value="update" checked class="mr-2" id="update-existing">
+                  <span class="text-sm text-white">Update existing products</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="duplicate-handling" value="skip" class="mr-2" id="skip-existing">
+                  <span class="text-sm text-white">Skip existing products</span>
+                </label>
+              </div>
+              <p class="text-xs text-yellow-200 mt-2">
+                Choose how to handle products that already exist in your store.
+              </p>
+            </div>
+
             <!-- Important Notes -->
             <div class="mt-6 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
               <h4 class="text-md font-medium text-blue-300 mb-2">⚠️ Important Notes</h4>
@@ -284,6 +303,9 @@ export class ExcelUpload {
         this.downloadTemplate.bind(this)
       );
     }
+
+    // Initialize duplicate handling options
+    this.handleDuplicateOptionChange();
   }
 
   handleDragOver(e) {
@@ -585,6 +607,7 @@ export class ExcelUpload {
       const nit_store = window.app.authManager.currentUser.nit_store;
       let successCount = 0;
       let errorCount = 0;
+      let skippedCount = 0;
 
       for (const product of data) {
         try {
@@ -601,17 +624,81 @@ export class ExcelUpload {
           successCount++;
         } catch (error) {
           console.error("Error adding product:", error);
-          errorCount++;
+
+          // Check if it's a duplicate error
+          if (
+            error.message.includes("Duplicate entry") ||
+            error.message.includes("product_name")
+          ) {
+            console.warn(
+              `Product "${product.product_name}" already exists. Skipping...`
+            );
+
+            // Handle duplicates based on user preference
+            if (this.updateExisting) {
+              // Update existing product
+              try {
+                // First, get the existing product to get its ID
+                const existingProducts =
+                  await this.productsService.getAllProducts();
+                const existingProduct = existingProducts.find(
+                  (p) =>
+                    p.product_name === product.product_name &&
+                    p.id_store === nit_store
+                );
+
+                if (existingProduct) {
+                  await this.productsService.updateProduct(
+                    existingProduct.id_product,
+                    productPayload
+                  );
+                  successCount++;
+                  console.log(
+                    `Updated existing product: ${product.product_name}`
+                  );
+                } else {
+                  // If product doesn't exist for this store, skip it
+                  console.warn(
+                    `Product "${product.product_name}" not found for this store. Skipping...`
+                  );
+                  skippedCount++;
+                }
+              } catch (updateError) {
+                console.error("Error updating product:", updateError);
+                skippedCount++;
+              }
+            } else {
+              // Skip existing products
+              console.warn(
+                `Product "${product.product_name}" already exists. Skipping...`
+              );
+              skippedCount++;
+            }
+          } else {
+            errorCount++;
+          }
         }
       }
 
-      if (errorCount === 0) {
+      if (errorCount === 0 && skippedCount === 0) {
         return { success: true, imported: successCount };
       } else {
+        let message = `Processed ${successCount} products.`;
+        if (skippedCount > 0) {
+          if (this.updateExisting) {
+            message += ` ${skippedCount} products skipped (not found for this store).`;
+          } else {
+            message += ` ${skippedCount} products skipped (already exist).`;
+          }
+        }
+        if (errorCount > 0) {
+          message += ` ${errorCount} products with errors.`;
+        }
+
         return {
           success: true,
           imported: successCount,
-          message: `Imported ${successCount} products. ${errorCount} products with errors.`,
+          message: message,
         };
       }
     } catch (error) {
@@ -658,6 +745,23 @@ export class ExcelUpload {
     document.getElementById("error-state").classList.add("hidden");
     document.getElementById("excel-file-input").value = "";
     this.hideLoading();
+  }
+
+  handleDuplicateOptionChange() {
+    const updateOption = document.getElementById("update-existing");
+    const skipOption = document.getElementById("skip-existing");
+
+    if (updateOption && skipOption) {
+      updateOption.addEventListener("change", () => {
+        this.updateExisting = true;
+        console.log("Duplicate handling: Update existing products");
+      });
+
+      skipOption.addEventListener("change", () => {
+        this.updateExisting = false;
+        console.log("Duplicate handling: Skip existing products");
+      });
+    }
   }
 
   downloadTemplate() {

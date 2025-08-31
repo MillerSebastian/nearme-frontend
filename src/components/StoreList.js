@@ -641,16 +641,16 @@ function showContactModal(store, productName = null, productPrice = null) {
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-white mb-2">Phone</label>
+        <div>
+          <label class="block text-sm font-medium text-white mb-2">Phone</label>
             <p class="text-slate-300">${
               store.phone_number || "Not available"
             }</p>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-white mb-2">Email</label>
-            <p class="text-slate-300">${store.email || "Not available"}</p>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-white mb-2">Email</label>
+          <p class="text-slate-300">${store.email || "Not available"}</p>
           </div>
         </div>
         

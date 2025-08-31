@@ -1,275 +1,363 @@
-# NearMe - Plataforma de Búsqueda de Tiendas
+# NearMe - Local Store Discovery Platform
 
-## 📋 Descripción
+## 📋 Description
 
-NearMe es una plataforma web que permite a los usuarios buscar tiendas cercanas y sus productos. Los comerciantes pueden registrar sus tiendas, gestionar inventarios y subir productos masivamente mediante archivos Excel.
+NearMe is a comprehensive web platform that enables users to discover nearby stores and their products. Merchants can register their stores, manage inventories, and upload products in bulk using Excel files. The platform features advanced geolocation technology, real-time search capabilities, and an intuitive user interface for both consumers and business owners.
 
-## 🚀 Características
+## 🚀 Features
 
-- **Búsqueda de Tiendas**: Encuentra tiendas por nombre, tipo y ubicación
-- **Gestión de Productos**: Añade, edita y elimina productos de tu inventario
-- **Carga Masiva**: Importa productos desde archivos Excel
-- **Dashboard Interactivo**: Estadísticas y gestión completa de tu tienda
-- **Autenticación**: Sistema de registro y login para comerciantes
-- **Responsive Design**: Interfaz adaptada para móviles y desktop
+- **Store Discovery**: Find stores by name, type, and location with advanced geolocation
+- **Product Management**: Add, edit, and remove products from your inventory
+- **Bulk Import**: Import products from Excel files with intelligent mapping
+- **Interactive Dashboard**: Comprehensive statistics and store management tools
+- **Authentication System**: Secure registration and login for merchants
+- **Responsive Design**: Mobile-first interface optimized for all devices
+- **Real-time Search**: Instant product and store search with filtering
+- **Contact Integration**: Direct WhatsApp and email communication with stores
+- **Advanced Analytics**: Store performance metrics and customer insights
 
-## 🛠️ Tecnologías
+## 🛠️ Technologies & Libraries
 
-- **Frontend**: Vanilla JavaScript ES6, Vite, Tailwind CSS
-- **Backend**: Node.js, Express, MySQL
-- **Librerías**: Leaflet.js (mapas), SheetJS (Excel), Chart.js
-- **Build Tool**: Vite
-- **Routing**: SPA con hash-based navigation
+### **Frontend Core**
 
-## 📦 Instalación
+- **JavaScript**: ES6+ (ES2020+) with modern syntax and features
+- **Build Tool**: Vite 5.4.2 - Lightning fast build tool and dev server
+- **Module System**: ES Modules (ESM) for modern JavaScript development
 
-### Prerrequisitos
+### **Styling & UI**
 
-- Node.js (v16 o superior)
-- MySQL (v8.0 o superior)
-- Navegador moderno
+- **Tailwind CSS 3.4.1**: Utility-first CSS framework for rapid UI development
+- **Bootstrap 5.3.2**: Component library for responsive design
+- **FontAwesome 6.4.0**: Comprehensive icon library
+- **Google Fonts**: Inter font family for modern typography
+- **Custom CSS**: Extensive custom styling with animations and responsive design
 
-### Pasos de Instalación
+### **Maps & Geolocation**
 
-1. **Clonar el repositorio**
+- **Leaflet 1.9.4**: Open-source JavaScript library for interactive maps
+- **Leaflet Routing Machine 3.2.12**: Advanced routing and navigation features
+
+### **Development Tools**
+
+- **TypeScript 5.5.3**: Static type checking and enhanced development experience
+- **ESLint 9.9.1**: Code quality and consistency tool
+- **PostCSS 8.4.35**: CSS processing and transformation
+- **Autoprefixer 10.4.18**: Automatic vendor prefixing
+
+### **Architecture & Patterns**
+
+- **SPA Architecture**: Single Page Application with hash-based routing
+- **Component-Based Design**: Modular component architecture
+- **Event-Driven Architecture**: Responsive user interactions
+- **Responsive Design**: Mobile-first approach with breakpoint optimization
+
+### **Performance & Optimization**
+
+- **Lazy Loading**: Dynamic imports for route-based code splitting
+- **Asset Optimization**: Efficient CSS and JavaScript bundling
+- **Modern JavaScript**: Latest ECMAScript features for optimal performance
+
+## 📦 Installation
+
+### Prerequisites
+
+- **Node.js**: Version 16.0.0 or higher
+- **npm**: Version 8.0.0 or higher
+- **Modern Browser**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+
+### Installation Steps
+
+1. **Clone the repository**
 
    ```bash
    git clone <repository-url>
-   cd Nearme/project
+   cd nearme-frontend
    ```
 
-2. **Instalar dependencias**
+2. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-3. **Configurar la base de datos**
-
-   - Crear base de datos MySQL
-   - Ejecutar los scripts SQL proporcionados
-   - Configurar variables de entorno del backend
-
-4. **Iniciar el desarrollo**
+3. **Start development server**
 
    ```bash
    npm run dev
    ```
 
-5. **Acceder a la aplicación**
+4. **Access the application**
    - Frontend: http://localhost:5173
-   - Backend: http://localhost:3000
+   - The application will automatically open in your default browser
 
-## 📊 Estructura de la Base de Datos
-
-### Tabla `stores`
-
-```sql
-CREATE TABLE stores (
-  nit_store VARCHAR(20) PRIMARY KEY,
-  store_name VARCHAR(100) NOT NULL,
-  address TEXT,
-  phone_number VARCHAR(20),
-  email VARCHAR(100) UNIQUE NOT NULL,
-  password_hash VARCHAR(255),
-  id_store_type INT,
-  opening_hours TIME,
-  closing_hours TIME,
-  note TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
-
-### Tabla `products`
-
-```sql
-CREATE TABLE products (
-  id_product INT AUTO_INCREMENT PRIMARY KEY,
-  product_name VARCHAR(250) UNIQUE,
-  price DECIMAL(12,2),
-  category VARCHAR(100),
-  id_store VARCHAR(20),
-  sold_out BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (id_store) REFERENCES stores(nit_store) ON DELETE SET NULL ON UPDATE CASCADE
-);
-```
-
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
-project/
+nearme-frontend/
 ├── src/
 │   ├── auth/
-│   │   └── AuthManager.js          # Gestión de autenticación
+│   │   └── AuthManager.js          # Authentication and session management
 │   ├── components/
-│   │   ├── ExcelUpload.js          # Componente de carga Excel
-│   │   ├── Header.js               # Header de navegación
-│   │   ├── Map.js                  # Componente de mapas
-│   │   ├── SearchBar.js            # Barra de búsqueda
-│   │   └── StoreList.js            # Lista de tiendas
-│   ├── config/
-│   │   └── api.js                  # Configuración de API
+│   │   ├── ExcelUpload.js          # Excel file upload and processing
+│   │   ├── Header.js               # Navigation header component
+│   │   ├── Map.js                  # Interactive map component
+│   │   ├── SearchBar.js            # Product and store search
+│   │   └── StoreList.js            # Store listing and display
 │   ├── pages/
-│   │   ├── dashboard.js            # Dashboard principal
-│   │   ├── home.js                 # Página de inicio
-│   │   ├── login.js                # Página de login
-│   │   ├── register.js             # Página de registro
-│   │   └── upload-products.js      # Página de carga de productos
+│   │   ├── landing.js              # Landing page with modern design
+│   │   ├── home.js                 # Main application home page
+│   │   ├── login.js                # User authentication
+│   │   ├── register.js             # Store registration
+│   │   ├── dashboard.js            # Merchant dashboard
+│   │   └── upload-products.js      # Product management
 │   ├── router/
-│   │   └── Router.js               # Sistema de routing
-│   ├── index.css                   # Estilos globales
-│   └── main.js                     # Punto de entrada
-├── index.html                      # HTML principal
-├── package.json                    # Dependencias
-├── vite.config.ts                  # Configuración de Vite
-└── tailwind.config.js              # Configuración de Tailwind
+│   │   └── Router.js               # SPA routing system
+│   ├── utils/
+│   │   ├── animations.js           # Custom animation utilities
+│   │   ├── main.js                 # Core utility functions
+│   │   └── modals.js               # Modal and dialog components
+│   ├── config/
+│   │   └── api.js                  # API configuration
+│   ├── index.css                   # Global styles and Tailwind imports
+│   └── main.js                     # Application entry point
+├── public/
+│   ├── cssLanding/                 # Landing page custom styles
+│   │   ├── main.css                # Main landing page styles
+│   │   ├── components.css          # Component-specific styles
+│   │   ├── responsive.css          # Responsive design rules
+│   │   ├── animations.css          # CSS animations and transitions
+│   │   ├── accessibility.css       # Accessibility enhancements
+│   │   ├── enhancements.css        # UI enhancements
+│   │   ├── feature-cards-fix.css   # Feature card styling
+│   │   ├── final-fixes.css         # Final styling adjustments
+│   │   └── emergency-fix.css       # Critical styling fixes
+│   └── img/                        # Image assets
+├── index.html                      # Main HTML file
+├── package.json                    # Dependencies and scripts
+├── vite.config.ts                  # Vite configuration
+├── tailwind.config.js              # Tailwind CSS configuration
+├── postcss.config.js               # PostCSS configuration
+└── tsconfig.json                   # TypeScript configuration
 ```
 
-## 🔌 API Endpoints
+## 🔌 API Integration
 
-### Stores (Tiendas)
+### Authentication Endpoints
 
-- `GET /api/stores` - Obtener todas las tiendas
-- `GET /api/stores/:nit` - Obtener tienda por NIT
-- `POST /api/stores` - Crear nueva tienda
-- `PUT /api/stores/:nit` - Actualizar tienda
-- `DELETE /api/stores/:nit` - Eliminar tienda
+- `POST /api/auth/register` - Store registration
+- `POST /api/auth/login` - User authentication
+- `POST /api/auth/logout` - Session termination
 
-### Products (Productos)
+### Store Management
 
-- `GET /api/products` - Obtener todos los productos
-- `GET /api/products/:id` - Obtener producto por ID
-- `POST /api/products` - Crear nuevo producto
-- `PUT /api/products/:id` - Actualizar producto
-- `PATCH /api/products/:id/status` - Cambiar estado de agotado/en stock
-- `DELETE /api/products/:id` - Eliminar producto
+- `GET /api/stores` - Retrieve all stores
+- `GET /api/stores/:nit` - Get store by NIT
+- `POST /api/stores` - Create new store
+- `PUT /api/stores/:nit` - Update store information
+- `DELETE /api/stores/:nit` - Remove store
 
-### Store Views/Contacts (Consultas de Tienda)
+### Product Management
 
-- `POST /api/store-views` - Registrar nueva consulta/contacto
-- `GET /api/store-views/stats/:store_id` - Obtener estadísticas de consultas por tienda
-- `GET /api/store-views/store/:store_id` - Obtener todas las consultas de una tienda
-- `GET /api/store-views/global-stats` - Obtener estadísticas globales
+- `GET /api/products` - Retrieve all products
+- `GET /api/products/:id` - Get product by ID
+- `POST /api/products` - Create new product
+- `PUT /api/products/:id` - Update product
+- `PATCH /api/products/:id/status` - Update product availability
+- `DELETE /api/products/:id` - Remove product
 
-## 📊 Formato del Archivo Excel
+### Analytics & Insights
 
-### Campos Requeridos
+- `POST /api/store-views` - Record store inquiries
+- `GET /api/store-views/stats/:store_id` - Store performance metrics
+- `GET /api/store-views/store/:store_id` - Store inquiry history
+- `GET /api/store-views/global-stats` - Platform-wide statistics
 
-- **Nombre del Producto** (texto): Nombre del producto
-- **Precio** (número): Precio sin símbolos de moneda (ej: 15000)
-- **Categoría** (texto): Una de las categorías disponibles
+## 📊 Excel Import System
 
-### Campos Opcionales
+### Required Fields
 
-- **Descripción** (texto): Descripción del producto
+- **Product Name** (text): Product identifier
+- **Price** (number): Price without currency symbols (e.g., 15000)
+- **Category** (text): Product classification
 
-### Categorías Disponibles
+### Supported Categories
 
-- Ferretería
-- Pintura
-- Electricidad
-- Plomería
-- Construcción
-- Jardinería
-- Verduras
-- Electrónica
+- Hardware & Tools
+- Paint & Coatings
+- Electrical & Electronics
+- Plumbing & Pipes
+- Construction Materials
+- Gardening & Landscaping
+- Fresh Produce
+- Technology & Gadgets
 
-### Ejemplo de Estructura
+### Import Process
 
-| Nombre del Producto  | Precio | Categoría  | Descripción                            |
-| -------------------- | ------ | ---------- | -------------------------------------- |
-| Martillo Profesional | 25000  | Ferretería | Martillo de acero con mango ergonómico |
-| Pintura Blanca 1L    | 18000  | Pintura    | Pintura acrílica de alta calidad       |
+1. **File Upload**: Drag & drop or select Excel file (.xlsx, .xls)
+2. **Data Validation**: Automatic field mapping and validation
+3. **Duplicate Handling**: Choose to update existing or skip duplicates
+4. **Bulk Processing**: Efficient import with progress tracking
+5. **Error Reporting**: Detailed feedback for failed imports
 
-**Nota**: Se incluye un archivo `sample-products.csv` en el proyecto que puedes convertir a Excel (.xlsx) para usar como plantilla.
+## 🔐 Authentication Flow
 
-### Notas Importantes
+1. **Registration**: Merchants register with store information
+2. **Verification**: Email verification and account activation
+3. **Login**: Secure authentication with JWT tokens
+4. **Session Management**: Persistent sessions with automatic renewal
+5. **Access Control**: Role-based permissions and route guards
 
-- La primera fila debe contener los nombres de las columnas (encabezados)
-- Los precios deben ser números sin símbolos de moneda
-- El archivo debe estar en formato .xlsx o .xls
-- Tamaño máximo: 10MB
-- Se incluye una plantilla descargable en la interfaz
+## 🔄 Data Flow Architecture
 
-## 🔐 Flujo de Autenticación
+### Product Creation Pipeline
 
-1. **Registro**: El comerciante se registra con datos de su tienda
-2. **Login**: Acceso con email y contraseña
-3. **Token**: Se genera un token de sesión (almacenado en localStorage)
-4. **Validación**: El token se valida en cada petición
-5. **Logout**: Se elimina el token y se redirige al login
+1. Excel file upload and parsing
+2. Data validation and sanitization
+3. Duplicate detection and handling
+4. Database insertion with store association
+5. Real-time inventory updates
 
-## 🔄 Flujo de Datos
+### Search & Discovery Engine
 
-### Creación de Productos
+1. User input processing and query optimization
+2. Multi-criteria filtering (location, category, price)
+3. Relevance scoring and result ranking
+4. Dynamic result updates and pagination
 
-1. El usuario sube un archivo Excel con productos
-2. El sistema mapea las columnas del Excel a los campos requeridos
-3. Se valida que los campos obligatorios estén presentes
-4. Se envían los productos uno por uno al endpoint `/api/products`
-5. El campo `id_store` se establece automáticamente con el `nit_store` del usuario logueado
+### Contact & Communication System
 
-### Búsqueda de Tiendas
+1. Product selection and store identification
+2. Contact method selection (WhatsApp/Email)
+3. Personalized message generation
+4. Communication tracking and analytics
 
-1. El usuario ingresa términos de búsqueda
-2. Se obtienen todas las tiendas desde `/api/stores`
-3. Se filtran client-side por nombre o tipo de tienda
-4. Se muestran los resultados con información básica
+## 🎨 UI/UX Features
 
-### Contacto con Tiendas
+### Responsive Design
 
-1. El usuario selecciona un producto o realiza una búsqueda
-2. Hace clic en "Contactar" en la tarjeta de la tienda
-3. Se abre un modal con información del producto y campo para nombre
-4. El usuario puede elegir entre WhatsApp o Email
-5. Se registra la consulta en el sistema via `POST /api/store-views`
-6. Se abre la aplicación correspondiente con mensaje personalizado
-7. Las estadísticas se muestran en el dashboard del vendedor
+- **Mobile-First**: Optimized for mobile devices
+- **Breakpoint System**: Adaptive layouts for all screen sizes
+- **Touch-Friendly**: Optimized touch interactions
 
-## 🐛 Solución de Problemas
+### Accessibility
 
-### Error de Relación de Datos
+- **WCAG 2.1 Compliance**: Level AA accessibility standards
+- **Screen Reader Support**: ARIA labels and semantic HTML
+- **Keyboard Navigation**: Full keyboard accessibility
+- **High Contrast**: Optimized color schemes
 
-Si encuentras errores relacionados con `id_store` y `nit_store`:
+### Performance
 
-- Verifica que el usuario esté correctamente autenticado
-- Confirma que `currentUser.nit_store` tenga un valor válido
-- Asegúrate de que los productos se estén creando con el `nit_store` correcto
+- **Lazy Loading**: Route-based code splitting
+- **Asset Optimization**: Compressed CSS and JavaScript
+- **Caching Strategy**: Efficient resource management
+- **Progressive Enhancement**: Core functionality without JavaScript
 
-### Problemas de Carga de Productos
+## 🚀 Development Scripts
 
-- Verifica la conexión con el backend
-- Confirma que el endpoint `/api/products` esté funcionando
-- Revisa la consola del navegador para errores de red
+```bash
+# Development
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint for code quality
+```
 
-### Errores de Excel
+## 🐛 Troubleshooting
 
-- Asegúrate de que el archivo esté en formato .xlsx o .xls
-- Verifica que la primera fila contenga los encabezados
-- Confirma que los campos obligatorios estén presentes
-- Revisa que los precios sean números sin símbolos de moneda
+### Common Issues
 
-## 📝 Scripts Disponibles
+**Navigation Problems**
 
-- `npm run dev` - Iniciar servidor de desarrollo
-- `npm run build` - Construir para producción
-- `npm run preview` - Vista previa de la build
+- Clear browser cache and localStorage
+- Check console for JavaScript errors
+- Verify route configuration in Router.js
 
-## 🤝 Contribución
+**Excel Import Issues**
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+- Ensure file format is .xlsx or .xls
+- Verify required columns are present
+- Check file size (max 10MB)
 
-## 📄 Licencia
+**Authentication Errors**
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+- Clear browser storage
+- Check network connectivity
+- Verify API endpoint availability
 
-## 📞 Soporte
+### Debug Mode
 
-Para soporte técnico o preguntas sobre el proyecto, contacta al equipo de desarrollo.
+Enable detailed logging by setting `localStorage.debug = 'true'` in browser console.
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow ESLint configuration
+- Use meaningful commit messages
+- Test on multiple devices and browsers
+- Maintain accessibility standards
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Development Team
+
+### **DevTitan** - Development Team
+
+**Lead Developer:**
+
+- **Sebastián Rodelo Clan Cienaga Riwi**
+- **CC: 1043637240**
+- **Role**: Full Stack Developer & Project Lead
+
+### **Team Members**
+
+- **DevTitan Development Team**
+- **Specialization**: Web Development, UI/UX Design, System Architecture
+
+## 🙏 Acknowledgments
+
+### **Open Source Technologies**
+
+- **Vite**: For lightning-fast build tooling and development experience
+- **Tailwind CSS**: For utility-first CSS framework and responsive design
+- **Leaflet**: For open-source mapping and geolocation capabilities
+- **Bootstrap**: For component library and responsive grid system
+- **FontAwesome**: For comprehensive icon library and visual elements
+
+### **Development Tools**
+
+- **TypeScript**: For enhanced development experience and type safety
+- **ESLint**: For code quality and consistency
+- **PostCSS**: For CSS processing and optimization
+- **Node.js**: For JavaScript runtime and package management
+
+### **Community & Resources**
+
+- **MDN Web Docs**: For web standards and best practices
+- **CSS-Tricks**: For advanced CSS techniques and solutions
+- **Stack Overflow**: For community-driven problem solving
+- **GitHub**: For version control and collaboration tools
+
+## 📞 Support & Contact
+
+For technical support, feature requests, or collaboration opportunities:
+
+- **Email**: [Your Email]
+- **GitHub**: [Your GitHub Profile]
+- **LinkedIn**: [Your LinkedIn Profile]
+- **Portfolio**: [Your Portfolio Website]
+
+---
+
+**NearMe** - Connecting consumers with local businesses through advanced technology and intuitive design.
+
+_Built with ❤️ by the DevTitan team_
