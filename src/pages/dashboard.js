@@ -727,6 +727,7 @@ export default class DashboardPage {
               price: parseFloat(productData.price),
               category: productData.category,
               id_store: window.app.authManager.currentUser.nit_store, // Use nit_store as reference
+              product_description: productData.product_description || "", // Add description field
               sold_out: productData.sold_out === "true", // Convert string to boolean
             };
 
@@ -768,6 +769,7 @@ export default class DashboardPage {
             price: price,
             category: product.category,
             id_store: product.id_store,
+            product_description: product.product_description || "", // Add description field
             sold_out: product.sold_out,
           });
 
@@ -790,6 +792,7 @@ export default class DashboardPage {
           price: product.price,
           category: product.category,
           id_store: product.id_store,
+          product_description: product.product_description || "", // Add description field
           sold_out: soldOut,
         });
 

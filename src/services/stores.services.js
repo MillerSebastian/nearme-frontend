@@ -5,6 +5,44 @@ class StoresService {
     // API URL will be loaded from config
   }
 
+  // Get all stores
+  async getAllStores() {
+    try {
+      const response = await fetch(getApiUrl("/stores"), {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error(`Error loading stores: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error loading stores:", error);
+      throw error;
+    }
+  }
+
+  // Get store by NIT
+  async getStoreByNit(nitStore) {
+    try {
+      const response = await fetch(getApiUrl(`/stores/${nitStore}`), {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error(`Error loading store: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error loading store:", error);
+      throw error;
+    }
+  }
+
   // Update store information
   async updateStore(nitStore, storeData) {
     try {

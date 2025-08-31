@@ -1,8 +1,8 @@
 // API Configuration
 export const API_CONFIG = {
   // Base URL for the API
-  BASE_URL: process.env.VITE_API_URL || "http://localhost:3000/api",
-  baseUrl: process.env.VITE_API_URL || "http://localhost:3000/api", // For backward compatibility
+  BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
+  baseUrl: import.meta.env.VITE_API_URL || "http://localhost:3000/api", // For backward compatibility
 
   // API endpoints
   ENDPOINTS: {
@@ -19,6 +19,10 @@ export const API_CONFIG = {
     // Products
     PRODUCTS: "/products",
     PRODUCT: (id) => `/products/${id}`,
+
+    // Store management
+    STORE_BY_NIT: (nit) => `/stores/${nit}`,
+    STORE_VIEWS_COUNT: (nit) => `/stores/${nit}/views`,
   },
 
   endpoints: {

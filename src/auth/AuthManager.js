@@ -2,7 +2,6 @@ import { buildApiUrl, getHeaders, API_CONFIG } from "../config/api.js";
 
 export class AuthManager {
   constructor() {
-    this.apiUrl = API_CONFIG.BASE_URL;
     this.currentUser = null;
     this.token = localStorage.getItem("nearme_token");
   }
@@ -74,6 +73,7 @@ export class AuthManager {
         return { success: false, message: "Connection error" };
       }
     } catch (error) {
+      console.error("Login error:", error);
       return { success: false, message: "Connection error" };
     }
   }

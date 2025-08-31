@@ -1,5 +1,6 @@
+import "./index.css";
 import { AuthManager } from "./auth/AuthManager.js";
-import Router from "./router/Router.js";
+import { Router } from "./router/Router.js";
 
 // Initialize the application
 class App {

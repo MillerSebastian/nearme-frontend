@@ -45,7 +45,7 @@ class AuthService {
   // Register store
   async registerStore(storeData) {
     try {
-      const response = await fetch(getApiUrl("/stores/register"), {
+      const response = await fetch(getApiUrl("/stores"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

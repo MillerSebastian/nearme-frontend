@@ -593,12 +593,14 @@ export class ExcelUpload {
             price: parseFloat(product.price) || 0,
             category: product.category || "Other",
             id_store: nit_store, // Use nit_store as reference
+            product_description: product.product_description || "", // Add description field
             sold_out: false, // Default in stock
           };
 
           await this.productsService.addProduct(productPayload);
           successCount++;
         } catch (error) {
+          console.error("Error adding product:", error);
           errorCount++;
         }
       }
