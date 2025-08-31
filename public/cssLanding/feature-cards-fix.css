@@ -1,0 +1,50 @@
+/* ===================================
+   FEATURE CARDS FIX - ARREGLO DE CONTRASTE
+   =================================== */
+
+/* Forzar mejor contraste en hover de feature cards */
+.feature-card:hover h4 {
+    color: #fff !important;
+    font-weight: 800 !important;
+}
+
+.feature-card:hover p {
+    color: #fff !important;
+    font-weight: 500 !important;
+}
+
+/* Mejorar el fondo de las cards en hover */
+.feature-card:hover {
+    background: var(--bg-dark) !important;
+    border-color: #2563eb !important;
+    box-shadow: 
+        0 25px 50px rgba(37, 99, 235, 0.15),
+        0 10px 20px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(37, 99, 235, 0.1),
+        0 0 30px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Mejorar el contraste del enlace "Saber más" */
+.feature-card:hover .learn-more {
+    color: #1d4ed8 !important;
+    font-weight: 700 !important;
+}
+
+.feature-card:hover .learn-more::after {
+    background: linear-gradient(90deg, #1d4ed8, #1e40af) !important;
+}
+
+/* Asegurar que el texto sea legible */
+.feature-card h4,
+.feature-card p,
+.feature-card .learn-more {
+    position: relative;
+    z-index: 10 !important;
+}
+
+/* Mejorar el contraste del icono */
+.feature-card:hover .feature-icon {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4) !important;
+    color: #ffffff !important;
+} 
