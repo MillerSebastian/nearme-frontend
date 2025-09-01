@@ -318,6 +318,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **CC: 1043637240**
 - **Role**: Full Stack Developer & Project Lead
 
+**Frontend Developer:**
+
+- **Jonathan Lopez Clan Cienaga Riwi**
+- **CC: 1065854138**
+- **Role**: Frontend developer 
+
 ### **Team Members**
 
 - **DevTitan Development Team**
