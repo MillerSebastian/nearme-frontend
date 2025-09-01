@@ -80,9 +80,21 @@
   background: #374151;
 }
 
+.leaflet-routing-icon{
+  background-color: #fff;
+  border-radius: 10px;
+}
+
 .leaflet-popup-content-wrapper {
   background: #1f2937;
   color: #fff;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.leaflet-routing-container{
+  background: #1f2937;
+  color: #ffffff;
   border-radius: 8px;
 }
 
