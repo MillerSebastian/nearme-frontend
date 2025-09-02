@@ -1,17 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="description"
+      content="NearMe - Encuentra productos y tiendas cercanas. Conecta con comerciantes locales y descubre ofertas en tu área."
+    />
+    <meta
+      name="keywords"
+      content="tiendas, productos, comercio local, ofertas, cerca, ubicación"
+    />
+    <meta name="author" content="Sebastian Rodelo - DevTitan" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nearme-app.railway.app/" />
+    <meta
+      property="og:title"
+      content="NearMe - Encuentra productos y tiendas cercanas"
+    />
+    <meta
+      property="og:description"
+      content="Conecta con comerciantes locales y descubre ofertas en tu área. NearMe te ayuda a encontrar lo que necesitas cerca de ti."
+    />
+    <meta property="og:image" content="/img/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://nearme-app.railway.app/" />
+    <meta
+      property="twitter:title"
+      content="NearMe - Encuentra productos y tiendas cercanas"
+    />
+    <meta
+      property="twitter:description"
+      content="Conecta con comerciantes locales y descubre ofertas en tu área."
+    />
+    <meta property="twitter:image" content="/img/og-image.png" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="NearMe" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="NearMe" />
+
+    <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NearMe - Busca productos y encuentra tiendas cercanas</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <title>NearMe - Encuentra productos y tiendas cercanas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- FontAwesome Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class="bg-slate-900 text-white font-sans">
     <div id="root"></div>
     <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script type="module" src="/src/main.js"></script>
   </body>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+  <!-- FontAwesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </html>
