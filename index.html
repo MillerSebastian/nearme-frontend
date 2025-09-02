@@ -84,9 +84,42 @@
     />
   </head>
   <body class="bg-slate-900 text-white font-sans">
-    <div id="root"></div>
+    <div id="root">
+      <div style="padding: 20px; text-align: center;">
+        <h1>🔄 Cargando NearMe...</h1>
+        <p>Si ves esto por más de 5 segundos, hay un problema con la aplicación.</p>
+        <div id="debug-info" style="margin-top: 20px; font-size: 12px; color: #64748b;"></div>
+      </div>
+    </div>
     <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      // Debug script
+      console.log('Index.html loaded');
+      console.log('Root element:', document.getElementById('root'));
+      console.log('Document ready state:', document.readyState);
+      
+      // Show debug info
+      const debugInfo = document.getElementById('debug-info');
+      if (debugInfo) {
+        debugInfo.innerHTML = `
+          <p>Ready State: ${document.readyState}</p>
+          <p>Scripts loaded: ${document.querySelectorAll('script').length}</p>
+          <p>Time: ${new Date().toLocaleTimeString()}</p>
+        `;
+      }
+      
+      // Check if app loads
+      setTimeout(() => {
+        if (window.app) {
+          console.log('App loaded successfully');
+          debugInfo.innerHTML += '<p style="color: green;">✅ App loaded</p>';
+        } else {
+          console.error('App failed to load');
+          debugInfo.innerHTML += '<p style="color: red;">❌ App failed to load</p>';
+        }
+      }, 3000);
+    </script>
   </body>
 
   <!-- Bootstrap 5 JS -->

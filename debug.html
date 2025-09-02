@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - NearMe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            padding: 20px;
+        }
+        .debug-info {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .error {
+            background: #dc2626;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #059669;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug - NearMe Application</h1>
+    
+    <div class="debug-info">
+        <h2>Información del Navegador</h2>
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+        <p><strong>URL:</strong> <span id="currentUrl"></span></p>
+        <p><strong>Protocolo:</strong> <span id="protocol"></span></p>
+    </div>
+
+    <div class="debug-info">
+        <h2>Verificación de Elementos</h2>
+        <p><strong>Elemento #root:</strong> <span id="rootStatus"></span></p>
+        <p><strong>Scripts cargados:</strong> <span id="scriptsStatus"></span></p>
+    </div>
+
+    <div class="debug-info">
+        <h2>Console Logs</h2>
+        <div id="consoleLogs"></div>
+    </div>
+
+    <div class="debug-info">
+        <h2>Acciones de Debug</h2>
+        <button onclick="testRouter()">Probar Router</button>
+        <button onclick="testLanding()">Probar Landing Page</button>
+        <button onclick="clearConsole()">Limpiar Console</button>
+    </div>
+
+    <script>
+        // Capturar información del navegador
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+
+        // Verificar elementos
+        const rootElement = document.getElementById('root');
+        document.getElementById('rootStatus').textContent = rootElement ? '✅ Encontrado' : '❌ No encontrado';
+
+        // Verificar scripts
+        const scripts = document.querySelectorAll('script[src]');
+        document.getElementById('scriptsStatus').textContent = scripts.length > 0 ? `✅ ${scripts.length} scripts encontrados` : '❌ No se encontraron scripts';
+
+        // Capturar console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const logsContainer = document.getElementById('consoleLogs');
+
+        function addLog(message, type = 'log') {
+            const logElement = document.createElement('div');
+            logElement.className = type;
+            logElement.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsContainer.appendChild(logElement);
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'success');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        // Funciones de test
+        function testRouter() {
+            console.log('Testing router...');
+            if (window.app && window.app.router) {
+                console.log('Router encontrado:', window.app.router);
+                window.app.router.navigate('/');
+            } else {
+                console.error('Router no encontrado en window.app');
+            }
+        }
+
+        function testLanding() {
+            console.log('Testing landing page...');
+            try {
+                const root = document.getElementById('root');
+                if (root) {
+                    root.innerHTML = '<h1>Test Landing Page</h1><p>Si ves esto, el elemento root funciona.</p>';
+                    console.log('Landing page test completado');
+                } else {
+                    console.error('Elemento root no encontrado');
+                }
+            } catch (error) {
+                console.error('Error en test de landing:', error);
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('consoleLogs').innerHTML = '';
+        }
+
+        // Auto-test al cargar
+        window.addEventListener('load', function() {
+            console.log('Debug page loaded');
+            console.log('Testing app initialization...');
+            
+            setTimeout(() => {
+                if (window.app) {
+                    console.log('App object found:', window.app);
+                } else {
+                    console.error('App object not found');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
