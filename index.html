@@ -85,18 +85,35 @@
   </head>
   <body class="bg-slate-900 text-white font-sans">
     <div id="root">
-      <div style="padding: 20px; text-align: center; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+      <div
+        style="
+          padding: 20px;
+          text-align: center;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        "
+      >
         <h1>🔄 Cargando NearMe...</h1>
-        <p>Si ves esto por más de 5 segundos, hay un problema con la aplicación.</p>
-        <div id="debug-info" style="margin-top: 20px; font-size: 12px; color: #64748b;"></div>
-        <div id="error-info" style="margin-top: 20px; font-size: 14px; color: #ef4444;"></div>
+        <p>
+          Si ves esto por más de 5 segundos, hay un problema con la aplicación.
+        </p>
+        <div
+          id="debug-info"
+          style="margin-top: 20px; font-size: 12px; color: #64748b"
+        ></div>
+        <div
+          id="error-info"
+          style="margin-top: 20px; font-size: 14px; color: #ef4444"
+        ></div>
       </div>
     </div>
-    
+
     <!-- Scripts -->
     <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script type="module" src="/src/main.js"></script>
-    
+
     <!-- Debug Script -->
     <script>
       console.log("🚀 Index.html loaded");
@@ -107,18 +124,20 @@
       // Show debug info
       const debugInfo = document.getElementById("debug-info");
       const errorInfo = document.getElementById("error-info");
-      
+
       if (debugInfo) {
         debugInfo.innerHTML = `
           <p><strong>Ready State:</strong> ${document.readyState}</p>
-          <p><strong>Scripts loaded:</strong> ${document.querySelectorAll("script").length}</p>
+          <p><strong>Scripts loaded:</strong> ${
+            document.querySelectorAll("script").length
+          }</p>
           <p><strong>Time:</strong> ${new Date().toLocaleTimeString()}</p>
           <p><strong>URL:</strong> ${window.location.href}</p>
         `;
       }
 
       // Check for errors
-      window.addEventListener('error', function(e) {
+      window.addEventListener("error", function (e) {
         console.error("❌ Global error:", e.error);
         if (errorInfo) {
           errorInfo.innerHTML += `<p>❌ Error: ${e.message}</p>`;
@@ -131,12 +150,14 @@
         if (window.app) {
           console.log("✅ App loaded successfully:", window.app);
           if (debugInfo) {
-            debugInfo.innerHTML += '<p style="color: #10b981;">✅ App loaded successfully</p>';
+            debugInfo.innerHTML +=
+              '<p style="color: #10b981;">✅ App loaded successfully</p>';
           }
         } else {
           console.error("❌ App failed to load");
           if (errorInfo) {
-            errorInfo.innerHTML = '<p>❌ App failed to load - Check console for errors</p>';
+            errorInfo.innerHTML =
+              "<p>❌ App failed to load - Check console for errors</p>";
           }
         }
       }, 3000);
@@ -146,7 +167,8 @@
         if (!window.app) {
           console.error("❌ App still not loaded after 10 seconds");
           if (errorInfo) {
-            errorInfo.innerHTML += '<p>❌ App still not loaded after 10 seconds</p>';
+            errorInfo.innerHTML +=
+              "<p>❌ App still not loaded after 10 seconds</p>";
           }
         }
       }, 10000);
