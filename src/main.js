@@ -68,6 +68,16 @@ class App {
 
 // Start the application when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM Content Loaded - Starting NearMe App");
   const app = new App();
   app.init();
 });
+
+// Fallback initialization if DOMContentLoaded already fired
+if (document.readyState === "loading") {
+  console.log("Document still loading - waiting for DOMContentLoaded");
+} else {
+  console.log("Document already loaded - starting app immediately");
+  const app = new App();
+  app.init();
+}
