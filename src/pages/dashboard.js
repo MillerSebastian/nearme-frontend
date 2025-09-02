@@ -8,7 +8,10 @@ import StoreViewsService from "../services/store-views.service.js";
 export default class DashboardPage {
   constructor() {
     this.products = [];
+    this.filteredProducts = [];
     this.currentView = "overview";
+    this.searchQuery = "";
+    this.selectedCategory = "";
 
     // Initialize services
     this.productsService = new ProductsService();
@@ -317,9 +320,9 @@ export default class DashboardPage {
                 <option value="verduras">Vegetables</option>
                 <option value="Electrónica">Electronics</option>
               </select>
-              <button class="btn-outline">
+              <button class="btn-outline" id="clear-filters-btn">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
@@ -714,6 +717,7 @@ export default class DashboardPage {
     // Bind view-specific events based on current view
     if (this.currentView === "products") {
       this.bindProductEvents();
+      this.bindProductSearchAndFilters();
     } else if (this.currentView === "store") {
       this.bindStoreEvents();
     }
@@ -728,6 +732,11 @@ export default class DashboardPage {
     const closeModal = document.getElementById("close-modal");
     const cancelBtn = document.getElementById("cancel-add-product");
     const addProductForm = document.getElementById("add-product-form");
+
+    // Search and filter elements
+    const productSearch = document.getElementById("product-search");
+    const categoryFilter = document.getElementById("category-filter");
+    const clearFiltersBtn = document.getElementById("clear-filters-btn");
 
     if (addProductBtn && addProductModal) {
       addProductBtn.addEventListener("click", () => {
@@ -935,6 +944,7 @@ export default class DashboardPage {
         content.innerHTML = this.renderProducts();
         this.loadProducts(); // Load products asynchronously
         this.bindProductEvents();
+        this.bindProductSearchAndFilters();
         break;
       case "store":
         content.innerHTML = this.renderStore();
@@ -957,6 +967,9 @@ export default class DashboardPage {
             product.id_store === window.app.authManager.currentUser.nit_store
         ) || [];
 
+      // Initialize filtered products with all products
+      this.filteredProducts = [...this.products];
+
       console.log("Products filtered for store:", this.products);
       console.log(
         "Current store NIT:",
@@ -968,13 +981,22 @@ export default class DashboardPage {
     } catch (error) {
       console.error("Error loading products:", error);
       this.products = [];
+      this.filteredProducts = [];
     }
 
     // Update table with loaded products
+    this.renderProductsTable();
+  }
+
+  /**
+   * Render products table with filtered products
+   */
+  renderProductsTable() {
     const tableBody = document.getElementById("products-table-body");
     if (tableBody) {
       tableBody.innerHTML = this.renderProductRows();
     }
+    this.updateProductsCounter();
   }
 
   updateDashboardStats() {
@@ -988,17 +1010,27 @@ export default class DashboardPage {
   }
 
   renderProductRows() {
-    if (this.products.length === 0) {
-      return `
-        <tr>
-          <td colspan="5" class="px-6 py-8 text-center text-slate-400">
-            No hay productos registrados
-          </td>
-        </tr>
-      `;
+    if (this.filteredProducts.length === 0) {
+      if (this.products.length === 0) {
+        return `
+          <tr>
+            <td colspan="5" class="px-6 py-8 text-center text-slate-400">
+              No hay productos registrados
+            </td>
+          </tr>
+        `;
+      } else {
+        return `
+          <tr>
+            <td colspan="5" class="px-6 py-8 text-center text-slate-400">
+              No se encontraron productos que coincidan con los filtros
+            </td>
+          </tr>
+        `;
+      }
     }
 
-    return this.products
+    return this.filteredProducts
       .map(
         (product) => `
       <tr class="hover:bg-slate-750">
@@ -1057,6 +1089,105 @@ export default class DashboardPage {
     `
       )
       .join("");
+  }
+
+  /**
+   * Bind search and filter events for products
+   */
+  bindProductSearchAndFilters() {
+    const productSearch = document.getElementById("product-search");
+    const categoryFilter = document.getElementById("category-filter");
+    const clearFiltersBtn = document.getElementById("clear-filters-btn");
+
+    // Search functionality
+    if (productSearch) {
+      productSearch.addEventListener("input", (e) => {
+        this.searchQuery = e.target.value.toLowerCase().trim();
+        this.applyFilters();
+      });
+    }
+
+    // Category filter functionality
+    if (categoryFilter) {
+      categoryFilter.addEventListener("change", (e) => {
+        this.selectedCategory = e.target.value;
+        this.applyFilters();
+      });
+    }
+
+    // Clear filters functionality
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener("click", () => {
+        this.clearFilters();
+      });
+    }
+  }
+
+  /**
+   * Apply search and category filters to products
+   */
+  applyFilters() {
+    this.filteredProducts = this.products.filter((product) => {
+      // Search filter
+      const matchesSearch =
+        !this.searchQuery ||
+        product.product_name.toLowerCase().includes(this.searchQuery) ||
+        product.category.toLowerCase().includes(this.searchQuery) ||
+        (product.product_description &&
+          product.product_description.toLowerCase().includes(this.searchQuery));
+
+      // Category filter
+      const matchesCategory =
+        !this.selectedCategory || product.category === this.selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+
+    this.renderProductsTable();
+    this.updateProductsCounter();
+  }
+
+  /**
+   * Clear all filters and reset to show all products
+   */
+  clearFilters() {
+    this.searchQuery = "";
+    this.selectedCategory = "";
+
+    // Reset form elements
+    const productSearch = document.getElementById("product-search");
+    const categoryFilter = document.getElementById("category-filter");
+
+    if (productSearch) productSearch.value = "";
+    if (categoryFilter) categoryFilter.value = "";
+
+    // Reset filtered products to show all
+    this.filteredProducts = [...this.products];
+    this.renderProductsTable();
+    this.updateProductsCounter();
+
+    this.showNotification("Filters cleared", "info");
+  }
+
+  /**
+   * Update products counter to show filtered count
+   */
+  updateProductsCounter() {
+    const productsCountElement = document.querySelector(
+      '[data-stat="products"]'
+    );
+    if (productsCountElement) {
+      const totalProducts = this.products.length;
+      const filteredCount = this.filteredProducts.length;
+
+      if (filteredCount < totalProducts) {
+        productsCountElement.textContent = `${filteredCount} / ${totalProducts}`;
+        productsCountElement.title = `Showing ${filteredCount} of ${totalProducts} products`;
+      } else {
+        productsCountElement.textContent = totalProducts;
+        productsCountElement.title = `${totalProducts} products`;
+      }
+    }
   }
 
   bindStoreEvents() {
