@@ -1,15 +1,24 @@
 import { Header } from "../components/Header.js";
+import { RecentActivity } from "../components/RecentActivity.js";
 import ProductsService from "../services/products.services.js";
 import StoresService from "../services/stores.services.js";
+import ActivitiesService from "../services/activities.service.js";
+import StoreViewsService from "../services/store-views.service.js";
 
 export default class DashboardPage {
   constructor() {
     this.products = [];
+    this.filteredProducts = [];
     this.currentView = "overview";
+    this.searchQuery = "";
+    this.selectedCategory = "";
 
     // Initialize services
     this.productsService = new ProductsService();
     this.storesService = new StoresService();
+    this.activitiesService = new ActivitiesService();
+    this.storeViewsService = new StoreViewsService();
+    this.recentActivity = null;
 
     // Get API URL from AuthManager if available
     this.apiUrl =
@@ -66,6 +75,9 @@ export default class DashboardPage {
 
     // Load products after rendering
     this.loadProducts();
+
+    // Initialize recent activity component
+    this.initializeRecentActivity();
   }
 
   renderOverview() {
@@ -86,6 +98,15 @@ export default class DashboardPage {
       const viewsElement = document.querySelector('[data-stat="views"]');
       if (viewsElement) {
         viewsElement.textContent = views.toLocaleString();
+      }
+    });
+
+    // Load real contact queries
+    this.loadContactQueries().then((queries) => {
+      stats.queries = queries;
+      const queriesElement = document.querySelector('[data-stat="queries"]');
+      if (queriesElement) {
+        queriesElement.textContent = queries.toLocaleString();
       }
     });
 
@@ -131,7 +152,9 @@ export default class DashboardPage {
               </svg>
             </div>
             <div class="ml-4">
-              <h3 class="text-2xl font-bold text-white">${stats.queries}</h3>
+              <h3 class="text-2xl font-bold text-white" data-stat="queries">${
+                stats.queries
+              }</h3>
               <p class="text-slate-400 text-sm">Queries</p>
             </div>
           </div>
@@ -155,18 +178,7 @@ export default class DashboardPage {
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Recent Activity -->
         <div class="lg:col-span-2">
-          <div class="card">
-            <div class="flex items-center justify-between mb-6">
-              <h3 class="text-lg font-medium text-white">Recent Activity</h3>
-              <button class="text-blue-400 hover:text-blue-300 text-sm">View all</button>
-            </div>
-            
-            <div id="recent-activity" class="space-y-4">
-              <div class="text-center py-8">
-                <p class="text-slate-400">No recent activity</p>
-              </div>
-            </div>
-          </div>
+          <div id="recent-activity-container"></div>
         </div>
 
         <!-- Quick Actions -->
@@ -189,12 +201,12 @@ export default class DashboardPage {
                 Add Product
               </button>
               
-              <button class="w-full btn-outline">
+              <a href="#/statistics" data-route="/statistics" class="w-full btn-outline text-center block">
                 <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 View Statistics
-              </button>
+              </a>
             </div>
           </div>
 
@@ -219,16 +231,43 @@ export default class DashboardPage {
     `;
   }
 
-  async loadRecentActivity() {
-    // For now we show a simple message
-    // In the future you could have a specific endpoint for activity
-    const activityContainer = document.getElementById("recent-activity");
-    if (activityContainer) {
-      activityContainer.innerHTML = `
-        <div class="text-center py-8">
-          <p class="text-slate-400">No recent activity</p>
-        </div>
-      `;
+  /**
+   * Initialize the recent activity component
+   */
+  initializeRecentActivity() {
+    const user = window.app.authManager.currentUser;
+    if (!user || !user.nit_store) {
+      console.warn("No user or store ID available for recent activity");
+      return;
+    }
+
+    const container = document.getElementById("recent-activity-container");
+    if (container) {
+      this.recentActivity = new RecentActivity(user.nit_store);
+      this.recentActivity.render(container);
+    }
+  }
+
+  /**
+   * Log activity when user performs actions
+   * @param {string} activityType - Type of activity
+   * @param {string} description - Activity description
+   * @param {Object} metadata - Additional metadata
+   */
+  async logActivity(activityType, description, metadata = {}) {
+    try {
+      await this.activitiesService.logCommonActivity(
+        activityType,
+        description,
+        metadata
+      );
+
+      // Refresh recent activity if component is initialized
+      if (this.recentActivity) {
+        this.recentActivity.refresh();
+      }
+    } catch (error) {
+      console.error("Failed to log activity:", error);
     }
   }
 
@@ -281,9 +320,9 @@ export default class DashboardPage {
                 <option value="verduras">Vegetables</option>
                 <option value="Electrónica">Electronics</option>
               </select>
-              <button class="btn-outline">
+              <button class="btn-outline" id="clear-filters-btn">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
@@ -326,7 +365,7 @@ export default class DashboardPage {
         </div>
 
         <!-- Add Product Modal -->
-        <div id="add-product-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div id="add-product-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4 hidden">
           <div class="card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-xl font-bold text-white">Add Product</h3>
@@ -678,6 +717,7 @@ export default class DashboardPage {
     // Bind view-specific events based on current view
     if (this.currentView === "products") {
       this.bindProductEvents();
+      this.bindProductSearchAndFilters();
     } else if (this.currentView === "store") {
       this.bindStoreEvents();
     }
@@ -693,15 +733,22 @@ export default class DashboardPage {
     const cancelBtn = document.getElementById("cancel-add-product");
     const addProductForm = document.getElementById("add-product-form");
 
+    // Search and filter elements
+    const productSearch = document.getElementById("product-search");
+    const categoryFilter = document.getElementById("category-filter");
+    const clearFiltersBtn = document.getElementById("clear-filters-btn");
+
     if (addProductBtn && addProductModal) {
       addProductBtn.addEventListener("click", () => {
         addProductModal.classList.remove("hidden");
+        addProductModal.classList.add("flex");
       });
 
       [closeModal, cancelBtn].forEach((btn) => {
         if (btn) {
           btn.addEventListener("click", () => {
             addProductModal.classList.add("hidden");
+            addProductModal.classList.remove("flex");
           });
         }
       });
@@ -710,6 +757,7 @@ export default class DashboardPage {
       addProductModal.addEventListener("click", (e) => {
         if (e.target === addProductModal) {
           addProductModal.classList.add("hidden");
+          addProductModal.classList.remove("flex");
         }
       });
 
@@ -734,7 +782,19 @@ export default class DashboardPage {
             await this.productsService.addProduct(productPayload);
             this.showNotification("Product added successfully", "success");
             addProductModal.classList.add("hidden");
+            addProductModal.classList.remove("flex");
             addProductForm.reset();
+
+            // Log activity
+            await this.logActivity(
+              "product_added",
+              `Product "${productData.product_name}" was added`,
+              {
+                product_name: productData.product_name,
+                price: productData.price,
+                category: productData.category,
+              }
+            );
 
             // Reload products list
             await this.loadProducts();
@@ -747,8 +807,55 @@ export default class DashboardPage {
 
     // Agregar funciones globales para editar y eliminar productos
     window.editProductPrice = async (productId, productName, currentPrice) => {
+<<<<<<< HEAD
       // Crear y mostrar modal para editar precio
       this.showEditPriceModal(productId, productName, currentPrice);
+=======
+      const newPrice = prompt(
+        `Editar precio de "${productName}"\nPrecio actual: $${currentPrice}\nNuevo precio:`,
+        currentPrice
+      );
+
+      if (newPrice !== null && newPrice !== "") {
+        const price = parseFloat(newPrice);
+        if (isNaN(price) || price < 0) {
+          this.showNotification("Invalid price", "error");
+          return;
+        }
+
+        try {
+          // Get current product data
+          const product = await this.productsService.getProductById(productId);
+
+          // Update only the price
+          await this.productsService.updateProduct(productId, {
+            product_name: product.product_name,
+            price: price,
+            category: product.category,
+            id_store: product.id_store,
+            product_description: product.product_description || "", // Add description field
+            sold_out: product.sold_out,
+          });
+
+          this.showNotification("Price updated successfully", "success");
+
+          // Log activity
+          await this.logActivity(
+            "product_updated",
+            `Price updated for product "${productName}"`,
+            {
+              product_name: productName,
+              old_price: currentPrice,
+              new_price: price,
+            }
+          );
+
+          await this.loadProducts();
+        } catch (error) {
+          this.showNotification(error.message || "Connection error", "error");
+        }
+      }
+>>>>>>> e5b1abf104c486d8ef472007269083c47b57c1d3
     };
 
     window.toggleProductStatus = async (productId, soldOut) => {
@@ -772,6 +879,17 @@ export default class DashboardPage {
           }`,
           "success"
         );
+
+        // Log activity
+        await this.logActivity(
+          "product_updated",
+          `Product status changed to ${soldOut ? "out of stock" : "in stock"}`,
+          {
+            product_id: productId,
+            sold_out: soldOut,
+          }
+        );
+
         await this.loadProducts();
       } catch (error) {
         this.showNotification(error.message || "Connection error", "error");
@@ -782,8 +900,22 @@ export default class DashboardPage {
     window.deleteProduct = async (productId) => {
       if (confirm("Are you sure you want to delete this product?")) {
         try {
+          // Get product info before deleting for logging
+          const product = await this.productsService.getProductById(productId);
+
           await this.productsService.deleteProduct(productId);
           this.showNotification("Product deleted successfully", "success");
+
+          // Log activity
+          await this.logActivity(
+            "product_deleted",
+            `Product "${product.product_name}" was deleted`,
+            {
+              product_name: product.product_name,
+              product_id: productId,
+            }
+          );
+
           // Reload products list
           await this.loadProducts();
         } catch (error) {
@@ -817,6 +949,7 @@ export default class DashboardPage {
         content.innerHTML = this.renderProducts();
         this.loadProducts(); // Load products asynchronously
         this.bindProductEvents();
+        this.bindProductSearchAndFilters();
         break;
       case "store":
         content.innerHTML = this.renderStore();
@@ -839,6 +972,9 @@ export default class DashboardPage {
             product.id_store === window.app.authManager.currentUser.nit_store
         ) || [];
 
+      // Initialize filtered products with all products
+      this.filteredProducts = [...this.products];
+
       console.log("Products filtered for store:", this.products);
       console.log(
         "Current store NIT:",
@@ -850,13 +986,22 @@ export default class DashboardPage {
     } catch (error) {
       console.error("Error loading products:", error);
       this.products = [];
+      this.filteredProducts = [];
     }
 
     // Update table with loaded products
+    this.renderProductsTable();
+  }
+
+  /**
+   * Render products table with filtered products
+   */
+  renderProductsTable() {
     const tableBody = document.getElementById("products-table-body");
     if (tableBody) {
       tableBody.innerHTML = this.renderProductRows();
     }
+    this.updateProductsCounter();
   }
 
   updateDashboardStats() {
@@ -870,17 +1015,27 @@ export default class DashboardPage {
   }
 
   renderProductRows() {
-    if (this.products.length === 0) {
-      return `
-        <tr>
-          <td colspan="5" class="px-6 py-8 text-center text-slate-400">
-            No hay productos registrados
-          </td>
-        </tr>
-      `;
+    if (this.filteredProducts.length === 0) {
+      if (this.products.length === 0) {
+        return `
+          <tr>
+            <td colspan="5" class="px-6 py-8 text-center text-slate-400">
+              No hay productos registrados
+            </td>
+          </tr>
+        `;
+      } else {
+        return `
+          <tr>
+            <td colspan="5" class="px-6 py-8 text-center text-slate-400">
+              No se encontraron productos que coincidan con los filtros
+            </td>
+          </tr>
+        `;
+      }
     }
 
-    return this.products
+    return this.filteredProducts
       .map(
         (product) => `
       <tr class="hover:bg-slate-750">
@@ -941,6 +1096,105 @@ export default class DashboardPage {
       .join("");
   }
 
+  /**
+   * Bind search and filter events for products
+   */
+  bindProductSearchAndFilters() {
+    const productSearch = document.getElementById("product-search");
+    const categoryFilter = document.getElementById("category-filter");
+    const clearFiltersBtn = document.getElementById("clear-filters-btn");
+
+    // Search functionality
+    if (productSearch) {
+      productSearch.addEventListener("input", (e) => {
+        this.searchQuery = e.target.value.toLowerCase().trim();
+        this.applyFilters();
+      });
+    }
+
+    // Category filter functionality
+    if (categoryFilter) {
+      categoryFilter.addEventListener("change", (e) => {
+        this.selectedCategory = e.target.value;
+        this.applyFilters();
+      });
+    }
+
+    // Clear filters functionality
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener("click", () => {
+        this.clearFilters();
+      });
+    }
+  }
+
+  /**
+   * Apply search and category filters to products
+   */
+  applyFilters() {
+    this.filteredProducts = this.products.filter((product) => {
+      // Search filter
+      const matchesSearch =
+        !this.searchQuery ||
+        product.product_name.toLowerCase().includes(this.searchQuery) ||
+        product.category.toLowerCase().includes(this.searchQuery) ||
+        (product.product_description &&
+          product.product_description.toLowerCase().includes(this.searchQuery));
+
+      // Category filter
+      const matchesCategory =
+        !this.selectedCategory || product.category === this.selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+
+    this.renderProductsTable();
+    this.updateProductsCounter();
+  }
+
+  /**
+   * Clear all filters and reset to show all products
+   */
+  clearFilters() {
+    this.searchQuery = "";
+    this.selectedCategory = "";
+
+    // Reset form elements
+    const productSearch = document.getElementById("product-search");
+    const categoryFilter = document.getElementById("category-filter");
+
+    if (productSearch) productSearch.value = "";
+    if (categoryFilter) categoryFilter.value = "";
+
+    // Reset filtered products to show all
+    this.filteredProducts = [...this.products];
+    this.renderProductsTable();
+    this.updateProductsCounter();
+
+    this.showNotification("Filters cleared", "info");
+  }
+
+  /**
+   * Update products counter to show filtered count
+   */
+  updateProductsCounter() {
+    const productsCountElement = document.querySelector(
+      '[data-stat="products"]'
+    );
+    if (productsCountElement) {
+      const totalProducts = this.products.length;
+      const filteredCount = this.filteredProducts.length;
+
+      if (filteredCount < totalProducts) {
+        productsCountElement.textContent = `${filteredCount} / ${totalProducts}`;
+        productsCountElement.title = `Showing ${filteredCount} of ${totalProducts} products`;
+      } else {
+        productsCountElement.textContent = totalProducts;
+        productsCountElement.title = `${totalProducts} products`;
+      }
+    }
+  }
+
   bindStoreEvents() {
     const storeForm = document.getElementById("store-form");
 
@@ -981,6 +1235,15 @@ export default class DashboardPage {
           this.showNotification(
             "Store information updated successfully",
             "success"
+          );
+
+          // Log activity
+          await this.logActivity(
+            "store_info_updated",
+            "Store information was updated",
+            {
+              updated_fields: Object.keys(storeData),
+            }
           );
         } catch (error) {
           this.showNotification(error.message || "Connection error", "error");
@@ -1247,6 +1510,46 @@ export default class DashboardPage {
       return data.total_views || 0;
     } catch (error) {
       console.error("Error loading views:", error);
+      return 0;
+    }
+  }
+
+  /**
+   * Load real contact queries count
+   */
+  async loadContactQueries() {
+    try {
+      const user = window.app.authManager.currentUser;
+      if (!user || !user.nit_store) {
+        return 0;
+      }
+
+      // Get real contact statistics from store-views API
+      const storeStats = await this.storeViewsService.getStoreStats(
+        user.nit_store,
+        "month"
+      );
+
+      if (!storeStats || !storeStats.contacts_by_type) {
+        return 0;
+      }
+
+      // Count real contacts (WhatsApp + Email + Phone calls)
+      let totalQueries = 0;
+      storeStats.contacts_by_type.forEach((contact) => {
+        if (
+          ["whatsapp", "email", "phone_call"].includes(contact.contact_type)
+        ) {
+          totalQueries += contact.count_by_type || 0;
+        }
+      });
+
+      console.log(
+        `Dashboard: Loaded ${totalQueries} real contact queries for store ${user.nit_store}`
+      );
+      return totalQueries;
+    } catch (error) {
+      console.error("Error loading contact queries:", error);
       return 0;
     }
   }
