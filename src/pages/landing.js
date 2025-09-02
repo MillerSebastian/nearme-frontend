@@ -1,19 +1,19 @@
 export class LandingPage {
   constructor() {
-    console.log("LandingPage constructor iniciado");
+    console.log("LandingPage constructor started");
     this.init();
-    // Verificar disponibilidad del router
+    // Check router availability
     setTimeout(() => {
       this.checkRouterAvailability();
     }, 200);
   }
 
   init() {
-    console.log("LandingPage init iniciado");
+    console.log("LandingPage init started");
     this.render();
     this.bindEvents();
     this.loadExternalResources();
-    console.log("LandingPage init completado");
+    console.log("LandingPage init completed");
   }
 
   loadExternalResources() {
@@ -81,8 +81,8 @@ export class LandingPage {
   render() {
     const mainContent = document.getElementById("root");
     mainContent.innerHTML = `
-      <!-- Skip Link para Accesibilidad -->
-      <a href="#main-content" class="skip-link sr-only sr-only-focusable">Saltar al contenido principal</a>
+      <!-- Skip Link for Accessibility -->
+      <a href="#main-content" class="skip-link sr-only sr-only-focusable">Skip to main content</a>
 
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
@@ -99,19 +99,19 @@ export class LandingPage {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link" href="#inicio">Inicio</a>
+                <a class="nav-link" href="#home">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#caracteristicas">Características</a>
+                <a class="nav-link" href="#features">Features</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#beneficios">Beneficios</a>
+                <a class="nav-link" href="#benefits">Benefits</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#testimonios">Testimonios</a>
+                <a class="nav-link" href="#testimonials">Testimonials</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#registrar-tienda">Registrar Tienda</a>
+                <a class="nav-link" href="#register-store">Register Store</a>
               </li>
             </ul>
           </div>
@@ -119,7 +119,7 @@ export class LandingPage {
       </nav>
 
       <!-- Hero Section -->
-      <section id="inicio" class="hero" id="main-content">
+      <section id="home" class="hero" id="main-content">
         <div class="hero-background">
           <div class="geometric-shapes">
             <div class="shape shape-1" data-parallax="0.5"></div>
@@ -128,7 +128,7 @@ export class LandingPage {
             <div class="shape shape-4" data-parallax="0.2"></div>
           </div>
           
-          <!-- Iconos animados de fondo -->
+          <!-- Animated background icons -->
           <div class="floating-icons">
             <div class="floating-icon icon-1" data-float="slow">
               <i class="fas fa-shopping-cart"></i>
@@ -157,19 +157,19 @@ export class LandingPage {
               <div class="hero-content" data-animate="fadeInLeft">
                 <div class="hero-badge">
                   <i class="fas fa-star"></i>
-                  <span>#1 en búsqueda local</span>
+                  <span>#1 in local search</span>
                 </div>
                 <h1 class="hero-title">
-                  Encuentra productos en tiendas cercanas
+                  Find products in nearby stores
                 </h1>
                 <p class="hero-description">
-                  NearMe revoluciona la forma de descubrir comercios locales. Conectamos consumidores 
-                  inteligentes con las mejores tiendas de su barrio mediante tecnología de geolocalización avanzada.
+                  NearMe revolutionizes the way to discover local businesses. We connect smart consumers 
+                  with the best stores in their neighborhood through advanced geolocation technology.
                 </p>
                 <div class="hero-actions">
-                  <button class="btn btn-primary btn-lg hero-btn" id="comenzarBtn" data-hover-animate="pulse">
+                  <button class="btn btn-primary btn-lg hero-btn" id="startBtn" data-hover-animate="pulse">
                     <i class="fas fa-rocket"></i>
-                    <span>Comenzar</span>
+                    <span>Get Started</span>
                     <div class="btn-ripple"></div>
                   </button>
                 </div>
@@ -179,12 +179,12 @@ export class LandingPage {
               <div class="hero-visual" data-animate="fadeInRight">
                 <div class="hero-image-container">
                   <div class="hero-visual-design">
-                    <!-- Icono principal de tienda -->
+                    <!-- Main store icon -->
                     <div class="main-store-icon">
                       <i class="fas fa-store"></i>
                     </div>
                     
-                    <!-- Elementos de ubicación -->
+                    <!-- Location elements -->
                     <div class="location-elements">
                       <div class="location-pin">
                         <i class="fas fa-map-marker-alt"></i>
@@ -196,14 +196,14 @@ export class LandingPage {
                       </div>
                     </div>
                     
-                    <!-- Elementos de conexión -->
+                    <!-- Connection elements -->
                     <div class="connection-lines">
                       <div class="line line-1"></div>
                       <div class="line line-2"></div>
                       <div class="line line-3"></div>
                     </div>
                     
-                    <!-- Iconos de productos -->
+                    <!-- Product icons -->
                     <div class="product-icons">
                       <div class="product-icon product-1">
                         <i class="fas fa-shopping-bag"></i>
@@ -219,15 +219,15 @@ export class LandingPage {
                   <div class="floating-elements">
                     <div class="floating-card floating-card-1" data-float="slow">
                       <i class="fas fa-shopping-bag"></i>
-                      <span>Productos</span>
+                      <span>Products</span>
                     </div>
                     <div class="floating-card floating-card-2" data-float="fast">
                       <i class="fas fa-store"></i>
-                      <span>Tiendas</span>
+                      <span>Stores</span>
                     </div>
                     <div class="floating-card floating-card-3" data-float="medium">
                       <i class="fas fa-map-pin"></i>
-                      <span>Ubicación</span>
+                      <span>Location</span>
                     </div>
                   </div>
                 </div>
@@ -236,19 +236,19 @@ export class LandingPage {
           </div>
         </div>
         
-        <div class="scroll-indicator show" role="button" tabindex="0" aria-label="Hacer scroll hacia abajo para ver más contenido">
+        <div class="scroll-indicator show" role="button" tabindex="0" aria-label="Scroll down to see more content">
           <i class="fas fa-chevron-down"></i>
         </div>
       </section>
 
       <!-- Features Section -->
-      <section id="caracteristicas" class="features">
+      <section id="features" class="features">
         <div class="container">
           <div class="section-header text-center" data-animate="fadeInUp">
-            <div class="section-badge">Características</div>
-            <h2 class="section-title">¿Por qué elegir NearMe?</h2>
+            <div class="section-badge">Features</div>
+            <h2 class="section-title">Why choose NearMe?</h2>
             <p class="section-description">
-              Nuestra plataforma ofrece una experiencia única para conectar consumidores con comercios locales
+              Our platform offers a unique experience to connect consumers with local businesses
             </p>
           </div>
           
@@ -260,10 +260,10 @@ export class LandingPage {
                 </div>
                 <div class="icon-background"></div>
               </div>
-              <h4>Búsqueda Inteligente</h4>
-              <p>Encuentra productos específicos en tiendas cercanas con nuestra tecnología de geolocalización avanzada.</p>
+              <h4>Smart Search</h4>
+              <p>Find specific products in nearby stores with our advanced geolocation technology.</p>
               <div class="feature-link">
-                <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
               </div>
             </div>
             
@@ -274,10 +274,10 @@ export class LandingPage {
                 </div>
                 <div class="icon-background"></div>
               </div>
-              <h4>Horarios en Tiempo Real</h4>
-              <p>Conoce los horarios actualizados de las tiendas y evita visitas innecesarias.</p>
+              <h4>Real-time Hours</h4>
+              <p>Know the updated store hours and avoid unnecessary visits.</p>
               <div class="feature-link">
-                <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
               </div>
             </div>
             
@@ -288,10 +288,10 @@ export class LandingPage {
                 </div>
                 <div class="icon-background"></div>
               </div>
-              <h4>Reseñas Verificadas</h4>
-              <p>Lee opiniones auténticas de otros usuarios para tomar decisiones informadas.</p>
+              <h4>Verified Reviews</h4>
+              <p>Read authentic opinions from other users to make informed decisions.</p>
               <div class="feature-link">
-                <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
               </div>
             </div>
             
@@ -302,10 +302,10 @@ export class LandingPage {
                 </div>
                 <div class="icon-background"></div>
               </div>
-              <h4>App Móvil</h4>
-              <p>Accede a NearMe desde cualquier dispositivo con nuestra aplicación optimizada.</p>
+              <h4>Mobile App</h4>
+              <p>Access NearMe from any device with our optimized application.</p>
               <div class="feature-link">
-                <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
               </div>
             </div>
             
@@ -316,10 +316,10 @@ export class LandingPage {
                 </div>
                 <div class="icon-background"></div>
               </div>
-              <h4>Seguridad Garantizada</h4>
-              <p>Tus datos están protegidos con los más altos estándares de seguridad.</p>
+              <h4>Guaranteed Security</h4>
+              <p>Your data is protected with the highest security standards.</p>
               <div class="feature-link">
-                <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
               </div>
             </div>
             
@@ -330,10 +330,10 @@ export class LandingPage {
                 </div>
                 <div class="icon-background"></div>
               </div>
-              <h4>Soporte 24/7</h4>
-              <p>Nuestro equipo está disponible para ayudarte en cualquier momento del día.</p>
+              <h4>24/7 Support</h4>
+              <p>Our team is available to help you at any time of the day.</p>
               <div class="feature-link">
-                <a href="#" class="learn-more">Saber más <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
               </div>
             </div>
           </div>
@@ -341,13 +341,13 @@ export class LandingPage {
       </section>
 
       <!-- Business Benefits Section -->
-      <section id="beneficios" class="statistics">
+      <section id="benefits" class="statistics">
         <div class="container">
           <div class="section-header text-center mb-5" data-animate="fadeInUp">
-            <div class="section-badge">Beneficios Comprobados</div>
-            <h2 class="section-title">¿Por qué las tiendas eligen NearMe?</h2>
+            <div class="section-badge">Proven Benefits</div>
+            <h2 class="section-title">Why do stores choose NearMe?</h2>
             <p class="section-description">
-              Datos reales que demuestran el valor de nuestra plataforma para tu negocio
+              Real data that demonstrates the value of our platform for your business
             </p>
           </div>
           <div class="stats-container">
@@ -357,7 +357,7 @@ export class LandingPage {
               </div>
               <div class="stat-content">
                 <div class="stat-number" data-counter="40">0%</div>
-                <div class="stat-label">% Incremento en Ventas</div>
+                <div class="stat-label">Sales Increase</div>
               </div>
             </div>
             
@@ -367,7 +367,7 @@ export class LandingPage {
               </div>
               <div class="stat-content">
                 <div class="stat-number" data-counter="2">0min</div>
-                <div class="stat-label">Minutos para Registrarse</div>
+                <div class="stat-label">Minutes to Register</div>
               </div>
             </div>
             
@@ -377,7 +377,7 @@ export class LandingPage {
               </div>
               <div class="stat-content">
                 <div class="stat-number" data-counter="100">0%</div>
-                <div class="stat-label">% Gratis para Tiendas</div>
+                <div class="stat-label">Free for Stores</div>
               </div>
             </div>
             
@@ -387,7 +387,7 @@ export class LandingPage {
               </div>
               <div class="stat-content">
                 <div class="stat-number" data-counter="24">0h</div>
-                <div class="stat-label">Horas de Soporte</div>
+                <div class="stat-label">Hours of Support</div>
               </div>
             </div>
           </div>
@@ -395,13 +395,13 @@ export class LandingPage {
       </section>
 
       <!-- Testimonials Section -->
-      <section id="testimonios" class="testimonials">
+      <section id="testimonials" class="testimonials">
         <div class="container">
           <div class="section-header text-center" data-animate="fadeInUp">
-            <div class="section-badge">Testimonios</div>
-            <h2 class="section-title">Lo que dicen nuestros usuarios</h2>
+            <div class="section-badge">Testimonials</div>
+            <h2 class="section-title">What our users say</h2>
             <p class="section-description">
-              Descubre por qué miles de personas confían en NearMe
+              Discover why thousands of people trust NearMe
             </p>
           </div>
           
@@ -411,15 +411,15 @@ export class LandingPage {
                 <div class="quote-icon">
                   <i class="fas fa-quote-left"></i>
                 </div>
-                <p>"NearMe me ha ayudado a descubrir tiendas increíbles en mi barrio que no conocía. La precisión de la búsqueda es asombrosa y la app es súper intuitiva."</p>
+                <p>"NearMe has helped me discover amazing stores in my neighborhood that I didn't know about. The search accuracy is amazing and the app is super intuitive."</p>
               </div>
               <div class="testimonial-author">
                 <div class="author-avatar">
-                  <img src="https://img.freepik.com/foto-gratis/estilo-vida-emociones-gente-concepto-casual-confiado-agradable-sonriente-mujer-asiatica-brazos-cruzados-pecho-seguro-listo-ayudar-escuchando-companeros-trabajo-participando-conversacion_1258-59335.jpg?t=st=1756325889~exp=1756329489~hmac=b05f1c94f5d922a2871b25bfb70dd7211a5f1a59e60f3b1e71a2906cfb925b6a&w=1480" alt="María C.">
+                  <img src="https://img.freepik.com/foto-gratis/estilo-vida-emociones-gente-concepto-casual-confiado-agradable-sonriente-mujer-asiatica-brazos-cruzados-pecho-seguro-listo-ayudar-escuchando-companeros-trabajo-participando-conversacion_1258-59335.jpg?t=st=1756325889~exp=1756329489~hmac=b05f1c94f5d922a2871b25bfb70dd7211a5f1a59e60f3b1e71a2906cfb925b6a&w=1480" alt="Maria C.">
                 </div>
                 <div class="author-info">
-                  <h6 class="author-name">María C.</h6>
-                  <span class="author-role">Cliente frecuente</span>
+                  <h6 class="author-name">Maria C.</h6>
+                  <span class="author-role">Frequent customer</span>
                   <div class="rating">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -436,15 +436,15 @@ export class LandingPage {
                 <div class="quote-icon">
                   <i class="fas fa-quote-left"></i>
                 </div>
-                <p>"Como dueño de tienda, NearMe me ha traído muchos clientes nuevos. La plataforma es fantástica y el soporte al comercio local es excepcional."</p>
+                <p>"As a store owner, NearMe has brought me many new customers. The platform is fantastic and the support for local businesses is exceptional."</p>
               </div>
               <div class="testimonial-author" id="testimonial-author-2">
                 <div class="author-avatar">
-                  <img src="https://img.freepik.com/foto-gratis/apuesto-joven-brazos-cruzados-sobre-fondo-blanco_23-2148222620.jpg?t=st=1756326044~exp=1756329644~hmac=4ae9a52623a7f8f9d4f83220f7082681d164cceda3f9b4595a8ff418cc314728&w=1060" alt="Juan L.">
+                  <img src="https://img.freepik.com/foto-gratis/apuesto-joven-brazos-cruzados-sobre-fondo-blanco_23-2148222620.jpg?t=st=1756326044~exp=1756329644~hmac=4ae9a52623a7f8f9d4f83220f7082681d164cceda3f9b4595a8ff418cc314728&w=1060" alt="John L.">
                 </div>
                 <div class="author-info">
-                  <h6 class="author-name">Juan L.</h6>
-                  <span class="author-role">Dueño de tienda</span>
+                  <h6 class="author-name">John L.</h6>
+                  <span class="author-role">Store owner</span>
                   <div class="rating">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -461,15 +461,15 @@ export class LandingPage {
                 <div class="quote-icon">
                   <i class="fas fa-quote-left"></i>
                 </div>
-                <p>"La búsqueda por ubicación es súper precisa. Encontré exactamente lo que buscaba a 2 cuadras de casa. NearMe ha cambiado mi forma de comprar local."</p>
+                <p>"The location-based search is super accurate. I found exactly what I was looking for just 2 blocks from home. NearMe has changed my way of local shopping."</p>
               </div>
               <div class="testimonial-author">
                 <div class="author-avatar">
-                  <img src="https://img.freepik.com/foto-gratis/disparo-vertical-feliz-mujer-piel-oscura-pelo-rizado_273609-15519.jpg?t=st=1756325960~exp=1756329560~hmac=797629bd6167cae53cdf2595dd8c762d15de7f92f038425b29a81fb30f8be91f&w=1060" alt="Ana S.">
+                  <img src="https://img.freepik.com/foto-gratis/disparo-vertical-feliz-mujer-piel-oscura-pelo-rizado_273609-15519.jpg?t=st=1756325960~exp=1756329560~hmac=797629bd6167cae53cdf2595dd8c762d15de7f92f038425b29a81fb30f8be91f&w=1060" alt="Anna S.">
                 </div>
                 <div class="author-info">
-                  <h6 class="author-name">Ana S.</h6>
-                  <span class="author-role">Usuaria activa</span>
+                  <h6 class="author-name">Anna S.</h6>
+                  <span class="author-role">Active user</span>
                   <div class="rating">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -485,41 +485,41 @@ export class LandingPage {
       </section>
 
       <!-- Store Registration CTA Section -->
-      <section id="registrar-tienda" class="store-register-cta">
+      <section id="register-store" class="store-register-cta">
         <div class="container">
           <div class="section-header text-center" data-animate="fadeInUp">
-            <div class="section-badge">¡Comienza Ahora!</div>
-            <h2 class="section-title text-white">¿Listo para descubrir NearMe?</h2>
+            <div class="section-badge">Start Now!</div>
+            <h2 class="section-title text-white">Ready to discover NearMe?</h2>
             <p class="section-description text-white-50 mb-4">
-              Únete a miles de usuarios que ya están encontrando productos increíbles cerca de casa
+              Join thousands of users who are already finding amazing products near home
             </p>
           </div>
           <div class="row align-items-center g-4">
             <div class="col-lg-5">
               <ul class="benefits-checklist">
-                <li><i class="fas fa-users"></i><span>Alcance inmediato a clientes cercanos</span></li>
-                <li><i class="fas fa-chart-line"></i><span>Incremento comprobado en ventas</span></li>
-                <li><i class="fas fa-clock"></i><span>Registro y gestión en minutos</span></li>
-                <li><i class="fas fa-shield-alt"></i><span>100% gratis, sin costos ocultos</span></li>
+                <li><i class="fas fa-users"></i><span>Immediate reach to nearby customers</span></li>
+                <li><i class="fas fa-chart-line"></i><span>Proven sales increase</span></li>
+                <li><i class="fas fa-clock"></i><span>Registration and management in minutes</span></li>
+                <li><i class="fas fa-shield-alt"></i><span>100% free, no hidden costs</span></li>
               </ul>
             </div>
             <div class="col-lg-7 text-center">
               <div class="cta-panel">
                 <div class="cta-main-action mb-4">
-                  <h3 class="text-white mb-3">¡Comienza tu experiencia NearMe ahora!</h3>
-                  <p class="text-white-50 mb-4">Descubre tiendas increíbles cerca de ti y encuentra exactamente lo que buscas</p>
-                  <button class="btn btn-warning btn-lg py-4 px-5" id="registrarTiendaBtn" style="font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4); border: none; border-radius: 50px;">
+                  <h3 class="text-white mb-3">Start your NearMe experience now!</h3>
+                  <p class="text-white-50 mb-4">Discover amazing stores near you and find exactly what you're looking for</p>
+                  <button class="btn btn-warning btn-lg py-4 px-5" id="registerStoreBtn" style="font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4); border: none; border-radius: 50px;">
                     <i class="fas fa-rocket me-3"></i>
-                    ¡EMPEZAR AHORA!
+                    START NOW!
                     <i class="fas fa-arrow-right ms-3"></i>
                   </button>
                 </div>
                 <div class="cta-extra mt-4 text-start">
-                  <div class="d-flex align-items-center mb-2"><i class="fas fa-box-open text-success me-2"></i><span>Publica tus productos fácilmente</span></div>
-                  <div class="d-flex align-items-center mb-2"><i class="fas fa-map-marker-alt text-info me-2"></i><span>Aparece en búsquedas locales</span></div>
-                  <div class="d-flex align-items-center"><i class="fas fa-headset text-warning me-2"></i><span>Soporte para comercios 24/7</span></div>
+                  <div class="d-flex align-items-center mb-2"><i class="fas fa-box-open text-success me-2"></i><span>Publish your products easily</span></div>
+                  <div class="d-flex align-items-center mb-2"><i class="fas fa-map-marker-alt text-info me-2"></i><span>Appear in local searches</span></div>
+                  <div class="d-flex align-items-center"><i class="fas fa-headset text-warning me-2"></i><span>24/7 business support</span></div>
                 </div>
-                <small class="text-white-50 d-block mt-3">Sin compromisos • Activa en 2 minutos</small>
+                <small class="text-white-50 d-block mt-3">No commitments • Active in 2 minutes</small>
               </div>
             </div>
           </div>
@@ -538,7 +538,7 @@ export class LandingPage {
                     <span>NearMe</span>
                   </div>
                   <p class="footer-description">
-                    Conectamos consumidores inteligentes con las mejores tiendas locales mediante tecnología avanzada de geolocalización.
+                    We connect smart consumers with the best local stores through advanced geolocation technology.
                   </p>
                   <div class="social-links">
                     <a href="#" class="social-link" data-hover-animate="bounce">
@@ -559,10 +559,10 @@ export class LandingPage {
               
               <div class="col-lg-2">
                 <div class="footer-links">
-                  <h6>Producto</h6>
+                  <h6>Product</h6>
                   <ul>
-                    <li><a href="#caracteristicas">Características</a></li>
-                    <li><a href="#tiendas">Para Tiendas</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#stores">For Stores</a></li>
                     <li><a href="#api">API</a></li>
                   </ul>
                 </div>
@@ -570,24 +570,24 @@ export class LandingPage {
               
               <div class="col-lg-2">
                 <div class="footer-links">
-                  <h6>Empresa</h6>
+                  <h6>Company</h6>
                   <ul>
-                    <li><a href="#about">Acerca de</a></li>
-                    <li><a href="#careers">Carreras</a></li>
-                    <li><a href="#press">Prensa</a></li>
-                    <li><a href="#partners">Socios</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#press">Press</a></li>
+                    <li><a href="#partners">Partners</a></li>
                   </ul>
                 </div>
               </div>
               
               <div class="col-lg-2">
                 <div class="footer-links">
-                  <h6>Soporte</h6>
+                  <h6>Support</h6>
                   <ul>
-                    <li><a href="#help">Centro de Ayuda</a></li>
-                    <li><a href="#contact">Contacto</a></li>
-                    <li><a href="#status">Estado del Sistema</a></li>
-                    <li><a href="#docs">Documentación</a></li>
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#status">System Status</a></li>
+                    <li><a href="#docs">Documentation</a></li>
                   </ul>
                 </div>
               </div>
@@ -596,10 +596,10 @@ export class LandingPage {
                 <div class="footer-links">
                   <h6>Legal</h6>
                   <ul>
-                    <li><a href="#privacy">Privacidad</a></li>
-                    <li><a href="#terms">Términos</a></li>
+                    <li><a href="#privacy">Privacy</a></li>
+                    <li><a href="#terms">Terms</a></li>
                     <li><a href="#cookies">Cookies</a></li>
-                    <li><a href="#security">Seguridad</a></li>
+                    <li><a href="#security">Security</a></li>
                   </ul>
                 </div>
               </div>
@@ -609,13 +609,13 @@ export class LandingPage {
           <div class="footer-bottom">
             <div class="row align-items-center">
               <div class="col-md-6">
-                <p class="copyright">&copy; 2024 NearMe. Todos los derechos reservados.</p>
+                <p class="copyright">&copy; 2024 NearMe. All rights reserved.</p>
               </div>
               <div class="col-md-6 text-md-end">
                 <div class="footer-bottom-links">
-                  <a href="#privacy">Privacidad</a>
-                  <a href="#terms">Términos</a>
-                  <a href="#sitemap">Mapa del Sitio</a>
+                  <a href="#privacy">Privacy</a>
+                  <a href="#terms">Terms</a>
+                  <a href="#sitemap">Sitemap</a>
                 </div>
               </div>
             </div>
@@ -631,49 +631,49 @@ export class LandingPage {
   }
 
   bindEvents() {
-    // Pequeño delay para asegurar que el DOM esté completamente renderizado
+    // Small delay to ensure DOM is completely rendered
     setTimeout(() => {
-      // Logo NearMe en el header - navega a /home
+      // NearMe logo in header - navigate to /home
       const navbarBrand = document.getElementById("navbarBrand");
       if (navbarBrand) {
-        console.log("Logo NearMe encontrado, agregando event listener");
+        console.log("NearMe logo found, adding event listener");
         navbarBrand.addEventListener("click", (e) => {
           e.preventDefault();
-          console.log("Logo NearMe clickeado - navegando a /home");
+          console.log("NearMe logo clicked - navigating to /home");
           this.navigateToRoute("/home");
         });
       } else {
-        console.warn("Logo NearMe no encontrado");
+        console.warn("NearMe logo not found");
       }
 
-      // Botón Comenzar - navega a /home
-      const comenzarBtn = document.getElementById("comenzarBtn");
-      if (comenzarBtn) {
-        console.log("Botón Comenzar encontrado, agregando event listener");
-        comenzarBtn.addEventListener("click", () => {
-          console.log("Botón Comenzar clickeado");
+      // Start button - navigate to /home
+      const startBtn = document.getElementById("startBtn");
+      if (startBtn) {
+        console.log("Start button found, adding event listener");
+        startBtn.addEventListener("click", () => {
+          console.log("Start button clicked");
           this.navigateToRoute("/home");
         });
       } else {
-        console.warn("Botón Comenzar no encontrado");
+        console.warn("Start button not found");
       }
 
-      // Botón Registrar Tienda - navega a /register
-      const registrarTiendaBtn = document.getElementById("registrarTiendaBtn");
-      if (registrarTiendaBtn) {
+      // Register Store button - navigate to /register
+      const registerStoreBtn = document.getElementById("registerStoreBtn");
+      if (registerStoreBtn) {
         console.log(
-          "Botón Registrar Tienda encontrado, agregando event listener"
+          "Register Store button found, adding event listener"
         );
-        registrarTiendaBtn.addEventListener("click", () => {
-          console.log("Botón Registrar Tienda clickeado");
+        registerStoreBtn.addEventListener("click", () => {
+          console.log("Register Store button clicked");
           this.navigateToRoute("/register");
         });
       } else {
-        console.warn("Botón Registrar Tienda no encontrado");
+        console.warn("Register Store button not found");
       }
     }, 100);
 
-    // Smooth scroll para enlaces internos
+    // Smooth scroll for internal links
     const internalLinks = document.querySelectorAll('a[href^="#"]');
     internalLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -743,7 +743,7 @@ export class LandingPage {
       document.body.appendChild(leafletJS);
     }
 
-    // Load custom JS files - Comentado temporalmente para evitar errores 404
+    // Load custom JS files - Temporarily commented to avoid 404 errors
     // const jsFiles = ["/src/utils/animations.js", "/src/utils/main.js"];
 
     // jsFiles.forEach((jsFile) => {
@@ -755,7 +755,7 @@ export class LandingPage {
     //   }
     // });
 
-    // Por ahora, cargar solo las funcionalidades básicas
+    // For now, load only basic functionalities
     console.log("Landing page scripts loaded");
   }
 
@@ -767,13 +767,13 @@ export class LandingPage {
     }
   }
 
-  // Método para verificar si el router está disponible
+  // Method to check if router is available
   checkRouterAvailability() {
     if (window.app && window.app.router) {
-      console.log("Router disponible");
+      console.log("Router available");
       return true;
     } else {
-      console.log("Router no disponible, reintentando en 500ms");
+      console.log("Router not available, retrying in 500ms");
       setTimeout(() => {
         this.checkRouterAvailability();
       }, 500);
@@ -781,24 +781,24 @@ export class LandingPage {
     }
   }
 
-  // Método para navegar a una ruta específica
+  // Method to navigate to a specific route
   navigateToRoute(route) {
-    console.log(`LandingPage.navigateToRoute() llamado con ruta: ${route}`);
+    console.log(`LandingPage.navigateToRoute() called with route: ${route}`);
 
-    // Intentar usar el router de la SPA si está disponible
+    // Try to use the SPA router if available
     if (window.app && window.app.router) {
-      console.log("Router de la SPA disponible, navegando...");
+      console.log("SPA router available, navigating...");
       try {
         window.app.router.navigate(route);
       } catch (error) {
-        console.error("Error al navegar con el router:", error);
-        // Fallback a hash navigation
-        console.log("Usando fallback de hash navigation");
+        console.error("Error navigating with router:", error);
+        // Fallback to hash navigation
+        console.log("Using hash navigation fallback");
         window.location.hash = `#${route}`;
       }
     } else {
-      console.log("Router de la SPA no disponible, usando hash navigation");
-      // Usar hash navigation directamente como fallback
+      console.log("SPA router not available, using hash navigation");
+      // Use hash navigation directly as fallback
       window.location.hash = `#${route}`;
     }
   }

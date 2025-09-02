@@ -160,17 +160,18 @@
 }
 
 #edit-price-modal .modal-content {
-  border: 4px solid #000000;
-  border-radius: 24px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-  background: #ffffff;
+  border: 2px solid #3b82f6;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  background: #1e293b;
+  overflow: hidden;
 }
 
 #edit-price-modal .modal-header {
-  background: #000000;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
   color: #ffffff;
-  border-bottom: none;
-  border-radius: 24px 24px 0 0;
+  border-bottom: 2px solid #60a5fa;
+  border-radius: 14px 14px 0 0;
   padding: 1.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
@@ -183,49 +184,52 @@
   align-items: center;
   gap: 0.75rem;
   color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #edit-price-modal .modal-title i {
   font-size: 1.8rem;
-  color: #00ff00;
+  color: #fbbf24;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #edit-price-modal .btn-close {
   color: #ffffff;
   font-size: 1.5rem;
-  font-weight: 400;
-  background: none;
-  border: none;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 #edit-price-modal .btn-close:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
   transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #edit-price-modal .modal-body {
   padding: 2rem;
+  background: #1e293b;
 }
 
 #edit-price-modal .product-info {
-  background: #ffffff;
-  border: 3px solid #000000;
+  background: #334155;
+  border: 2px solid #475569;
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #edit-price-modal .info-row {
@@ -234,7 +238,7 @@
   align-items: center;
   margin-bottom: 1rem;
   padding: 0.75rem 0;
-  border-bottom: 2px solid #000000;
+  border-bottom: 1px solid #475569;
 }
 
 #edit-price-modal .info-row:last-child {
@@ -243,8 +247,8 @@
 }
 
 #edit-price-modal .info-label {
-  font-weight: 700;
-  color: #000000;
+  font-weight: 600;
+  color: #cbd5e1;
   font-size: 0.95rem;
   display: flex;
   align-items: center;
@@ -252,20 +256,21 @@
 }
 
 #edit-price-modal .info-label i {
-  color: #000000;
+  color: #60a5fa;
   font-size: 0.875rem;
 }
 
 #edit-price-modal .info-value {
-  font-weight: 800;
-  color: #000000;
+  font-weight: 700;
+  color: #ffffff;
   font-size: 1rem;
 }
 
 #edit-price-modal .price-current {
-  color: #ff0000;
+  color: #fbbf24;
   font-size: 1.1rem;
-  font-weight: 900;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #edit-price-modal .form-group {
@@ -273,8 +278,8 @@
 }
 
 #edit-price-modal .form-label {
-  color: #000000;
-  font-weight: 700;
+  color: #e2e8f0;
+  font-weight: 600;
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
   display: flex;
@@ -283,7 +288,7 @@
 }
 
 #edit-price-modal .form-label i {
-  color: #0000ff;
+  color: #60a5fa;
 }
 
 #edit-price-modal .price-input-wrapper {
@@ -295,54 +300,56 @@
 #edit-price-modal .currency-symbol {
   position: absolute;
   left: 1rem;
-  color: #000000;
-  font-weight: 900;
+  color: #60a5fa;
+  font-weight: 700;
   font-size: 1rem;
   z-index: 2;
 }
 
 #edit-price-modal .price-input {
-  border: 3px solid #000000;
+  border: 2px solid #475569;
   border-radius: 12px;
   padding: 1rem 1rem 1rem 2.5rem;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   width: 100%;
   transition: all 0.3s ease;
-  background: #ffffff;
-  color: #000000;
+  background: #334155;
+  color: #ffffff;
 }
 
 #edit-price-modal .price-input:focus {
-  border-color: #0000ff;
-  box-shadow: 0 0 0 0.3rem rgba(0, 0, 255, 0.3);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
   outline: none;
+  background: #475569;
 }
 
 #edit-price-modal .price-input:hover {
-  border-color: #000000;
+  border-color: #60a5fa;
+  background: #475569;
 }
 
 #edit-price-modal .price-input::placeholder {
-  color: #666666;
+  color: #94a3b8;
 }
 
 #edit-price-modal .form-help {
-  color: #000000;
+  color: #94a3b8;
   font-size: 0.875rem;
   margin-top: 0.5rem;
   font-style: italic;
   line-height: 1.4;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 #edit-price-modal .modal-footer {
-  border-top: 3px solid #000000;
+  border-top: 2px solid #475569;
   padding: 1.5rem;
   display: flex;
   justify-content: center;
   gap: 1rem;
-  background: #ffffff;
+  background: #1e293b;
 }
 
 #edit-price-modal .btn {
@@ -363,51 +370,52 @@
 }
 
 #edit-price-modal .btn-primary {
-  background: #000000;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: #ffffff;
-  border-color: #000000;
+  border-color: #3b82f6;
   font-weight: 700;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 #edit-price-modal .btn-primary:hover {
-  background: #333333;
-  border-color: #333333;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  border-color: #1d4ed8;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
 }
 
 #edit-price-modal .btn-primary:active {
-  background: #000000;
   transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 #edit-price-modal .btn-secondary {
-  background: #ffffff;
-  color: #000000;
-  border-color: #000000;
-  font-weight: 700;
+  background: #475569;
+  color: #e2e8f0;
+  border-color: #64748b;
+  font-weight: 600;
 }
 
 #edit-price-modal .btn-secondary:hover {
-  background: #f0f0f0;
-  border-color: #000000;
+  background: #64748b;
+  border-color: #94a3b8;
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 #edit-price-modal .btn-secondary:active {
-  background: #e0e0e0;
   transform: translateY(0);
 }
 
 #edit-price-modal .btn:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none !important;
   box-shadow: none !important;
-  background: #cccccc !important;
-  border-color: #999999 !important;
-  color: #666666 !important;
+  background: #64748b !important;
+  border-color: #94a3b8 !important;
+  color: #cbd5e1 !important;
 }
 
 /* Responsive adjustments */
@@ -445,7 +453,22 @@
 /* Efectos hover mejorados */
 #edit-price-modal .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación de entrada del modal */
+#edit-price-modal {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 #edit-price-modal .btn:active {
