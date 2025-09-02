@@ -34,6 +34,9 @@ export class Header {
                 <a href="#/dashboard" data-route="/dashboard" class="text-slate-300 hover:text-white transition-colors">
                   Dashboard
                 </a>
+                <a href="#/statistics" data-route="/statistics" class="text-slate-300 hover:text-white transition-colors">
+                  Statistics
+                </a>
                 <a href="#/products/upload" data-route="/products/upload" class="text-slate-300 hover:text-white transition-colors">
                   Upload Products
                 </a>

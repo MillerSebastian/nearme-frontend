@@ -1,7 +1,10 @@
+import StoreViewsService from "../services/store-views.service.js";
+
 export class StoreList {
   constructor() {
     this.stores = [];
     this.searchQuery = "";
+    this.storeViewsService = new StoreViewsService();
   }
 
   render(stores, searchQuery = "", matchingProducts = {}) {
@@ -354,12 +357,12 @@ window.contactStoreForProduct = async (storeNit, productName, productPrice) => {
   });
 
   try {
-    // Register view
-    await fetch(`${window.app.authManager.apiUrl}/stores/${storeNit}/views`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    // Register view using the new store views service
+    const storeList = new StoreList();
+    await storeList.storeViewsService.registerVisit(storeNit, "visit", {
+      product_name: productName,
+      product_price: productPrice,
+      user_agent: navigator.userAgent,
     });
 
     // Get store info
@@ -497,7 +500,7 @@ function showStoreDetailsModal(data) {
 }
 
 // Global functions for contact methods
-window.contactViaWhatsApp = (phoneNumber, productName, productPrice) => {
+window.contactViaWhatsApp = async (phoneNumber, productName, productPrice) => {
   console.log("contactViaWhatsApp called with:", {
     phoneNumber,
     productName,
@@ -509,6 +512,26 @@ window.contactViaWhatsApp = (phoneNumber, productName, productPrice) => {
   if (!userName) {
     alert("Please enter your name first");
     return;
+  }
+
+  // Register WhatsApp contact
+  try {
+    const storeList = new StoreList();
+    // Get store NIT from the modal (we need to pass it somehow)
+    const storeNit = document
+      .querySelector("[data-store-nit]")
+      ?.getAttribute("data-store-nit");
+    if (storeNit) {
+      await storeList.storeViewsService.registerContact(storeNit, "whatsapp", {
+        phone_number: phoneNumber,
+        product_name: productName,
+        product_price: productPrice,
+        user_name: userName,
+        user_agent: navigator.userAgent,
+      });
+    }
+  } catch (error) {
+    console.error("Error registering WhatsApp contact:", error);
   }
 
   // Clean phone number (remove spaces, dashes, etc.)
@@ -551,7 +574,7 @@ window.contactViaWhatsApp = (phoneNumber, productName, productPrice) => {
   window.open(whatsappUrl, "_blank");
 };
 
-window.contactViaEmail = (email, productName, productPrice) => {
+window.contactViaEmail = async (email, productName, productPrice) => {
   console.log("contactViaEmail called with:", {
     email,
     productName,
@@ -563,6 +586,26 @@ window.contactViaEmail = (email, productName, productPrice) => {
   if (!userName) {
     alert("Please enter your name first");
     return;
+  }
+
+  // Register Email contact
+  try {
+    const storeList = new StoreList();
+    // Get store NIT from the modal (we need to pass it somehow)
+    const storeNit = document
+      .querySelector("[data-store-nit]")
+      ?.getAttribute("data-store-nit");
+    if (storeNit) {
+      await storeList.storeViewsService.registerContact(storeNit, "email", {
+        email: email,
+        product_name: productName,
+        product_price: productPrice,
+        user_name: userName,
+        user_agent: navigator.userAgent,
+      });
+    }
+  } catch (error) {
+    console.error("Error registering Email contact:", error);
   }
 
   // Convert productPrice to number if it's a string
@@ -606,7 +649,7 @@ function showContactModal(store, productName = null, productPrice = null) {
   modal.className =
     "fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4";
   modal.innerHTML = `
-    <div class="card max-w-md w-full">
+    <div class="card max-w-md w-full" data-store-nit="${store.nit_store}">
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-xl font-bold text-white">Contact ${
           store.store_name

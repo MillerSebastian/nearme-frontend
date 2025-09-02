@@ -6,6 +6,7 @@ export class Router {
       "/login": "login",
       "/register": "register",
       "/dashboard": "dashboard",
+      "/statistics": "statistics",
       "/products/upload": "upload-products",
     };
 
@@ -24,6 +25,17 @@ export class Router {
         onFailRedirect: "/login",
       },
       "/dashboard": {
+        requiresAuth: true,
+        onFailRedirect: "/login",
+        canActivate: () => {
+          if (!this.isAuthenticated) {
+            console.warn("Guardian: Acceso denegado - No autenticado");
+            return false;
+          }
+          return true;
+        },
+      },
+      "/statistics": {
         requiresAuth: true,
         onFailRedirect: "/login",
         canActivate: () => {

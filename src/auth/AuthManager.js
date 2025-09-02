@@ -1,9 +1,11 @@
 import { buildApiUrl, getHeaders, API_CONFIG } from "../config/api.js";
+import ActivitiesService from "../services/activities.service.js";
 
 export class AuthManager {
   constructor() {
     this.currentUser = null;
     this.token = localStorage.getItem("nearme_token");
+    this.activitiesService = new ActivitiesService();
   }
 
   init() {
@@ -64,6 +66,12 @@ export class AuthManager {
           localStorage.setItem("nearme_token", this.token);
           localStorage.setItem("user_email", user.email);
           this.updateAuthState(true);
+
+          // Log login activity
+          this.logActivity("login", `User logged in successfully`, {
+            user_email: user.email,
+            store_name: user.store_name,
+          });
 
           return { success: true, user: user };
         } else {
@@ -135,6 +143,14 @@ export class AuthManager {
   }
 
   logout() {
+    // Log logout activity before clearing user data
+    if (this.currentUser) {
+      this.logActivity("logout", `User logged out`, {
+        user_email: this.currentUser.email,
+        store_name: this.currentUser.store_name,
+      });
+    }
+
     this.token = null;
     this.currentUser = null;
     localStorage.removeItem("nearme_token");
@@ -181,5 +197,31 @@ export class AuthManager {
 
   isAuthenticated() {
     return !!this.token && !!this.currentUser;
+  }
+
+  /**
+   * Log activity (helper method)
+   * @param {string} activityType - Type of activity
+   * @param {string} description - Activity description
+   * @param {Object} metadata - Additional metadata
+   */
+  async logActivity(activityType, description, metadata = {}) {
+    try {
+      await this.activitiesService.logCommonActivity(
+        activityType,
+        description,
+        metadata
+      );
+    } catch (error) {
+      console.error("Failed to log activity:", error);
+    }
+  }
+
+  /**
+   * Get token for API calls
+   * @returns {string} JWT token
+   */
+  getToken() {
+    return this.token;
   }
 }
