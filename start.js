@@ -20,6 +20,11 @@ const viteProcess = spawn(
     stdio: "inherit",
     shell: true,
     cwd: __dirname,
+    env: {
+      ...process.env,
+      NODE_ENV: "production",
+      npm_config_production: "false",
+    },
   }
 );
 

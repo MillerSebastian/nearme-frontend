@@ -165,11 +165,14 @@ export class Router {
     const hash = window.location.hash.substring(1);
     let targetRoute = "/";
 
+    // Prioritize hash routing for SPA
     if (hash) {
       targetRoute = hash;
     } else if (path !== "/") {
       targetRoute = path;
     }
+
+    console.log("Router: Initial route handling", { path, hash, targetRoute });
 
     if (
       this.isAuthenticated &&
@@ -284,7 +287,12 @@ export class Router {
           page.render(app);
         }
       } else {
-        console.error(`Contenedor root no encontrado`);
+        console.error(`Contenedor root no encontrado - creando fallback`);
+        // Fallback: crear el contenedor si no existe
+        const fallbackApp = document.createElement("div");
+        fallbackApp.id = "root";
+        document.body.appendChild(fallbackApp);
+        page.render(fallbackApp);
       }
     } catch (error) {
       console.error(`Error loading route ${route}:`, error);
