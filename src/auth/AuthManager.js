@@ -159,7 +159,7 @@ export class AuthManager {
 
     // Redirect to home
     if (window.app && window.app.router) {
-      window.app.router.navigate("/");
+      window.app.router.navigate("/home");
     }
   }
 

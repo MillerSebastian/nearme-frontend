@@ -3,6 +3,7 @@ export class Router {
     this.routes = {
       "/": "landing",
       "/home": "home",
+      "/landing": "landing",
       "/login": "login",
       "/register": "register",
       "/dashboard": "dashboard",
@@ -287,7 +288,7 @@ export class Router {
       }
     } catch (error) {
       console.error(`Error loading route ${route}:`, error);
-      this.navigate("/");
+      this.navigate("/home");
     }
   }
 

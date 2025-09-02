@@ -807,55 +807,8 @@ export default class DashboardPage {
 
     // Agregar funciones globales para editar y eliminar productos
     window.editProductPrice = async (productId, productName, currentPrice) => {
-<<<<<<< HEAD
       // Crear y mostrar modal para editar precio
       this.showEditPriceModal(productId, productName, currentPrice);
-=======
-      const newPrice = prompt(
-        `Editar precio de "${productName}"\nPrecio actual: $${currentPrice}\nNuevo precio:`,
-        currentPrice
-      );
-
-      if (newPrice !== null && newPrice !== "") {
-        const price = parseFloat(newPrice);
-        if (isNaN(price) || price < 0) {
-          this.showNotification("Invalid price", "error");
-          return;
-        }
-
-        try {
-          // Get current product data
-          const product = await this.productsService.getProductById(productId);
-
-          // Update only the price
-          await this.productsService.updateProduct(productId, {
-            product_name: product.product_name,
-            price: price,
-            category: product.category,
-            id_store: product.id_store,
-            product_description: product.product_description || "", // Add description field
-            sold_out: product.sold_out,
-          });
-
-          this.showNotification("Price updated successfully", "success");
-
-          // Log activity
-          await this.logActivity(
-            "product_updated",
-            `Price updated for product "${productName}"`,
-            {
-              product_name: productName,
-              old_price: currentPrice,
-              new_price: price,
-            }
-          );
-
-          await this.loadProducts();
-        } catch (error) {
-          this.showNotification(error.message || "Connection error", "error");
-        }
-      }
->>>>>>> e5b1abf104c486d8ef472007269083c47b57c1d3
     };
 
     window.toggleProductStatus = async (productId, soldOut) => {

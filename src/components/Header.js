@@ -13,7 +13,7 @@ export class Header {
           <div class="flex justify-between items-center h-16">
             <!-- Logo -->
             <div class="flex items-center">
-              <a href="#/" data-route="/" class="flex items-center space-x-2">
+              <a href="#/home" data-route="/home" class="flex items-center space-x-2">
                 <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                   <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
@@ -24,9 +24,12 @@ export class Header {
             </div>
 
             <!-- Navigation -->
-            <nav class="hidden md:flex items-center space-x-8">
-              <a href="#/" data-route="/" class="text-slate-300 hover:text-white transition-colors">
+            <nav class="md:flex items-center space-x-8">
+              <a href="#/home" data-route="/home" class="text-slate-300 hover:text-white transition-colors">
                 Home
+              </a>
+              <a href="#/landing" data-route="/landing" class="text-slate-300 hover:text-white transition-colors">
+                About
               </a>
               ${
                 isAuthenticated
