@@ -1,8 +1,8 @@
 // API Configuration
 export const API_CONFIG = {
   // Base URL for the API
-  BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
-  baseUrl: import.meta.env.VITE_API_URL || "http://localhost:3000/api", // For backward compatibility
+  BASE_URL: import.meta.env.VITE_API_URL || "https://nearme-backend-production-b6d5.up.railway.app/api",
+  baseUrl: import.meta.env.VITE_API_URL || "https://nearme-backend-production-b6d5.up.railway.app/api", // For backward compatibility
 
   // API endpoints
   ENDPOINTS: {

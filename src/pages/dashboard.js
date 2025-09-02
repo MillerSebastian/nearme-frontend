@@ -747,38 +747,8 @@ export default class DashboardPage {
 
     // Agregar funciones globales para editar y eliminar productos
     window.editProductPrice = async (productId, productName, currentPrice) => {
-      const newPrice = prompt(
-        `Editar precio de "${productName}"\nPrecio actual: $${currentPrice}\nNuevo precio:`,
-        currentPrice
-      );
-
-      if (newPrice !== null && newPrice !== "") {
-        const price = parseFloat(newPrice);
-        if (isNaN(price) || price < 0) {
-          this.showNotification("Invalid price", "error");
-          return;
-        }
-
-        try {
-          // Get current product data
-          const product = await this.productsService.getProductById(productId);
-
-          // Update only the price
-          await this.productsService.updateProduct(productId, {
-            product_name: product.product_name,
-            price: price,
-            category: product.category,
-            id_store: product.id_store,
-            product_description: product.product_description || "", // Add description field
-            sold_out: product.sold_out,
-          });
-
-          this.showNotification("Price updated successfully", "success");
-          await this.loadProducts();
-        } catch (error) {
-          this.showNotification(error.message || "Connection error", "error");
-        }
-      }
+      // Crear y mostrar modal para editar precio
+      this.showEditPriceModal(productId, productName, currentPrice);
     };
 
     window.toggleProductStatus = async (productId, soldOut) => {
@@ -1330,5 +1300,220 @@ export default class DashboardPage {
       if (statType === "queries") element.textContent = stats.queries;
       if (statType === "rating") element.textContent = stats.rating;
     });
+  }
+
+  showEditPriceModal(productId, productName, currentPrice) {
+    // Crear el modal HTML con estilos idénticos a los modales existentes del proyecto
+    const modalHTML = `
+      <div id="edit-price-modal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="editPriceModalLabel" aria-hidden="false" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editPriceModalLabel">
+                <i class="fas fa-dollar-sign"></i>
+                Editar Precio del Producto
+              </h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="product-info mb-4">
+                <div class="info-row">
+                  <span class="info-label">
+                    <i class="fas fa-box"></i>
+                    Producto:
+                  </span>
+                  <span class="info-value">${productName}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">
+                    <i class="fas fa-dollar-sign"></i>
+                    Precio actual:
+                  </span>
+                  <span class="info-value price-current">$${currentPrice}</span>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="new-price-input" class="form-label">
+                  <i class="fas fa-edit"></i>
+                  Nuevo Precio
+                </label>
+                <div class="price-input-wrapper">
+                  <span class="currency-symbol">$</span>
+                  <input
+                    type="number"
+                    id="new-price-input"
+                    class="form-control price-input"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    value="${currentPrice}"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="form-help">
+                  Ingresa el nuevo precio del producto
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="cancel-price-btn" class="btn btn-secondary">
+                <i class="fas fa-times"></i>
+                Cancelar
+              </button>
+              <button type="button" id="save-price-btn" class="btn btn-primary">
+                <i class="fas fa-save"></i>
+                Guardar Precio
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Backdrop -->
+      <div class="modal-backdrop fade show"></div>
+    `;
+
+    // Agregar el modal al DOM
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Obtener elementos del modal
+    const modal = document.getElementById('edit-price-modal');
+    const priceInput = document.getElementById('new-price-input');
+    const saveBtn = document.getElementById('save-price-btn');
+    const cancelBtn = document.getElementById('cancel-price-btn');
+
+    // Estilos iniciales para animación
+    modal.style.opacity = '0';
+    modal.style.transform = 'scale(0.95)';
+    modal.style.transition = 'all 0.2s ease-out';
+
+    // Enfocar el input
+    priceInput.focus();
+    priceInput.select();
+
+    // Event listeners
+    const closeModal = () => {
+      // Limpiar event listeners antes de remover
+      document.removeEventListener('keydown', handleEscape);
+      
+      // Animación de salida
+      modal.style.opacity = '0';
+      modal.style.transform = 'scale(0.95)';
+      
+      setTimeout(() => {
+        modal.remove();
+        // Remover backdrop
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+      }, 200);
+    };
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    const savePrice = async () => {
+      const newPrice = parseFloat(priceInput.value);
+      
+      if (isNaN(newPrice) || newPrice < 0) {
+        this.showNotification("Precio inválido", "error");
+        return;
+      }
+
+      if (newPrice === currentPrice) {
+        this.showNotification("El precio no ha cambiado", "info");
+        closeModal();
+        return;
+      }
+
+      try {
+        // Mostrar estado de carga
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = `
+          <i class="fas fa-spinner fa-spin"></i>
+          Guardando...
+        `;
+
+        // Get current product data
+        const product = await this.productsService.getProductById(productId);
+
+        // Update only the price
+        await this.productsService.updateProduct(productId, {
+          product_name: product.product_name,
+          price: newPrice,
+          category: product.category,
+          id_store: product.id_store,
+          product_description: product.product_description || "",
+          sold_out: product.sold_out,
+        });
+
+        this.showNotification("Precio actualizado exitosamente", "success");
+        await this.loadProducts();
+        closeModal();
+      } catch (error) {
+        console.error("Error updating price:", error);
+        this.showNotification(error.message || "Error de conexión", "error");
+        // Restaurar botón
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Precio';
+      }
+    };
+
+    // Event listeners
+    saveBtn.addEventListener('click', savePrice);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', handleEscape);
+
+    // Cerrar al hacer clic fuera del modal
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Enter para guardar
+    priceInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        savePrice();
+      }
+    });
+
+    // Validación en tiempo real del input
+    priceInput.addEventListener('input', function(e) {
+      const value = e.target.value;
+      const price = parseFloat(value);
+      
+      if (value === '' || isNaN(price) || price < 0) {
+        saveBtn.disabled = true;
+        saveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        saveBtn.disabled = false;
+        saveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    });
+
+    // Cerrar con el botón X
+    const closeBtn = modal.querySelector('.btn-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
+
+    // Mejorar la experiencia del usuario
+    priceInput.addEventListener('focus', function() {
+      this.select();
+    });
+
+    // Agregar animación de entrada
+    setTimeout(() => {
+      modal.style.opacity = '1';
+      modal.style.transform = 'scale(1)';
+    }, 10);
   }
 }
