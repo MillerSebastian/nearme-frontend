@@ -324,6 +324,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **CC: 1065854138**
 - **Role**: Frontend developer 
 
+- **Johandry Julio Clan Cienaga Riwi**
+- **CC: 1001877889**
+- **Role**: Frontend developer 
 ### **Team Members**
 
 - **DevTitan Development Team**
